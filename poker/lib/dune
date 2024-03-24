@@ -1,5 +1,6 @@
 (library
  (inline_tests)
  (name poker)
+ (libraries batteries)
  (preprocess
   (pps ppx_inline_test)))
