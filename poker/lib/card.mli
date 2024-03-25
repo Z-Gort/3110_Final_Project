@@ -23,7 +23,7 @@ type rank =
 
 type t = {
   suit : suit;
-  rank : int;
+  rank : rank;
 }
 (** Represents a card with a [suit] and a [rank] *)
 
