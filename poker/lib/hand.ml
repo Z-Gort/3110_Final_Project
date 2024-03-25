@@ -1,4 +1,4 @@
-type 'a t = Poker.Card.t list
+type t = Card.t list
 
 let compare h1 h2 =
   match (h1, h2) with
