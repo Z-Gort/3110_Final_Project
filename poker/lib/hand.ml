@@ -13,3 +13,11 @@ let compare h1 h2 =
   match (h1, h2) with
   | _ -> 0
 (* currently treats all hands as equal, needs to be fully implemented *)
+
+let string_of_hand hnd =
+  let rec build str lst =
+    match lst with
+    | [] -> str
+    | h :: t -> build (str ^ Card.string_of_card h ^ "\n") t
+  in
+  build "" hnd

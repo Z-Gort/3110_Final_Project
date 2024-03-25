@@ -42,3 +42,33 @@ let int_of_rank = function
   | Ace -> 14
 
 let compare c1 c2 = Int.compare (int_of_rank c1.rank) (int_of_rank c2.rank)
+
+let string_of_card c =
+  let st =
+    (fun x ->
+      match x.suit with
+      | Clubs -> "Clubs"
+      | Spades -> "Spades"
+      | Hearts -> "Hearts"
+      | Diamonds -> "Diamonds")
+      c
+  in
+  let rnk =
+    (fun x ->
+      match x.rank with
+      | Two -> "Two"
+      | Three -> "Three"
+      | Four -> "Four"
+      | Five -> "Five"
+      | Six -> "Six"
+      | Seven -> "Seven"
+      | Eight -> "Eight"
+      | Nine -> "Nine"
+      | Ten -> "Ten"
+      | Jack -> "Jack"
+      | Queen -> "Queen"
+      | King -> "King"
+      | Ace -> "Ace")
+      c
+  in
+  rnk ^ " of " ^ st

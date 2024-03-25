@@ -30,3 +30,6 @@ type t = {
 val compare : t -> t -> int
 (** [compare x y] returns a positive integer if [x] > [y], a negative integer if
     [x] < [y], and zero if [x] = [y]. *)
+
+val string_of_card : t -> string
+(** [string_of_card c] is an easily readable string representation of card [c]*)
