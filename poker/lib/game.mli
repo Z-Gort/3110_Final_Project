@@ -5,4 +5,5 @@ type t = {
 }
 (** Represents a game with players represented as a list of integers
     corresponding to the number of the player (dealing starts with player 1 at
-    the beginning of the game), a deck *)
+    the beginning of the game), a deck, and the hands of the players (order of
+    hands corresponds with order of players) *)
