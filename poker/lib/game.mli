@@ -8,8 +8,4 @@ type t = {
     players (order of hands corresponds with order of players) *)
 
 val newgame : t
-(** [newgame] is a brand new game with no cards yet dealt *)
-
-val deal_cards : t -> t
-(** [deal_cards g] is the game g but with cards dealt off the top of the deck
-    until each player has recieved a new card*)
+(** [newgame] is a brand new game with two cards dealt to every player*)

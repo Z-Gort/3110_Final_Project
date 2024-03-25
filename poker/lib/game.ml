@@ -117,7 +117,7 @@ let deal_cards g =
     end
   | _ -> g
 
-let newgame =
+let emptygame =
   {
     players =
       [
@@ -130,3 +130,5 @@ let newgame =
       ];
     deck = newdeck;
   }
+
+let newgame = deal_cards (deal_cards emptygame)
