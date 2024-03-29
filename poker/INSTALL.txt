@@ -1,0 +1,6 @@
+Install:
+
+1. Download and unzip the project file. 
+2. In terminal, cd into the "poker" folder.
+3. To initialize the program, type "dune build" in the terminal.
+4. To run the program, type "dune exec bin/main.exe".
