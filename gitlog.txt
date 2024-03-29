@@ -1,0 +1,220 @@
+commit 5bff8f7878010d3fd3fb3652c2eda0c017b9dce7
+Author: asz38 <asz38@cornell.edu>
+Date:   Thu Mar 28 21:13:18 2024 -0400
+
+    MS2 commit
+
+commit 47b50b883d4d98c8a3764e1100b022161ec12286
+Author: asz38 <asz38@cornell.edu>
+Date:   Thu Mar 28 20:49:27 2024 -0400
+
+    Added Install text file
+
+commit e22c9e9ec6a4e929bcd8289b168a78893c608e9d
+Author: asz38 <asz38@cornell.edu>
+Date:   Thu Mar 28 20:39:05 2024 -0400
+
+    Added YAML file and Install file
+
+commit 666bf8b3e0563c8037c280e6dcc3e9beb7d2ee98
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Mon Mar 25 11:12:41 2024 -0400
+
+    Add comment to game.mli
+
+commit af82178cacbb17488505019504d6bee8032bb568
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Mon Mar 25 01:38:59 2024 -0400
+
+    Implement string conversion
+    
+    - string_of_card and string_of_hand added to interface and implemented
+    - print statements added to main to communicate start of game and users own cards
+
+commit 5379e548e500b19f0ef9df1a56bad6aaa0fdab26
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Mon Mar 25 01:18:08 2024 -0400
+
+    Change game logic
+    
+    - newgame is now a game with 2 cards dealt to every player
+
+commit ba23d4a01217d99ec45a3eb8f7f5261547cd3b88
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Mon Mar 25 01:15:31 2024 -0400
+
+    Make additions to game
+    
+    - functions for dealing the first two cards out to players
+
+commit 0f11125255969da6b013310b90e469a553f9a7c8
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun Mar 24 23:26:35 2024 -0400
+
+    Add to game and hand
+    
+    - created add to hand function and empty hand value
+    - created a deck of cards and a function to initialize a new game
+
+commit 45031899d4d902034216458a76295d0fdef306a5
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun Mar 24 21:17:44 2024 -0400
+
+    Finish documentation of Game.t
+
+commit 70b4e708ec0beb64f4f850eaa24a1ba628f929b3
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun Mar 24 21:16:23 2024 -0400
+
+    Fix module dependency issues
+    
+    - also begin game comp unit
+
+commit e8c73c26bbdffcf10991df4af0a01ddcfd033f28
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun Mar 24 20:53:25 2024 -0400
+
+    Start impl of card and hand
+
+commit 0a1f13254ab3a16c071f40d3d9d462356152fbe5
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun Mar 24 19:22:36 2024 -0400
+
+    Begin hand interface
+
+commit aad1d7f8aecc0231436ea76d631d289f15c446a2
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun Mar 24 18:51:23 2024 -0400
+
+    Begin filling out card interface
+    
+    - defined types suit and rank
+    - defined rep type to be a record with a suit and rank
+    - declared compare function
+
+commit 9821c0a0188a32ac5ed6566bf19bf3e22bc37b29
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun Mar 24 18:37:27 2024 -0400
+
+    Rename cards comp unit to card
+
+commit b9afaf728a21112048d8969cd67f793d16212810
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun Mar 24 17:40:07 2024 -0400
+
+    Add start game message to main
+
+commit 8dd60f5a58a35730cb172b01839fc3aab0f40341
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun Mar 24 17:21:08 2024 -0400
+
+    Add bisect to lib/dune
+
+commit 53c8f02efa1c2102219666a060a7cf5f3825e59f
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun Mar 24 17:16:58 2024 -0400
+
+    Add important files
+    
+    - add .ocamlformat
+    - add batteries to lib/dune
+    - create game, hand, cards compilation units
+
+commit 3ab1cdebec20cf2d4238f5b0531b9f9b755f0a5a
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun Mar 24 16:18:55 2024 -0400
+
+    Add INSTALL.txt file to root
+
+commit 44d22668a2a091ebe112a2c65d5522a0e09974a9
+Merge: f1eb749 1d47ecb
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun Mar 24 14:53:09 2024 -0400
+
+    Merge branch 'main' of github.com:Z-Gort/3110_Final_Project
+
+commit f1eb749d22c956697b7c97445d478640814f3987
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun Mar 24 14:51:14 2024 -0400
+
+    Initialize Project
+
+commit 1d47ecb5037b7bf94f1309ae18e874e8f73ad555
+Author: Zach Gorton <zachgortonnyc@gmail.com>
+Date:   Fri Mar 8 17:34:16 2024 -0500
+
+    adding mmy name back
+
+commit cc9ea022b651e06efe5702546bd7359a5e44a1dd
+Author: michaelmicalizzi <m.micalizzi35@gmail.com>
+Date:   Fri Mar 8 17:32:26 2024 -0500
+
+    Added myself to README
+
+commit b95d36c77ebcb37a6a34c505b6e92f897170239b
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Fri Mar 8 17:30:53 2024 -0500
+
+    fuck you mike
+
+commit 436f48ce9de4539d10faf02461f0ee037aa14895
+Author: OscarC-A <147107490+OscarC-A@users.noreply.github.com>
+Date:   Fri Mar 8 17:30:00 2024 -0500
+
+    Update README.md
+
+commit 1fd5afe396b2b37190d5b12f3bcc06586f4048f7
+Author: Oscar Callamari-Abrams <oscarabrams@gmail.com>
+Date:   Fri Mar 8 17:29:22 2024 -0500
+
+    readme name
+
+commit fb47661251504a43594ebe409e65afae00ceecc4
+Merge: 935852c 97c80b1
+Author: Oscar Callamari-Abrams <oscarabrams@gmail.com>
+Date:   Fri Mar 8 17:27:55 2024 -0500
+
+    Merge branch 'main' of github.com:Z-Gort/3110_Final_Project
+
+commit 97c80b13ddb4722023608dee21a61d10dea854a6
+Author: Zach Gorton <zachgortonnyc@gmail.com>
+Date:   Fri Mar 8 17:26:20 2024 -0500
+
+    accidentally removed teammates name
+
+commit 5ef00d34f27a35c84c5e47a020ad5514aef44e7c
+Merge: 97bc613 e053235
+Author: Zach Gorton <zachgortonnyc@gmail.com>
+Date:   Fri Mar 8 17:24:11 2024 -0500
+
+    zkg4 first commit
+
+commit 935852cd955d40cc28bcda99b9a810cb5a593ad2
+Author: Oscar Callamari-Abrams <oscarabrams@gmail.com>
+Date:   Fri Mar 8 17:24:01 2024 -0500
+
+    readme name change
+
+commit 97bc613d07ab12e1e7b53c8c2905f7e86de7de92
+Author: Zach Gorton <zachgortonnyc@gmail.com>
+Date:   Fri Mar 8 17:23:33 2024 -0500
+
+    zkg4 dropping first commit
+
+commit e053235e48d242f583d1457a2a69b208eee17d89
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Thu Mar 7 20:23:12 2024 -0500
+
+    added to readme
+
+commit 0caaeebd06e62c63f70abed3525f557a0f6e2314
+Author: Anna Zweck-Bronner <azweckbronner@gmail.com>
+Date:   Thu Mar 7 20:00:56 2024 -0500
+
+    Anna Pushed to Repo
+
+commit 6afa0db2a037b87e5d515c268600f3eb2aafa8b5
+Author: Zach Gorton <zachgortonnyc@gmail.com>
+Date:   Thu Mar 7 19:23:36 2024 -0500
+
+    first commit
