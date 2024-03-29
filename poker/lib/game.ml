@@ -1,64 +1,64 @@
-type t = {
-  players : (int * Hand.t) list;
-  deck : Card.t list;
-}
+type t =
+  { players : (int * Hand.t) list
+  ; deck : Card.t list
+  }
 
 (* Represents a brand new deck of cards *)
 let newdeck : Card.t list =
-  [
-    { suit = Clubs; rank = Two };
-    { suit = Clubs; rank = Three };
-    { suit = Clubs; rank = Four };
-    { suit = Clubs; rank = Five };
-    { suit = Clubs; rank = Six };
-    { suit = Clubs; rank = Seven };
-    { suit = Clubs; rank = Eight };
-    { suit = Clubs; rank = Nine };
-    { suit = Clubs; rank = Ten };
-    { suit = Clubs; rank = Jack };
-    { suit = Clubs; rank = Queen };
-    { suit = Clubs; rank = King };
-    { suit = Clubs; rank = Ace };
-    { suit = Hearts; rank = Two };
-    { suit = Hearts; rank = Three };
-    { suit = Hearts; rank = Four };
-    { suit = Hearts; rank = Five };
-    { suit = Hearts; rank = Six };
-    { suit = Hearts; rank = Seven };
-    { suit = Hearts; rank = Eight };
-    { suit = Hearts; rank = Nine };
-    { suit = Hearts; rank = Ten };
-    { suit = Hearts; rank = Jack };
-    { suit = Hearts; rank = Queen };
-    { suit = Hearts; rank = King };
-    { suit = Hearts; rank = Ace };
-    { suit = Spades; rank = Two };
-    { suit = Spades; rank = Three };
-    { suit = Spades; rank = Four };
-    { suit = Spades; rank = Five };
-    { suit = Spades; rank = Six };
-    { suit = Spades; rank = Seven };
-    { suit = Spades; rank = Eight };
-    { suit = Spades; rank = Nine };
-    { suit = Spades; rank = Ten };
-    { suit = Spades; rank = Jack };
-    { suit = Spades; rank = Queen };
-    { suit = Spades; rank = King };
-    { suit = Spades; rank = Ace };
-    { suit = Diamonds; rank = Two };
-    { suit = Diamonds; rank = Three };
-    { suit = Diamonds; rank = Four };
-    { suit = Diamonds; rank = Five };
-    { suit = Diamonds; rank = Six };
-    { suit = Diamonds; rank = Seven };
-    { suit = Diamonds; rank = Eight };
-    { suit = Diamonds; rank = Nine };
-    { suit = Diamonds; rank = Ten };
-    { suit = Diamonds; rank = Jack };
-    { suit = Diamonds; rank = Queen };
-    { suit = Diamonds; rank = King };
-    { suit = Diamonds; rank = Ace };
+  [ { suit = Clubs; rank = Two }
+  ; { suit = Clubs; rank = Three }
+  ; { suit = Clubs; rank = Four }
+  ; { suit = Clubs; rank = Five }
+  ; { suit = Clubs; rank = Six }
+  ; { suit = Clubs; rank = Seven }
+  ; { suit = Clubs; rank = Eight }
+  ; { suit = Clubs; rank = Nine }
+  ; { suit = Clubs; rank = Ten }
+  ; { suit = Clubs; rank = Jack }
+  ; { suit = Clubs; rank = Queen }
+  ; { suit = Clubs; rank = King }
+  ; { suit = Clubs; rank = Ace }
+  ; { suit = Hearts; rank = Two }
+  ; { suit = Hearts; rank = Three }
+  ; { suit = Hearts; rank = Four }
+  ; { suit = Hearts; rank = Five }
+  ; { suit = Hearts; rank = Six }
+  ; { suit = Hearts; rank = Seven }
+  ; { suit = Hearts; rank = Eight }
+  ; { suit = Hearts; rank = Nine }
+  ; { suit = Hearts; rank = Ten }
+  ; { suit = Hearts; rank = Jack }
+  ; { suit = Hearts; rank = Queen }
+  ; { suit = Hearts; rank = King }
+  ; { suit = Hearts; rank = Ace }
+  ; { suit = Spades; rank = Two }
+  ; { suit = Spades; rank = Three }
+  ; { suit = Spades; rank = Four }
+  ; { suit = Spades; rank = Five }
+  ; { suit = Spades; rank = Six }
+  ; { suit = Spades; rank = Seven }
+  ; { suit = Spades; rank = Eight }
+  ; { suit = Spades; rank = Nine }
+  ; { suit = Spades; rank = Ten }
+  ; { suit = Spades; rank = Jack }
+  ; { suit = Spades; rank = Queen }
+  ; { suit = Spades; rank = King }
+  ; { suit = Spades; rank = Ace }
+  ; { suit = Diamonds; rank = Two }
+  ; { suit = Diamonds; rank = Three }
+  ; { suit = Diamonds; rank = Four }
+  ; { suit = Diamonds; rank = Five }
+  ; { suit = Diamonds; rank = Six }
+  ; { suit = Diamonds; rank = Seven }
+  ; { suit = Diamonds; rank = Eight }
+  ; { suit = Diamonds; rank = Nine }
+  ; { suit = Diamonds; rank = Ten }
+  ; { suit = Diamonds; rank = Jack }
+  ; { suit = Diamonds; rank = Queen }
+  ; { suit = Diamonds; rank = King }
+  ; { suit = Diamonds; rank = Ace }
   ]
+;;
 
 let () = Random.self_init ()
 
@@ -68,6 +68,7 @@ let rec rem_card n d i =
   match d with
   | h :: t -> if i = n then t else h :: rem_card n t (i + 1)
   | [] -> []
+;;
 
 (** [new_cards d] pulls 6 cards randomly out of the deck [d] (to simulate
     drawing from the top of a shuffled deck) and returns those cards as the
@@ -93,42 +94,40 @@ let new_cards d =
   let nextd4 = rem_card i4 nextd3 0 in
   let nextd5 = rem_card i5 nextd4 0 in
   let nextdeck = rem_card i6 nextd5 0 in
-  (c1, c2, c3, c4, c5, c6, nextdeck)
+  c1, c2, c3, c4, c5, c6, nextdeck
+;;
 
 (** [deal_cards g] pulls 6 cards out of [g.deck] and adds them to the hands of
     the players represented by [g.players] *)
 let deal_cards g =
   match g.players with
-  | [ (p1, h1); (p2, h2); (p3, h3); (p4, h4); (p5, h5); (p6, h6) ] -> begin
-      match new_cards g.deck with
-      | c1, c2, c3, c4, c5, c6, d ->
-          {
-            players =
-              [
-                (p1, Hand.add c1 h1);
-                (p2, Hand.add c2 h2);
-                (p3, Hand.add c3 h3);
-                (p4, Hand.add c4 h4);
-                (p5, Hand.add c5 h5);
-                (p6, Hand.add c6 h6);
-              ];
-            deck = d;
-          }
-    end
+  | [ (p1, h1); (p2, h2); (p3, h3); (p4, h4); (p5, h5); (p6, h6) ] ->
+    (match new_cards g.deck with
+     | c1, c2, c3, c4, c5, c6, d ->
+       { players =
+           [ p1, Hand.add c1 h1
+           ; p2, Hand.add c2 h2
+           ; p3, Hand.add c3 h3
+           ; p4, Hand.add c4 h4
+           ; p5, Hand.add c5 h5
+           ; p6, Hand.add c6 h6
+           ]
+       ; deck = d
+       })
   | _ -> g
+;;
 
 let emptygame =
-  {
-    players =
-      [
-        (1, Hand.empty);
-        (2, Hand.empty);
-        (3, Hand.empty);
-        (4, Hand.empty);
-        (5, Hand.empty);
-        (6, Hand.empty);
-      ];
-    deck = newdeck;
+  { players =
+      [ 1, Hand.empty
+      ; 2, Hand.empty
+      ; 3, Hand.empty
+      ; 4, Hand.empty
+      ; 5, Hand.empty
+      ; 6, Hand.empty
+      ]
+  ; deck = newdeck
   }
+;;
 
 let newgame = deal_cards (deal_cards emptygame)
