@@ -1,0 +1,24 @@
+---
+group:
+  - name: Oscar Callamari-Abrams
+    net id: oc67
+  - name: Andrej Dovciak
+    net id: ajd286
+  - name: Zachary Gorton
+    net id: zkg4
+  - name: Michael Micalizzi
+    net id: mjm734
+  - name: Anna Zweck-Bronner
+    net id: asz38
+pm:
+  - name: Luke Tao
+    net id: lyt5
+publish: true
+title: Texas Hold'emmm!
+git-repo: https://github.com/Z-Gort/3110_Final_Project
+desc: >
+  Our project is a single-player Poker game with a terminal-based user 
+  interface. It supports all features of the Texas Hold'em variant of poker 
+  during each round of betting, including checking, betting, raising, calling, 
+  and folding. Even better, our player may choose to play against a maximum of 
+  ten skilled AI opponents.
