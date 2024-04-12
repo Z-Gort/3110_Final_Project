@@ -7,5 +7,6 @@ let start_game () =
   match start.players with
   | p1 :: _ -> print_endline (Hand.string_of_hand (snd p1))
   | _ -> ()
+(* bet () *)
 
 let _ = start_game ()
