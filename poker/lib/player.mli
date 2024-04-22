@@ -6,15 +6,17 @@ type ptype =
           uses. *)
 
 type t = {
-  player_number : int;
   player_type : ptype;
   hand : Hand.t;
   chips : int;
 }
-(** Player.t represents a poker player with a [player_number] going from 1 to
-    the number of players in the game, a [player_type] that represents their
-    status as either a particular bot or the user, a [hand] representing their
-    hand, and [chips] which represents how many chips they can use to bet with. *)
+(** Player.t represents a poker player with a [player_type] that represents
+    their status as either a particular bot or the user, a [hand] representing
+    their hand, and [chips] which represents how many chips they can use to bet
+    with. *)
+
+val new_user : t
+val new_bot : int -> t
 
 val subtract_chips : t -> int -> t
 (** [subtract_chips p n] subtracts [n] from the chips of player [p]. *)

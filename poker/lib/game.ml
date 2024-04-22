@@ -1,9 +1,11 @@
 type t = {
-  players : (int * Hand.t) list;
+  players : Player.t list;
   deck : Card.t list;
   flop : Card.t list;
   pot : int;
 }
+
+let default_chips = 100
 
 (* Represents a brand new deck of cards *)
 let newdeck : Card.t list =
@@ -101,18 +103,18 @@ let new_cards d =
     the players represented by [g.players] *)
 let deal_cards g =
   match g.players with
-  | [ (p1, h1); (p2, h2); (p3, h3); (p4, h4); (p5, h5); (p6, h6) ] -> (
+  | [ p1; p2; p3; p4; p5; p6 ] -> (
       match new_cards g.deck with
       | c1, c2, c3, c4, c5, c6, d ->
           {
             players =
               [
-                (p1, Hand.add c1 h1);
-                (p2, Hand.add c2 h2);
-                (p3, Hand.add c3 h3);
-                (p4, Hand.add c4 h4);
-                (p5, Hand.add c5 h5);
-                (p6, Hand.add c6 h6);
+                Player.deal_card p1 c1;
+                Player.deal_card p2 c2;
+                Player.deal_card p3 c3;
+                Player.deal_card p4 c4;
+                Player.deal_card p5 c5;
+                Player.deal_card p6 c6;
               ];
             deck = d;
             flop = [];
@@ -124,16 +126,17 @@ let emptygame =
   {
     players =
       [
-        (1, Hand.empty);
-        (2, Hand.empty);
-        (3, Hand.empty);
-        (4, Hand.empty);
-        (5, Hand.empty);
-        (6, Hand.empty);
+        Player.new_user;
+        Player.new_bot 1;
+        Player.new_bot 1;
+        Player.new_bot 1;
+        Player.new_bot 1;
+        Player.new_bot 1;
       ];
     deck = newdeck;
     flop = [];
     pot = 0;
   }
+(* currently all bots are default bot 1*)
 
 let newgame = deal_cards (deal_cards emptygame)

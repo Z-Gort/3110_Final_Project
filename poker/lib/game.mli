@@ -9,6 +9,10 @@ type t = {
     begins with player 1 being dealt a card first), a deck, the flop (cards
     shared among players), and the pot*)
 
+val default_chips : int
+(** [default_chips] is the default number of chips that players start the game
+    with*)
+
 val newgame : t
 (** [newgame] is a brand new game with two cards dealt to every player*)
 
