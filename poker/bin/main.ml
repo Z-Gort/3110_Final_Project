@@ -5,7 +5,7 @@ let start_game () =
   let start = Game.newgame in
   let _ = print_endline "These are your cards to start the game:" in
   match start.players with
-  | p1 :: _ -> print_endline (Hand.string_of_hand (snd p1))
+  | p1 :: _ -> print_endline (Hand.string_of_hand p1.hand)
   | _ -> ()
 (* bet () *)
 

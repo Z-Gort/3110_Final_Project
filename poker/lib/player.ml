@@ -8,11 +8,11 @@ type t = {
   chips : int;
 }
 
-let new_user =
-  { player_type = User; hand = Hand.empty; chips = Game.default_chips }
+let default_chips = 100
+let new_user = { player_type = User; hand = Hand.empty; chips = default_chips }
 
 let new_bot i =
-  { player_type = Bot i; hand = Hand.empty; chips = Game.default_chips }
+  { player_type = Bot i; hand = Hand.empty; chips = default_chips }
 
 exception InsufficientFunds
 

@@ -15,8 +15,17 @@ type t = {
     their hand, and [chips] which represents how many chips they can use to bet
     with. *)
 
+val default_chips : int
+(** [default_chips] is the default number of chips that players start the game
+    with*)
+
 val new_user : t
+(** [new_user] is a brand new player with [default_chips] chips and an empty
+    hand*)
+
 val new_bot : int -> t
+(** [new_bot i] is a new player with player_type Bot i, [default_chips] chips
+    and an empty hand *)
 
 val subtract_chips : t -> int -> t
 (** [subtract_chips p n] subtracts [n] from the chips of player [p]. *)

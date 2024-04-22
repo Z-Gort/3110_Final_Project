@@ -5,8 +5,6 @@ type t = {
   pot : int;
 }
 
-let default_chips = 100
-
 (* Represents a brand new deck of cards *)
 let newdeck : Card.t list =
   [
