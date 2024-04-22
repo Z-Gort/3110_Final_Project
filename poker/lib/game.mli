@@ -1,6 +1,7 @@
 type t = {
   players : (int * Hand.t) list;
   deck : Card.t list;
+  pot : int;
 }
 (** Represents a game with (6) players with a list of integers corresponding to
     the number of the player in the order that they will be dealt cards (game
