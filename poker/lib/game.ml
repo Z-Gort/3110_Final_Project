@@ -64,12 +64,14 @@ let newdeck : Card.t list =
 
 let () = Random.self_init ()
 
-(** [rem_card n d i] is the deck [d] with the card [n] cards away from index [i]
-    removed. *)
-let rec rem_card n d i =
-  match d with
-  | h :: t -> if i = n then t else h :: rem_card n t (i + 1)
-  | [] -> []
+(** [rem_card n d i] is the deck [d] with the card at index removed. *)
+let rem_card n d =
+  let rec rc n d i =
+    match d with
+    | h :: t -> if i = n then t else h :: rc n t (i + 1)
+    | [] -> []
+  in
+  rc n d 0
 
 (** [new_cards d] pulls 6 cards randomly out of the deck [d] (to simulate
     drawing from the top of a shuffled deck) and returns those cards as the
@@ -89,12 +91,12 @@ let new_cards d =
   let c4 = List.nth d i4 in
   let c5 = List.nth d i5 in
   let c6 = List.nth d i6 in
-  let nextd1 = rem_card i1 d 0 in
-  let nextd2 = rem_card i2 nextd1 0 in
-  let nextd3 = rem_card i3 nextd2 0 in
-  let nextd4 = rem_card i4 nextd3 0 in
-  let nextd5 = rem_card i5 nextd4 0 in
-  let nextdeck = rem_card i6 nextd5 0 in
+  let nextd1 = rem_card i1 d in
+  let nextd2 = rem_card i2 nextd1 in
+  let nextd3 = rem_card i3 nextd2 in
+  let nextd4 = rem_card i4 nextd3 in
+  let nextd5 = rem_card i5 nextd4 in
+  let nextdeck = rem_card i6 nextd5 in
   (c1, c2, c3, c4, c5, c6, nextdeck)
 
 (** [deal_cards g] pulls 6 cards out of [g.deck] and adds them to the hands of
