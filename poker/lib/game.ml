@@ -139,4 +139,38 @@ let emptygame =
   }
 (* currently all bots are default bot 1*)
 
+let rec fold player game =
+  match game.players with
+  | [] -> game
+  | h :: t ->
+    if h = player then
+      { game with players = t }
+    else
+      { game with players = h :: (fold player { game with players = t }) }
+
+let rec remove i lst =
+  match lst with
+  | [] -> lst
+  | h :: t -> if i = 0 then t else (t :: remove (i - 1) t)
+
+(*takes a list of players and applies each bet to the players. -1 implies that a player wants to fold. *)
+let rec firstRound game ordered_bets =
+  let rec aux players bets pot =
+    match players, bets with
+    | [], _ | _, [] -> { game with pot = pot }
+    | player :: t_players, bet :: t_bets ->
+        if bet = -1 then
+          let updated_game = fold player game in
+          aux updated_game.players t_bets pot
+        else
+          let updated_player = subtract_chips player bet in
+          let updated_game = { game with players = updated_player :: t_players } in
+          aux t_players t_bets (pot + bet)
+  in
+aux game.players ordered_bets game.pot
+
+let user_bet () = print_endline "Please provide a bet amount (an integer)."; Sys.argv.(1) 
+
+let betlist game user_bet = List.init (List.length game.players) (fun _ -> user_bet)
+
 let newgame = deal_cards (deal_cards emptygame)
