@@ -83,3 +83,5 @@ let start_game () =
 
 (* bet () *)
 let _ = start_game ()
+
+(* There is a bug, never stops betting, I dont know why :( ... )*)
