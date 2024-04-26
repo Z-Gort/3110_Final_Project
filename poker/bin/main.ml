@@ -7,6 +7,11 @@ let start_game () =
   match start.players with
   | p1 :: _ -> print_endline (Hand.string_of_hand p1.hand)
   | _ -> ()
+;;
+
+let flop () = 
+  
 (* bet () *)
 
 let _ = start_game ()
+let _ = continue_game ()
