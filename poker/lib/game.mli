@@ -23,4 +23,7 @@ val player_bet : t -> Player.t -> int -> t
     [p] having bet [n]. If [p] raises, they are [gm.last_raise] is updated to
     record that fact. *)
 
+val fold_player : t -> Player.t -> t
+(** [fold_player gm pl] is [gm] after [pl] has folded *)
+
 val bet_round : t -> int list -> t
