@@ -1,13 +1,24 @@
 open Poker
 
-let user_bet (gm : Game.t) (pl : Player.t) =
+let rec user_bet (gm : Game.t) (pl : Player.t) =
   let _ =
     print_endline
       ("How much would you like to bet? You currently have "
-     ^ string_of_int pl.chips ^ " chips!")
+     ^ string_of_int pl.chips ^ " chips and you must bet at least "
+      ^ string_of_int gm.current_bet
+      ^ " chips.")
   in
   let bet_size = int_of_string (read_line ()) in
-  Game.player_bet gm pl bet_size
+  if bet_size > pl.chips then
+    let _ = print_endline "You can only bet as many chips as you have!" in
+    user_bet gm pl
+  else if bet_size < gm.current_bet then
+    let _ =
+      print_endline
+        ("You must bet at least " ^ string_of_int gm.current_bet ^ " chips!")
+    in
+    user_bet gm pl
+  else Game.player_bet gm pl bet_size
 
 let rec user_action (gm : Game.t) (pl : Player.t) =
   let _ = print_endline "What would you like to do? [ Check | Bet | Fold ]" in

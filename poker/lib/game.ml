@@ -4,13 +4,10 @@ type t = {
   flop : Card.t list;
   pot : int;
   current_bet : int;
+  last_raise : Player.t;
 }
 
-type action =
-  | Check
-  | Call
-  | Raise of int
-  | Fold
+(* type action = | Check | Bet | Fold *)
 
 (* Represents a brand new deck of cards *)
 let newdeck : Card.t list =
@@ -127,14 +124,16 @@ let deal_cards g =
             flop = [];
             pot = 0;
             current_bet = 0;
+            last_raise = p1;
           })
   | _ -> g
 
 let emptygame =
+  let p1 = Player.new_user in
   {
     players =
       [
-        Player.new_user;
+        p1;
         Player.new_bot 1;
         Player.new_bot 1;
         Player.new_bot 1;
@@ -145,13 +144,126 @@ let emptygame =
     flop = [];
     pot = 0;
     current_bet = 0;
+    last_raise = p1;
   }
 
 (* let create_bet_list num = num :: [ 10; 10; 10; 10; 10 ] *)
 
-let player_bet gm (plyr : Player.t) (bet : int) =
-  match (gm, plyr, bet) with
-  | _ -> ()
+let player_bet (gm : t) (plyr : Player.t) (bt : int) =
+  let pb g p b =
+    match g.players with
+    | [ p1; p2; p3; p4; p5; p6 ] ->
+        if p1 = p then
+          if b > gm.current_bet then
+            let bettor = Player.subtract_chips p b in
+            {
+              g with
+              players = [ bettor; p2; p3; p4; p5; p6 ];
+              pot = g.pot + b;
+              current_bet = b;
+              last_raise = bettor;
+            }
+          else
+            {
+              g with
+              players = [ Player.subtract_chips p b; p2; p3; p4; p5; p6 ];
+              pot = g.pot + b;
+              current_bet = b;
+            }
+        else if p2 = p then
+          if b > gm.current_bet then
+            let bettor = Player.subtract_chips p b in
+            {
+              g with
+              players = [ p1; bettor; p3; p4; p5; p6 ];
+              pot = g.pot + b;
+              current_bet = b;
+              last_raise = bettor;
+            }
+          else
+            {
+              g with
+              players = [ p1; Player.subtract_chips p b; p3; p4; p5; p6 ];
+              pot = g.pot + b;
+              current_bet = b;
+            }
+        else if p3 = p then
+          if b > gm.current_bet then
+            let bettor = Player.subtract_chips p b in
+            {
+              g with
+              players = [ p1; p2; bettor; p4; p5; p6 ];
+              pot = g.pot + b;
+              current_bet = b;
+              last_raise = bettor;
+            }
+          else
+            {
+              g with
+              players = [ p1; p2; Player.subtract_chips p b; p4; p5; p6 ];
+              pot = g.pot + b;
+              current_bet = b;
+            }
+        else if p4 = p then
+          if b > gm.current_bet then
+            let bettor = Player.subtract_chips p b in
+            {
+              g with
+              players = [ p1; p2; p3; bettor; p5; p6 ];
+              pot = g.pot + b;
+              current_bet = b;
+              last_raise = bettor;
+            }
+          else
+            {
+              g with
+              players = [ p1; p2; p3; Player.subtract_chips p b; p5; p6 ];
+              pot = g.pot + b;
+              current_bet = b;
+              last_raise = Player.subtract_chips p b;
+            }
+        else if p5 = p then
+          if b > gm.current_bet then
+            let bettor = Player.subtract_chips p b in
+            {
+              g with
+              players = [ p1; p2; p3; p4; bettor; p6 ];
+              pot = g.pot + b;
+              current_bet = b;
+              last_raise = bettor;
+            }
+          else
+            {
+              g with
+              players = [ p1; p2; p3; p4; Player.subtract_chips p b; p6 ];
+              pot = g.pot + b;
+              current_bet = b;
+            }
+        else if p6 = p then
+          if b > gm.current_bet then
+            let bettor = Player.subtract_chips p b in
+            {
+              g with
+              players = [ p1; p2; p3; p4; p5; bettor ];
+              pot = g.pot + b;
+              current_bet = b;
+              last_raise = bettor;
+            }
+          else
+            {
+              g with
+              players = [ p1; p2; p3; p4; p5; Player.subtract_chips p b ];
+              pot = g.pot + b;
+              current_bet = b;
+            }
+        else
+          let _ = print_endline "this is not supposed to happen" in
+          g
+    | _ ->
+        let _ = print_endline "this is not supposed to happen" in
+        g
+  in
+  pb gm plyr bt
 
 let rec bet_round game ordered_bets =
   match (game.players, ordered_bets) with
