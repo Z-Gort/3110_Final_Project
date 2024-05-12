@@ -1,6 +1,7 @@
 type ptype =
   | User
   | Bot of int
+  | None
 
 type t = {
   player_type : ptype;
@@ -20,7 +21,7 @@ let new_user =
   }
 
 let none_player =
-  { player_type = User; hand = Hand.empty; chips = Int.min_int; folded = false }
+  { player_type = None; hand = Hand.empty; chips = Int.min_int; folded = false }
 
 let new_bot i =
   {
@@ -61,7 +62,9 @@ let print_player pl =
       print_endline ("Hand: " ^ Hand.string_of_hand hnd);
       print_endline ("Chips: " ^ string_of_int chps);
       print_endline ("Folded: " ^ string_of_bool fld)
+  | _ -> print_endline ("none_player")
 
 let p_to_string p = match p.player_type with 
 | User -> "user"
 | Bot k -> "bot " ^ string_of_int k
+| None -> "none_player"

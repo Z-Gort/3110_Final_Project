@@ -1,6 +1,7 @@
 type ptype =
   | User
   | Bot of int
+  | None
       (** [ptype] is the type that represents a player type, distinguishing bots
           from the user. Bot carries an int to represent which betting logit it
           uses. *)
