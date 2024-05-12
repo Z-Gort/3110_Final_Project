@@ -89,16 +89,10 @@ let bet (gm : Game.t) =
           endrnd
         else if p.player_type = User then
           let gme = user_action g p in
-          let _ =
-            print_endline
-              ("user's new money2: "
-              ^ string_of_int
-                  (match gme.players with
-                  | h :: _ -> h.chips
-                  | _ -> 1))
-          in
-          let _ = print_endline "last_raise: " in
-          let _ = Player.print_player gme.last_raise in
+          (* let _ = print_endline ("user's new money2: " ^ string_of_int (match
+             gme.players with | h :: _ -> h.chips | _ -> 1)) in let _ =
+             print_endline "last_raise: " in let _ = Player.print_player
+             gme.last_raise in *)
           betfun gme t plst
         else
           let gme = bot_bet g p in
