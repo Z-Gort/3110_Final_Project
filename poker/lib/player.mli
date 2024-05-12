@@ -48,3 +48,8 @@ val fold : t -> t
 val print_player : t -> unit
 (** [print_player p] prints out player [p] to the terminal in an easily readable
     format. *)
+
+val p_to_string : t -> string
+(** prints the [player_type] of [p]. *)
+
+

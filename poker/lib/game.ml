@@ -132,10 +132,10 @@ let emptygame =
       [
         Player.new_user;
         Player.new_bot 1;
-        Player.new_bot 1;
-        Player.new_bot 1;
-        Player.new_bot 1;
-        Player.new_bot 1;
+        Player.new_bot 2;
+        Player.new_bot 3;
+        Player.new_bot 4;
+        Player.new_bot 5;
       ];
     deck = newdeck;
     flop = [];

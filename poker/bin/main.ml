@@ -84,9 +84,14 @@ let bet (gm : Game.t) =
   let rec betfun (g : Game.t) ilst plst =
     match ilst with
     | p :: t ->
-        if p = g.last_raise then
+      print_endline("last raise : " ^ Player.p_to_string g.last_raise);
+      print_endline("current : " ^ Player.p_to_string p);
+        if (Player.p_to_string g.last_raise = Player.p_to_string p) then
+          begin
+          print_endline("exiting");
           let endrnd = { g with last_raise = Player.none_player } in
           endrnd
+          end
         else if p.player_type = User then
           let gme = user_action g p in
           (* let _ = print_endline ("user's new money2: " ^ string_of_int (match
