@@ -39,14 +39,6 @@ let user_bet (gm : Game.t) (pl : Player.t) : Game.t =
   in
   let bet_size = get_user_bet gm.current_bet pl.chips in
   let newgm = Game.player_bet gm pl bet_size in
-  let _ =
-    print_endline
-      ("user's new money: "
-      ^ string_of_int
-          (match gm.players with
-          | h :: _ -> h.chips
-          | _ -> 1))
-  in
   newgm
 
 (** Prompts the user to take an action in the betting round when it is their
@@ -56,7 +48,7 @@ let rec user_action (gm : Game.t) (pl : Player.t) =
   if pl.folded then gm
   else
     let _ = print_endline "What would you like to do? < Check | Bet | Fold >" in
-    let input = read_line () in
+    let input = BatString.trim (read_line ()) in
     match input with
     | "Check" | "check" ->
         if gm.current_bet > 0 then
@@ -68,7 +60,9 @@ let rec user_action (gm : Game.t) (pl : Player.t) =
           in
           user_action gm pl
         else gm
-    | "Bet" | "bet" -> user_bet gm pl
+    | "Bet" | "bet" ->
+        let newgm = user_bet gm pl in
+        newgm
     | "Fold" | "fold" ->
         let newgm = Game.fold_player gm pl in
         (* let _ = List.map Player.print_player gmeee.players in *)
@@ -81,7 +75,8 @@ let rec user_action (gm : Game.t) (pl : Player.t) =
 
 let bot_bet (gm : Game.t) (pl : Player.t) =
   match (gm, pl) with
-  | _ -> gm (* unimplemented *)
+  | _ -> gm
+(* unimplemented *)
 
 (** [bet g] is the game [g] after one further round of betting to completion *)
 let bet (gm : Game.t) =
@@ -89,9 +84,21 @@ let bet (gm : Game.t) =
   let rec betfun (g : Game.t) ilst plst =
     match ilst with
     | p :: t ->
-        if p = g.last_raise then { g with last_raise = Player.none_player }
+        if p = g.last_raise then
+          let endrnd = { g with last_raise = Player.none_player } in
+          endrnd
         else if p.player_type = User then
           let gme = user_action g p in
+          let _ =
+            print_endline
+              ("user's new money2: "
+              ^ string_of_int
+                  (match gme.players with
+                  | h :: _ -> h.chips
+                  | _ -> 1))
+          in
+          let _ = print_endline "last_raise: " in
+          let _ = Player.print_player gme.last_raise in
           betfun gme t plst
         else
           let gme = bot_bet g p in
