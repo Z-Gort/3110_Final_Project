@@ -7,8 +7,6 @@ type t = {
   last_raise : Player.t;
 }
 
-(* type action = | Check | Bet | Fold *)
-
 (* Represents a brand new deck of cards *)
 let newdeck : Card.t list =
   [
@@ -146,8 +144,6 @@ let emptygame =
     last_raise = Player.none_player;
   }
 
-(* let create_bet_list num = num :: [ 10; 10; 10; 10; 10 ] *)
-
 let player_bet (g : t) (p : Player.t) (b : int) =
   match g.players with
   | [ p1; p2; p3; p4; p5; p6 ] ->
@@ -254,10 +250,10 @@ let player_bet (g : t) (p : Player.t) (b : int) =
             current_bet = b;
           }
       else
-        let _ = print_endline "this is not supposed to happen" in
+        let _ = print_endline "this is not supposed to happen in player_bet" in
         g
   | _ ->
-      let _ = print_endline "this is not supposed to happen" in
+      let _ = print_endline "this is not supposed to happen in player_bet" in
       g
 
 let rec bet_round game ordered_bets =
@@ -275,6 +271,7 @@ let rec bet_round game ordered_bets =
         }
 
 let fold_player gm plyr =
+  let _ = List.map Player.print_player gm.players in
   match gm.players with
   | [ p1; p2; p3; p4; p5; p6 ] ->
       if p1 = plyr then

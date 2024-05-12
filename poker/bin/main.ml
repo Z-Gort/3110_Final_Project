@@ -1,7 +1,17 @@
 open Poker
 
+(** Records the user's bet from input *)
+let rec get_user_bet () =
+  try int_of_string (read_line ())
+  with exn -> (
+    match exn with
+    | Failure _ ->
+        let _ = print_endline "Please enter only a number!" in
+        get_user_bet ()
+    | exc -> raise exc)
+
 (** Prompts the user to bet *)
-let rec user_bet (gm : Game.t) (pl : Player.t) =
+let rec user_bet (gm : Game.t) (pl : Player.t) : Game.t =
   let _ =
     print_endline
       ("How much would you like to bet? You currently have "
@@ -9,7 +19,7 @@ let rec user_bet (gm : Game.t) (pl : Player.t) =
       ^ string_of_int gm.current_bet
       ^ " chips.")
   in
-  let bet_size = int_of_string (read_line ()) in
+  let bet_size = get_user_bet () in
   if bet_size > pl.chips then
     let _ = print_endline "You can only bet as many chips as you have!" in
     user_bet gm pl
@@ -24,9 +34,10 @@ let rec user_bet (gm : Game.t) (pl : Player.t) =
 (** Prompts the user to take an action in the betting round when it is their
     turn*)
 let rec user_action (gm : Game.t) (pl : Player.t) =
+  let _ = Player.print_player pl in
   if pl.folded then gm
   else
-    let _ = print_endline "What would you like to do? [ Check | Bet | Fold ]" in
+    let _ = print_endline "What would you like to do? < Check | Bet | Fold >" in
     let input = read_line () in
     match input with
     | "Check" | "check" ->

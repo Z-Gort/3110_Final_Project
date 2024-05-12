@@ -44,3 +44,7 @@ val deal_card : t -> Card.t -> t
 
 val fold : t -> t
 (** [fold p] is the player p with [p.folded] set to [true]. *)
+
+val print_player : t -> unit
+(** [print_player p] prints out player [p] to the terminal in an easily readable
+    format. *)

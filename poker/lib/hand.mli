@@ -1,4 +1,4 @@
-type t
+type t = Card.t list
 (** Represents the hand of a player, the two cards they are dealt plus the
     community cards on the flop. *)
 
