@@ -122,7 +122,7 @@ let deal_cards g =
             flop = [];
             pot = 0;
             current_bet = 0;
-            last_raise = p1;
+            last_raise = Player.none_player;
           })
   | _ -> g
 
@@ -256,22 +256,13 @@ let player_bet (g : t) (p : Player.t) (b : int) =
       let _ = print_endline "this is not supposed to happen in player_bet" in
       g
 
-let rec bet_round game ordered_bets =
-  match (game.players, ordered_bets) with
-  | [], _ -> game
-  | _, [] -> game
-  | h_players :: t_players, h_bets :: t_bets ->
-      if h_bets = -1 then bet_round { game with players = t_players } t_bets
-      else
-        {
-          game with
-          players =
-            Player.subtract_chips h_players h_bets
-            :: (bet_round { game with players = t_players } t_bets).players;
-        }
+(* let rec bet_round game ordered_bets = match (game.players, ordered_bets) with
+   | [], _ -> game | _, [] -> game | h_players :: t_players, h_bets :: t_bets ->
+   if h_bets = -1 then bet_round { game with players = t_players } t_bets else {
+   game with players = Player.subtract_chips h_players h_bets :: (bet_round {
+   game with players = t_players } t_bets).players; } *)
 
 let fold_player gm plyr =
-  let _ = List.map Player.print_player gm.players in
   match gm.players with
   | [ p1; p2; p3; p4; p5; p6 ] ->
       if p1 = plyr then

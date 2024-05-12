@@ -1,17 +1,35 @@
 open Poker
 
 (** Records the user's bet from input *)
-let rec get_user_bet () =
-  try int_of_string (read_line ())
+let rec get_user_bet min max =
+  try
+    let bt = int_of_string (read_line ()) in
+    if bt = 0 then
+      let _ = print_endline "You cannot bet zero chips! Enter a new bet: " in
+      get_user_bet min max
+    else if bt > max then
+      let _ =
+        print_endline
+          "You can only bet as many chips as you have! Enter a new bet: "
+      in
+      get_user_bet min max
+    else if bt < min then
+      let _ =
+        print_endline
+          ("You must bet at least " ^ string_of_int min
+         ^ " chips! Enter a new bet: ")
+      in
+      get_user_bet min max
+    else bt
   with exn -> (
     match exn with
     | Failure _ ->
-        let _ = print_endline "Please enter only a number!" in
-        get_user_bet ()
+        let _ = print_endline "Please enter only a number! Enter a new bet: " in
+        get_user_bet min max
     | exc -> raise exc)
 
 (** Prompts the user to bet *)
-let rec user_bet (gm : Game.t) (pl : Player.t) : Game.t =
+let user_bet (gm : Game.t) (pl : Player.t) : Game.t =
   let _ =
     print_endline
       ("How much would you like to bet? You currently have "
@@ -19,22 +37,22 @@ let rec user_bet (gm : Game.t) (pl : Player.t) : Game.t =
       ^ string_of_int gm.current_bet
       ^ " chips.")
   in
-  let bet_size = get_user_bet () in
-  if bet_size > pl.chips then
-    let _ = print_endline "You can only bet as many chips as you have!" in
-    user_bet gm pl
-  else if bet_size < gm.current_bet then
-    let _ =
-      print_endline
-        ("You must bet at least " ^ string_of_int gm.current_bet ^ " chips!")
-    in
-    user_bet gm pl
-  else Game.player_bet gm pl bet_size
+  let bet_size = get_user_bet gm.current_bet pl.chips in
+  let newgm = Game.player_bet gm pl bet_size in
+  let _ =
+    print_endline
+      ("user's new money: "
+      ^ string_of_int
+          (match gm.players with
+          | h :: _ -> h.chips
+          | _ -> 1))
+  in
+  newgm
 
 (** Prompts the user to take an action in the betting round when it is their
     turn*)
 let rec user_action (gm : Game.t) (pl : Player.t) =
-  let _ = Player.print_player pl in
+  (* let _ = Player.print_player pl in *)
   if pl.folded then gm
   else
     let _ = print_endline "What would you like to do? < Check | Bet | Fold >" in
@@ -51,7 +69,10 @@ let rec user_action (gm : Game.t) (pl : Player.t) =
           user_action gm pl
         else gm
     | "Bet" | "bet" -> user_bet gm pl
-    | "Fold" | "fold" -> Game.fold_player gm pl
+    | "Fold" | "fold" ->
+        let newgm = Game.fold_player gm pl in
+        (* let _ = List.map Player.print_player gmeee.players in *)
+        newgm
     | _ ->
         let _ =
           print_endline "Please enter only \"Check\", \"Bet\", or \"Fold\""
@@ -81,7 +102,7 @@ let bet (gm : Game.t) =
 
 (** starts a game of poker *)
 let start_game () =
-  let _ = print_endline "You are playing Poker! (Texas hold 'em rules)" in
+  let _ = print_endline "You are playing Poker!\n" in
   let start = Game.newgame in
   let _ = print_endline "These are your cards to start the game:" in
   let _ =
@@ -89,6 +110,7 @@ let start_game () =
     | p1 :: _ -> print_endline (Hand.string_of_hand p1.hand)
     | _ -> ()
   in
+  let _ = print_newline () in
   bet start
 (* let flop () = *)
 
