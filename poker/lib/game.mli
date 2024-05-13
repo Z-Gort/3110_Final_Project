@@ -22,4 +22,7 @@ val player_bet : t -> Player.t -> int -> t
 val fold_player : t -> Player.t -> t
 (** [fold_player gm pl] is [gm] after [pl] has folded *)
 
+val print_game : t -> unit
+(** prnts the current [players] and [pot] *)
+
 (* val bet_round : t -> int list -> t *)

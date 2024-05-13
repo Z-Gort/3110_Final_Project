@@ -104,7 +104,7 @@ let bet (gm : Game.t) =
           betfun gme t plst
     | [] -> if g.last_raise = Player.none_player then g else betfun g plst plst
   in
-  betfun gm playerlist playerlist
+  (betfun gm playerlist playerlist)
 
 (** starts a game of poker *)
 let start_game () =
@@ -116,8 +116,9 @@ let start_game () =
     | p1 :: _ -> print_endline (Hand.string_of_hand p1.hand)
     | _ -> ()
   in
-  let _ = print_newline () in
-  bet start
+  let _ = print_newline () in 
+
+  Game.print_game (bet start)
 (* let flop () = *)
 
 (* bet () *)

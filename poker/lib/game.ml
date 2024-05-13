@@ -282,4 +282,13 @@ let fold_player gm plyr =
         gm
   | _ -> gm
 
+  let rec plist_to_string plist = match plist with
+   | h :: t -> Player.p_to_string h ^ "|" ^ plist_to_string t
+   | [] -> ""
+
+  let print_game gm = print_endline("game status");
+  print_endline("players: " ^ plist_to_string gm.players);
+  print_endline("pot: " ^ string_of_int gm.pot)
+
+
 let newgame = deal_cards (deal_cards emptygame)
