@@ -84,14 +84,13 @@ let bet (gm : Game.t) =
   let rec betfun (g : Game.t) ilst plst =
     match ilst with
     | p :: t ->
-      print_endline("last raise : " ^ Player.p_to_string g.last_raise);
-      print_endline("current : " ^ Player.p_to_string p);
-        if (Player.p_to_string g.last_raise = Player.p_to_string p) then
-          begin
-          print_endline("exiting");
+        print_endline ("last raise : " ^ Player.p_to_string g.last_raise);
+        print_endline ("current : " ^ Player.p_to_string p);
+        if Player.p_to_string g.last_raise = Player.p_to_string p then begin
+          print_endline "exiting";
           let endrnd = { g with last_raise = Player.none_player } in
           endrnd
-          end
+        end
         else if p.player_type = User then
           let gme = user_action g p in
           (* let _ = print_endline ("user's new money2: " ^ string_of_int (match
@@ -104,7 +103,7 @@ let bet (gm : Game.t) =
           betfun gme t plst
     | [] -> if g.last_raise = Player.none_player then g else betfun g plst plst
   in
-  (betfun gm playerlist playerlist)
+  betfun gm playerlist playerlist
 
 (** starts a game of poker *)
 let start_game () =
@@ -116,9 +115,8 @@ let start_game () =
     | p1 :: _ -> print_endline (Hand.string_of_hand p1.hand)
     | _ -> ()
   in
-  let _ = print_newline () in 
-
-  Game.print_game (bet start)
+  let _ = print_newline () in
+  bet start
 (* let flop () = *)
 
 (* bet () *)

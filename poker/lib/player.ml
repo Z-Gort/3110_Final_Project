@@ -62,9 +62,10 @@ let print_player pl =
       print_endline ("Hand: " ^ Hand.string_of_hand hnd);
       print_endline ("Chips: " ^ string_of_int chps);
       print_endline ("Folded: " ^ string_of_bool fld)
-  | _ -> print_endline ("none_player")
+  | _ -> print_endline "none_player"
 
-let p_to_string p = match p.player_type with 
-| User -> "user"
-| Bot k -> "bot " ^ string_of_int k
-| None -> "none_player"
+let p_to_string p =
+  match p.player_type with
+  | User -> "user"
+  | Bot k -> "bot " ^ string_of_int k
+  | None -> "none_player"
