@@ -14,3 +14,6 @@ val compare : t -> t -> int
 
 val string_of_hand : t -> string
 (** [string_of_hand h] is an easily readable string representation of hand [h] *)
+
+val filt_for_straight : t -> t option
+val filt_for_suit : t -> t

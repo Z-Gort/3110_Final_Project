@@ -119,13 +119,12 @@ let filt_for_suit (hnd : t) =
 
 (* sorts the cards in a hand by rank *)
 let sort_by_rank (hnd : t) = List.sort Card.compare hnd
+let find_consecutive lst = if lst = lst then [] else []
 
-let rec find_diffs = function
-  | [ h1; h2 ] -> [ h1 - h2; -1 ]
-  | h1 :: h2 :: t -> (h1 - h2) :: find_diffs (h2 :: t)
-  | _ :: [] -> [ -1 ]
-  | [] -> []
+(* let rec find_five_consecutive lst = match lst with | h :: _ -> ( match lst
+   with | ) *)
 
+(* filters a hand for consecutive cards, not sensitive to suit *)
 let filt_for_straight (hnd : t) : t option =
   let sorted_hnd = hnd |> sort_by_rank in
   match sorted_hnd with
@@ -140,8 +139,8 @@ let filt_for_straight (hnd : t) : t option =
   ] -> (
       Card.(
         let intrnks = List.map int_of_rank [ r1; r2; r3; r4; r5; r6; r7 ] in
-        let diffs = find_diffs intrnks in
-        match diffs with
+        let sequential = find_consecutive intrnks in
+        match sequential with
         | [ d1; d2; d3; d4; d5; d6; d7 ] ->
             let crddfs =
               [
@@ -154,7 +153,14 @@ let filt_for_straight (hnd : t) : t option =
                 (d7, { suit = s7; rank = r7 });
               ]
             in
-            None
+            let consecutive =
+              List.fold_left
+                (fun acc x -> if fst x = 1 then acc @ [ snd x ] else acc)
+                [] crddfs
+            in
+
+            if List.length consecutive > 4 then Some consecutive
+            else Some consecutive
         | _ -> failwith "filt_for_straight"))
   | _ -> failwith "filt_for_straight should only be applied to 7 card hands"
 
@@ -162,5 +168,5 @@ let bestofseven (hnd : t) =
   match hnd with
   | _ -> () (* unimplemented *)
 
-let _ = bestofseven []
+let _ = bestofseven
 let _ = high_card
