@@ -266,7 +266,7 @@ let fold_player gm plyr =
   match gm.players with
   | [ p1; p2; p3; p4; p5; p6 ] ->
       if p1 = plyr then
-        { gm with players = [ Player.fold p1; p2; p3; p4; p5; p6 ] }
+        { gm with players = [ Player.fold p1; p2; p3; p4; p5; p6 ]  }
       else if p2 = plyr then
         { gm with players = [ p1; Player.fold p2; p3; p4; p5; p6 ] }
       else if p3 = plyr then
@@ -284,7 +284,7 @@ let fold_player gm plyr =
 
 let rec plist_to_string plist =
   match plist with
-  | h :: t -> Player.p_to_string h ^ "|" ^ plist_to_string t
+  | h :: t -> if not h.Player.folded then (Player.p_to_string h ^ "|" ^ plist_to_string t) else plist_to_string t
   | [] -> ""
 
 let print_game gm =
