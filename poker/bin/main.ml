@@ -1,4 +1,5 @@
 open Poker
+
 let () = Random.self_init ()
 
 (** Records the user's bet from input *)
@@ -390,19 +391,21 @@ let bet (gm : Game.t) =
   let rec betfun (g : Game.t) ilst =
     match ilst with
     | p :: t ->
-        if (Player.p_to_string g.last_raise = Player.p_to_string p) then begin
+        if Player.p_to_string g.last_raise = Player.p_to_string p then begin
           { g with last_raise = Player.none_player }
-        end else if p.folded then begin
+        end
+        else if p.folded then begin
           betfun g t
-        end else if p.player_type = User then begin
+        end
+        else if p.player_type = User then begin
           let gme = user_action g p in
           betfun gme t
-        end else begin
+        end
+        else begin
           let gme = bot_bet g p in
           betfun gme t
         end
-    | [] -> if g.last_raise = Player.none_player then g
-        else betfun g g.players
+    | [] -> if g.last_raise = Player.none_player then g else betfun g g.players
   in
   betfun gm playerlist
 
