@@ -5,10 +5,7 @@ let () = Random.self_init ()
 let rec get_user_bet min max =
   try
     let bt = int_of_string (read_line ()) in
-    if bt = 0 then
-      let _ = print_endline "You cannot bet zero chips! Enter a new bet: " in
-      get_user_bet min max
-    else if bt > max then
+  if bt > max then
       let _ =
         print_endline
           "You can only bet as many chips as you have! Enter a new bet: "
@@ -35,10 +32,10 @@ let user_bet (gm : Game.t) (pl : Player.t) : Game.t =
     print_endline
       ("How much would you like to bet? You currently have "
      ^ string_of_int pl.chips ^ " chips and you must bet at least "
-      ^ string_of_int (gm.current_bet - (100 - pl.chips)) 
+      ^ string_of_int (gm.total_bet - (gm.round_chips - pl.chips)) 
       ^ " chips.")
   in
-  let bet_size = get_user_bet (gm.current_bet - (100 - pl.chips)) pl.chips in
+  let bet_size = get_user_bet (gm.total_bet - (gm.round_chips - pl.chips)) pl.chips in
   let newgm = Game.player_bet gm pl bet_size in
   newgm
 
@@ -343,7 +340,7 @@ end
     Game.player_bet gm pl gm.current_bet
   | 6 -> 
     print_endline "Bot 5 says: 'I call your bet (if you bet it bet the same, or checks if you checked.)"; 
-    print_endline "Hmmmmmmm......nah.'";
+    print_endline "Hmmmmmmm......ths one is tight.'";
     print_endline "";
     Game.player_bet gm pl gm.current_bet
   | 7 -> if gm.current_bet >= pl.chips - 40 then begin
@@ -370,10 +367,18 @@ end
     print_endline "";
     Game.player_bet gm pl (gm.current_bet + 10)
     end
-  | 9 -> print_endline "Bot 5 says: 'I'm all in!'"; 
-  print_endline "It is time.'";
-  print_endline "";
-  Game.player_bet gm pl pl.chips
+  | 9 ->if gm.current_bet >= pl.chips - 25 then begin
+    print_endline "Bot 5 says: 'I call your bet (if you bet it bet the same, or checks if you checked.)"; 
+    print_endline "Stop playing bad!'";
+    print_endline "";
+    Game.player_bet gm pl gm.current_bet 
+    end
+    else begin
+    print_endline "Bot 5 says: 'I raise 25."; 
+    print_endline "Bot 5 doesn't mess around!'";
+    print_endline "";
+    Game.player_bet gm pl (gm.current_bet + 25)
+    end
   | _ -> print_endline "This is not supposed to happen in bot 5 betting";
   gm
   end
@@ -412,11 +417,31 @@ let start_game () =
     | _ -> ()
   in
   let _ = print_newline () in 
+  let first_round = bet start in
+  
+  Game.print_game (first_round);
+  
+  let flop_deck = Game.deal_flop (first_round) in
 
-  Game.print_game (bet start) (*only print players left in hand*)
+  let second_round = bet flop_deck in 
+
+  Game.print_game (second_round);
+
+  let turn = Game.deal_turn (second_round) in
+  
+  let third_round = bet turn in
+
+  Game.print_game (third_round);
+
+  let river = Game.deal_river (turn) in
+
+  let fourth_round = bet river in
+
+  Game.print_game (fourth_round)
+
+
+   (*only print players left in hand*)
 (* let flop () = *)
 
 (* bet () *)
 let _ = start_game ()
-
-(* There is a bug, never stops betting, I dont know why :( ... )*)
