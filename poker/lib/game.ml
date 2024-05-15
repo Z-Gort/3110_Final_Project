@@ -3,6 +3,8 @@ type t = {
   deck : Card.t list;
   flop : Card.t list;
   pot : int;
+  current_bet : int;
+  last_raise : Player.t;
 }
 
 (* Represents a brand new deck of cards *)
@@ -64,12 +66,14 @@ let newdeck : Card.t list =
 
 let () = Random.self_init ()
 
-(** [rem_card n d i] is the deck [d] with the card [n] cards away from index [i]
-    removed. *)
-let rec rem_card n d i =
-  match d with
-  | h :: t -> if i = n then t else h :: rem_card n t (i + 1)
-  | [] -> []
+(** [rem_card n d i] is the deck [d] with the card at index removed. *)
+let rem_card n d =
+  let rec rc n d i =
+    match d with
+    | h :: t -> if i = n then t else h :: rc n t (i + 1)
+    | [] -> []
+  in
+  rc n d 0
 
 (** [new_cards d] pulls 6 cards randomly out of the deck [d] (to simulate
     drawing from the top of a shuffled deck) and returns those cards as the
@@ -89,12 +93,12 @@ let new_cards d =
   let c4 = List.nth d i4 in
   let c5 = List.nth d i5 in
   let c6 = List.nth d i6 in
-  let nextd1 = rem_card i1 d 0 in
-  let nextd2 = rem_card i2 nextd1 0 in
-  let nextd3 = rem_card i3 nextd2 0 in
-  let nextd4 = rem_card i4 nextd3 0 in
-  let nextd5 = rem_card i5 nextd4 0 in
-  let nextdeck = rem_card i6 nextd5 0 in
+  let nextd1 = rem_card i1 d in
+  let nextd2 = rem_card i2 nextd1 in
+  let nextd3 = rem_card i3 nextd2 in
+  let nextd4 = rem_card i4 nextd3 in
+  let nextd5 = rem_card i5 nextd4 in
+  let nextdeck = rem_card i6 nextd5 in
   (c1, c2, c3, c4, c5, c6, nextdeck)
 
 (** [deal_cards g] pulls 6 cards out of [g.deck] and adds them to the hands of
@@ -117,6 +121,8 @@ let deal_cards g =
             deck = d;
             flop = [];
             pot = 0;
+            current_bet = 0;
+            last_raise = Player.none_player;
           })
   | _ -> g
 
@@ -126,15 +132,164 @@ let emptygame =
       [
         Player.new_user;
         Player.new_bot 1;
-        Player.new_bot 1;
-        Player.new_bot 1;
-        Player.new_bot 1;
-        Player.new_bot 1;
+        Player.new_bot 2;
+        Player.new_bot 3;
+        Player.new_bot 4;
+        Player.new_bot 5;
       ];
     deck = newdeck;
     flop = [];
     pot = 0;
+    current_bet = 0;
+    last_raise = Player.none_player;
   }
-(* currently all bots are default bot 1*)
+
+let player_bet (g : t) (p : Player.t) (b : int) =
+  match g.players with
+  | [ p1; p2; p3; p4; p5; p6 ] ->
+      if p1 = p then
+        if b > g.current_bet then
+          let bettor = Player.subtract_chips p b in
+          {
+            g with
+            players = [ bettor; p2; p3; p4; p5; p6 ];
+            pot = g.pot + b;
+            current_bet = b;
+            last_raise = bettor;
+          }
+        else
+          {
+            g with
+            players = [ Player.subtract_chips p b; p2; p3; p4; p5; p6 ];
+            pot = g.pot + b;
+            current_bet = b;
+          }
+      else if p2 = p then
+        if b > g.current_bet then
+          let bettor = Player.subtract_chips p b in
+          {
+            g with
+            players = [ p1; bettor; p3; p4; p5; p6 ];
+            pot = g.pot + b;
+            current_bet = b;
+            last_raise = bettor;
+          }
+        else
+          {
+            g with
+            players = [ p1; Player.subtract_chips p b; p3; p4; p5; p6 ];
+            pot = g.pot + b;
+            current_bet = b;
+          }
+      else if p3 = p then
+        if b > g.current_bet then
+          let bettor = Player.subtract_chips p b in
+          {
+            g with
+            players = [ p1; p2; bettor; p4; p5; p6 ];
+            pot = g.pot + b;
+            current_bet = b;
+            last_raise = bettor;
+          }
+        else
+          {
+            g with
+            players = [ p1; p2; Player.subtract_chips p b; p4; p5; p6 ];
+            pot = g.pot + b;
+            current_bet = b;
+          }
+      else if p4 = p then
+        if b > g.current_bet then
+          let bettor = Player.subtract_chips p b in
+          {
+            g with
+            players = [ p1; p2; p3; bettor; p5; p6 ];
+            pot = g.pot + b;
+            current_bet = b;
+            last_raise = bettor;
+          }
+        else
+          {
+            g with
+            players = [ p1; p2; p3; Player.subtract_chips p b; p5; p6 ];
+            pot = g.pot + b;
+            current_bet = b;
+          }
+      else if p5 = p then
+        if b > g.current_bet then
+          let bettor = Player.subtract_chips p b in
+          {
+            g with
+            players = [ p1; p2; p3; p4; bettor; p6 ];
+            pot = g.pot + b;
+            current_bet = b;
+            last_raise = bettor;
+          }
+        else
+          {
+            g with
+            players = [ p1; p2; p3; p4; Player.subtract_chips p b; p6 ];
+            pot = g.pot + b;
+            current_bet = b;
+          }
+      else if p6 = p then
+        if b > g.current_bet then
+          let bettor = Player.subtract_chips p b in
+          {
+            g with
+            players = [ p1; p2; p3; p4; p5; bettor ];
+            pot = g.pot + b;
+            current_bet = b;
+            last_raise = bettor;
+          }
+        else
+          {
+            g with
+            players = [ p1; p2; p3; p4; p5; Player.subtract_chips p b ];
+            pot = g.pot + b;
+            current_bet = b;
+          }
+      else
+        let _ = print_endline "this is not supposed to happen in player_bet" in
+        g
+  | _ ->
+      let _ = print_endline "this is not supposed to happen in player_bet" in
+      g
+
+(* let rec bet_round game ordered_bets = match (game.players, ordered_bets) with
+   | [], _ -> game | _, [] -> game | h_players :: t_players, h_bets :: t_bets ->
+   if h_bets = -1 then bet_round { game with players = t_players } t_bets else {
+   game with players = Player.subtract_chips h_players h_bets :: (bet_round {
+   game with players = t_players } t_bets).players; } *)
+
+let fold_player gm plyr =
+  match gm.players with
+  | [ p1; p2; p3; p4; p5; p6 ] ->
+      if p1 = plyr then
+        { gm with players = [ Player.fold p1; p2; p3; p4; p5; p6 ] }
+      else if p2 = plyr then
+        { gm with players = [ p1; Player.fold p2; p3; p4; p5; p6 ] }
+      else if p3 = plyr then
+        { gm with players = [ p1; p2; Player.fold p3; p4; p5; p6 ] }
+      else if p4 = plyr then
+        { gm with players = [ p1; p2; p3; Player.fold p4; p5; p6 ] }
+      else if p5 = plyr then
+        { gm with players = [ p1; p2; p3; p4; Player.fold p5; p6 ] }
+      else if p6 = plyr then
+        { gm with players = [ p1; p2; p3; p4; p5; Player.fold p6 ] }
+      else
+        let _ = print_endline "this is not supposed to happen in fold_player" in
+        gm
+  | _ -> gm
+
+let rec plist_to_string plist =
+  match plist with
+  | h :: t -> Player.p_to_string h ^ "|" ^ plist_to_string t
+  | [] -> ""
+
+let print_game gm =
+  print_endline "game status";
+  print_endline ("players: " ^ plist_to_string gm.players);
+  print_endline ("pot: " ^ string_of_int gm.pot)
 
 let newgame = deal_cards (deal_cards emptygame)

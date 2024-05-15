@@ -19,6 +19,7 @@ let string_of_hand hnd =
   let rec build str lst =
     match lst with
     | [] -> str
-    | h :: t -> build (str ^ Card.string_of_card h ^ "\n") t
+    | [ h1; h2 ] -> str ^ Card.string_of_card h1 ^ ", " ^ Card.string_of_card h2
+    | h :: t -> build (str ^ Card.string_of_card h ^ ", ") t
   in
   build "" hnd
