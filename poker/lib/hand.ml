@@ -24,6 +24,7 @@ let string_of_hand hnd =
   in
   build "" hnd
 
+(** counts occurrences of elem in lst *)
 let count lst elem =
   List.fold_left (fun acc x -> if x = elem then acc + 1 else acc) 0 lst
 
@@ -119,10 +120,41 @@ let filt_for_suit (hnd : t) =
 
 (* sorts the cards in a hand by rank *)
 let sort_by_rank (hnd : t) = List.sort Card.compare hnd
-let find_consecutive lst = if lst = lst then [] else []
 
-(* let rec find_five_consecutive lst = match lst with | h :: _ -> ( match lst
-   with | ) *)
+(** [make_zeros n] is a list of zeros of length n*)
+let make_zeros n =
+  let rec mz i =
+    match i with
+    | 0 -> []
+    | nonzero -> 0 :: mz (nonzero - 1)
+  in
+  mz n
+
+(* detects the first 5 consecutive sequential numbers in a list, returns a 1
+   where the member of the original list is part of the sequence and 0 where the
+   member of the original list was not*)
+let find_five_sequential lst : int list option =
+  let rec ffc lst a idx =
+    if count a 1 = 5 then a
+    else
+      match lst with
+      | [ h1; h2 ] -> if h1 + 1 = h2 then a @ [ 1 ] else a @ [ 0 ]
+      | h1 :: h2 :: t ->
+          if h1 + 1 = h2 then ffc (h2 :: t) (a @ [ 1 ]) (idx + 1)
+          else ffc (h2 :: t) (make_zeros idx @ [ 1 ]) (idx + 1)
+      | _ -> []
+  in
+  if List.length lst < 5 then None
+  else
+    match lst with
+    | h1 :: h2 :: t ->
+        if h2 = h1 + 1 then
+          let res = ffc (h2 :: t) [ 1; 1 ] 2 in
+          if count res 1 >= 5 then Some res else None
+        else
+          let res = ffc (h2 :: t) [ 0; 1 ] 2 in
+          if count res 1 >= 5 then Some res else None
+    | _ -> None
 
 (* filters a hand for consecutive cards, not sensitive to suit *)
 let filt_for_straight (hnd : t) : t option =
@@ -139,28 +171,42 @@ let filt_for_straight (hnd : t) : t option =
   ] -> (
       Card.(
         let intrnks = List.map int_of_rank [ r1; r2; r3; r4; r5; r6; r7 ] in
-        let sequential = find_consecutive intrnks in
-        match sequential with
-        | [ d1; d2; d3; d4; d5; d6; d7 ] ->
-            let crddfs =
-              [
-                (d1, { suit = s1; rank = r1 });
-                (d2, { suit = s2; rank = r2 });
-                (d3, { suit = s3; rank = r3 });
-                (d4, { suit = s4; rank = r4 });
-                (d5, { suit = s5; rank = r5 });
-                (d6, { suit = s6; rank = r6 });
-                (d7, { suit = s7; rank = r7 });
-              ]
+        match intrnks with
+        | [ i1; i2; i3; i4; i5; i6; i7 ] -> (
+            let straights =
+              ( find_five_sequential [ i3; i4; i5; i6; i7 ],
+                find_five_sequential [ i2; i3; i4; i5; i6 ],
+                find_five_sequential [ i1; i2; i3; i4; i5 ] )
             in
-            let consecutive =
-              List.fold_left
-                (fun acc x -> if fst x = 1 then acc @ [ snd x ] else acc)
-                [] crddfs
-            in
-
-            if List.length consecutive > 4 then Some consecutive
-            else Some consecutive
+            match straights with
+            | Some _, _, _ ->
+                Some
+                  [
+                    { suit = s3; rank = r3 };
+                    { suit = s4; rank = r4 };
+                    { suit = s5; rank = r5 };
+                    { suit = s6; rank = r6 };
+                    { suit = s7; rank = r7 };
+                  ]
+            | None, Some _, _ ->
+                Some
+                  [
+                    { suit = s2; rank = r2 };
+                    { suit = s3; rank = r3 };
+                    { suit = s4; rank = r4 };
+                    { suit = s5; rank = r5 };
+                    { suit = s6; rank = r6 };
+                  ]
+            | None, None, Some _ ->
+                Some
+                  [
+                    { suit = s1; rank = r1 };
+                    { suit = s2; rank = r2 };
+                    { suit = s3; rank = r3 };
+                    { suit = s4; rank = r4 };
+                    { suit = s5; rank = r5 };
+                  ]
+            | None, None, None -> None)
         | _ -> failwith "filt_for_straight"))
   | _ -> failwith "filt_for_straight should only be applied to 7 card hands"
 
