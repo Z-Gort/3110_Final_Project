@@ -1,6 +1,7 @@
 type t = Card.t list
-(** AF: a hand is represented by a list of cards in any orde. RI: all cards in a
-    hand are different and the size of a hand can never be greater than 5 cards *)
+(** AF: a hand is represented by a list of cards in any order. RI: all cards in
+    a hand are different and the size of a hand can never be greater than 5
+    cards *)
 
 let empty = []
 
