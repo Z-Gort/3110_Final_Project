@@ -1,10 +1,12 @@
 type t = {
   players : Player.t list;
   deck : Card.t list;
-  flop : Card.t list;
+  flop_turn_river : Card.t list;
   pot : int;
   current_bet : int;
   last_raise : Player.t;
+  round_chips : int;
+  total_bet : int;
 }
 
 (** Represents a game with (6) players with a list of integers corresponding to
@@ -24,5 +26,16 @@ val fold_player : t -> Player.t -> t
 
 val print_game : t -> unit
 (** prnts the current [players] and [pot] *)
+
+val deal_flop : t -> t
+(**modifies game to have 3 random cards flopped, modifies deck accordingly, resets betting fields*)
+
+val deal_turn : t -> t
+(**adds a turn card to our game, modifies deck accordingly, resets betting fields*)
+
+val deal_river : t -> t
+(**adds a river card to our game, modifies deck accordingly, resets betting fields*)
+
+
 
 (* val bet_round : t -> int list -> t *)
