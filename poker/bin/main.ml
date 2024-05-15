@@ -385,27 +385,28 @@ end
   end
   | _ -> gm
 
-(** [bet g] is the game [g] after one further round of betting to completion *)
+(** [bet g] is the game [g] after one further round of betting to completion, filtering made with help of GPT 5/15 *)
 let bet (gm : Game.t) =
   let playerlist = gm.players in
   let rec betfun (g : Game.t) ilst =
+    let active_players = List.filter (fun p -> not p.Player.folded) gm.players in
+    if List.length active_players = 1 then begin
+      print_endline (Player.p_to_string (List.hd active_players) ^ " wins a pot of " ^ string_of_int g.pot ^ "!!");
+      exit 1
+    end else 
     match ilst with
     | p :: t ->
-        if Player.p_to_string g.last_raise = Player.p_to_string p then begin
-          { g with last_raise = Player.none_player }
-        end
-        else if p.folded then begin
-          betfun g t
-        end
-        else if p.player_type = User then begin
+        if Player.p_to_string g.last_raise = Player.p_to_string p then
+          { g with last_raise = Player.none_player }  (* Resetting last_raise *)
+        else if p.folded then
+          betfun g t  (* Skip folded players *)
+        else if p.player_type = User then
           let gme = user_action g p in
           betfun gme t
-        end
-        else begin
+        else
           let gme = bot_bet g p in
           betfun gme t
-        end
-    | [] -> if g.last_raise = Player.none_player then g else betfun g g.players
+    | [] -> if g.last_raise = Player.none_player then g else betfun g g.players  (* Restart betting if needed *)
   in
   betfun gm playerlist
 
