@@ -90,17 +90,20 @@ let new_cards d =
   let i5 = Random.int (decksize - 4) in
   let i6 = Random.int (decksize - 5) in
   let c1 = List.nth d i1 in
-  let c2 = List.nth d i2 in
-  let c3 = List.nth d i3 in
-  let c4 = List.nth d i4 in
-  let c5 = List.nth d i5 in
-  let c6 = List.nth d i6 in
   let nextd1 = rem_card i1 d in
+  let c2 = List.nth nextd1 i2 in
   let nextd2 = rem_card i2 nextd1 in
+  let c3 = List.nth nextd2 i3 in
   let nextd3 = rem_card i3 nextd2 in
+  let c4 = List.nth nextd3 i4 in
   let nextd4 = rem_card i4 nextd3 in
+  let c5 = List.nth nextd4 i5 in
   let nextd5 = rem_card i5 nextd4 in
+  let c6 = List.nth nextd5 i6 in
   let nextdeck = rem_card i6 nextd5 in
+  (* let nextd1 = rem_card i1 d in let nextd2 = rem_card i2 nextd1 in let nextd3
+     = rem_card i3 nextd2 in let nextd4 = rem_card i4 nextd3 in let nextd5 =
+     rem_card i5 nextd4 in let nextdeck = rem_card i6 nextd5 in *)
   (c1, c2, c3, c4, c5, c6, nextdeck)
 
 let flop d =
@@ -109,10 +112,10 @@ let flop d =
   let i2 = Random.int (decksize - 1) in
   let i3 = Random.int (decksize - 2) in
   let c1 = List.nth d i1 in
-  let c2 = List.nth d i2 in
-  let c3 = List.nth d i3 in
   let nextd1 = rem_card i1 d in
+  let c2 = List.nth nextd1 i2 in
   let nextd2 = rem_card i2 nextd1 in
+  let c3 = List.nth nextd2 i3 in
   let nextdeck = rem_card i3 nextd2 in
   (c1, c2, c3, nextdeck)
 
@@ -195,14 +198,14 @@ let deal_flop g =
         print_endline "You all folded—no one wins in this version of poker :(";
         exit 0);
 
-      let round_chps = (List.nth g.players 0).chips in
+      let round_chips = (List.nth g.players 0).chips in
       {
         g with
         flop_turn_river = [ c1; c2; c3 ];
         deck = d;
         current_bet = 0;
         last_raise = Player.none_player;
-        round_chips = round_chps;
+        round_chips;
         total_bet = 0;
       }
 
@@ -376,12 +379,6 @@ let player_bet (g : t) (p : Player.t) (b : int) =
   | _ ->
       let _ = print_endline "this is not supposed to happen in player_bet" in
       g
-
-(* let rec bet_round game ordered_bets = match (game.players, ordered_bets) with
-   | [], _ -> game | _, [] -> game | h_players :: t_players, h_bets :: t_bets ->
-   if h_bets = -1 then bet_round { game with players = t_players } t_bets else {
-   game with players = Player.subtract_chips h_players h_bets :: (bet_round {
-   game with players = t_players } t_bets).players; } *)
 
 let fold_player gm plyr =
   match gm.players with
