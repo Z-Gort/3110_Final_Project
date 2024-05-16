@@ -52,7 +52,8 @@ let high_card (hnd : t) : Card.t =
       else failwith "this should not happen in high_card"
   | _ -> failwith "high_card should only be applied to 5 card hands"
 
-(** filters a 7 card hand such that only cards of the most common suit remain *)
+(** filters a 7 or 5 card hand such that only cards of the most common suit
+    remain *)
 let filt_for_flush (hnd : t) : t =
   match hnd with
   | [
@@ -119,7 +120,7 @@ let filt_for_flush (hnd : t) : t =
   | _ -> failwith "filt_for_suit should only be applied to 5 or 7 card hands"
 
 (* sorts the cards in a hand by rank *)
-let sort_by_rank (hnd : t) = List.sort Card.compare hnd
+let sort_by_rank (hnd : t) : t = List.sort Card.compare hnd
 
 (** [make_zeros n] is a list of zeros of length n*)
 let make_zeros n =
@@ -156,7 +157,7 @@ let find_five_sequential lst : int list option =
           if count res 1 >= 5 then Some res else None
     | _ -> None
 
-(* filters a hand for consecutive cards, not sensitive to suit *)
+(* filters a hand for the best straight in the hand, not sensitive to suit *)
 let filt_for_straight (hnd : t) : t option =
   let sorted_hnd = hnd |> sort_by_rank in
   match sorted_hnd with
@@ -292,7 +293,7 @@ let check_four_of_a_kind (hnd : t) : t option =
       match idx with
       | Some i -> (
           match i with
-          | 1 ->
+          | 0 ->
               Some
                 [
                   { suit = s1; rank = r1 };
@@ -301,7 +302,7 @@ let check_four_of_a_kind (hnd : t) : t option =
                   { suit = s4; rank = r4 };
                   { suit = s5; rank = r5 };
                 ]
-          | 2 ->
+          | 1 ->
               Some
                 [
                   { suit = s2; rank = r2 };
@@ -310,7 +311,7 @@ let check_four_of_a_kind (hnd : t) : t option =
                   { suit = s5; rank = r5 };
                   { suit = s6; rank = r6 };
                 ]
-          | 3 ->
+          | 2 ->
               Some
                 [
                   { suit = s3; rank = r3 };
@@ -319,7 +320,7 @@ let check_four_of_a_kind (hnd : t) : t option =
                   { suit = s6; rank = r6 };
                   { suit = s7; rank = r7 };
                 ]
-          | 4 ->
+          | 3 ->
               Some
                 [
                   { suit = s3; rank = r3 };
@@ -331,6 +332,246 @@ let check_four_of_a_kind (hnd : t) : t option =
           | _ -> failwith "check_four_of_a_kind")
       | None -> None)
   | _ -> None
+
+(** checks for pairs in hnd beginning at index i of hnd |> sort_by_rank. Will
+    either be used on 7 or 5 card hands searching for 1 or 2 pair, or 4 card
+    hands to be part of a full house. Returns an option, None if no pairs or
+    otherwise Some (i, h) where h is a sorted hand containing a pair and i is
+    the index of the first of the 2.*)
+let check_two (hnd : t) : (int * t) option =
+  match hnd |> sort_by_rank with
+  | [
+   { suit = s1; rank = r1 };
+   { suit = s2; rank = r2 };
+   { suit = s3; rank = r3 };
+   { suit = s4; rank = r4 };
+   { suit = s5; rank = r5 };
+   { suit = s6; rank = r6 };
+   { suit = s7; rank = r7 };
+  ] -> (
+      let ranks = List.map Card.int_of_rank [ r1; r2; r3; r4; r5; r6; r7 ] in
+      let counts = List.map ((fun lst x -> count lst x) ranks) ranks in
+      let idx = List.find_opt (fun x -> if x = 2 then true else false) counts in
+      match idx with
+      | Some i -> (
+          match i with
+          | 0 | 1 | 2 | 3 | 4 | 5 ->
+              Some
+                ( i,
+                  [
+                    { suit = s1; rank = r1 };
+                    { suit = s2; rank = r2 };
+                    { suit = s3; rank = r3 };
+                    { suit = s4; rank = r4 };
+                    { suit = s5; rank = r5 };
+                    { suit = s6; rank = r6 };
+                    { suit = s7; rank = r7 };
+                  ] )
+          | _ -> failwith "check_two")
+      | None -> None)
+  | [
+   { suit = s1; rank = r1 };
+   { suit = s2; rank = r2 };
+   { suit = s3; rank = r3 };
+   { suit = s4; rank = r4 };
+   { suit = s5; rank = r5 };
+  ] -> (
+      let ranks = List.map Card.int_of_rank [ r1; r2; r3; r4; r5 ] in
+      let counts = List.map ((fun lst x -> count lst x) ranks) ranks in
+      let idx = List.find_opt (fun x -> if x = 2 then true else false) counts in
+      match idx with
+      | Some i -> (
+          match i with
+          | 0 | 1 | 2 | 3 ->
+              Some
+                ( i,
+                  [
+                    { suit = s1; rank = r1 };
+                    { suit = s2; rank = r2 };
+                    { suit = s3; rank = r3 };
+                    { suit = s4; rank = r4 };
+                    { suit = s5; rank = r5 };
+                  ] )
+          | _ -> failwith "check_two")
+      | None -> None)
+  | [
+   { suit = s1; rank = r1 };
+   { suit = s2; rank = r2 };
+   { suit = s3; rank = r3 };
+   { suit = s4; rank = r4 };
+  ] -> (
+      let ranks = List.map Card.int_of_rank [ r1; r2; r3; r4 ] in
+      let counts = List.map ((fun lst x -> count lst x) ranks) ranks in
+      let idx = List.find_opt (fun x -> if x = 2 then true else false) counts in
+      match idx with
+      | Some i -> (
+          match i with
+          | 0 | 1 | 2 ->
+              Some
+                ( i,
+                  [
+                    { suit = s1; rank = r1 };
+                    { suit = s2; rank = r2 };
+                    { suit = s3; rank = r3 };
+                    { suit = s4; rank = r4 };
+                  ] )
+          | _ -> failwith "check_two")
+      | None -> None)
+  | _ -> None
+
+(** returns a option: None if no 3 of kind exists in hnd or otherwise Some (i,
+    h) where h is a sorted hand containing 3 of a kind and i is the index of the
+    first of the three. *)
+let check_three (hnd : t) : (int * t) option =
+  match hnd |> sort_by_rank with
+  | [
+   { suit = s1; rank = r1 };
+   { suit = s2; rank = r2 };
+   { suit = s3; rank = r3 };
+   { suit = s4; rank = r4 };
+   { suit = s5; rank = r5 };
+   { suit = s6; rank = r6 };
+   { suit = s7; rank = r7 };
+  ] -> (
+      let ranks = List.map Card.int_of_rank [ r1; r2; r3; r4; r5; r6; r7 ] in
+      let counts = List.map ((fun lst x -> count lst x) ranks) ranks in
+      let idx = List.find_opt (fun x -> if x = 3 then true else false) counts in
+      match idx with
+      | Some i -> (
+          match i with
+          | 0 | 1 | 2 | 3 | 4 ->
+              Some
+                ( i,
+                  [
+                    { suit = s1; rank = r1 };
+                    { suit = s2; rank = r2 };
+                    { suit = s3; rank = r3 };
+                    { suit = s4; rank = r4 };
+                    { suit = s5; rank = r5 };
+                    { suit = s6; rank = r6 };
+                    { suit = s7; rank = r7 };
+                  ] )
+          | _ -> None)
+      | None -> None)
+  | _ -> None
+
+(** removes elements from a list in the range of indices [i1, i2] *)
+let remove_between i1 i2 lst =
+  let rec rmb ls n1 n2 idx =
+    match ls with
+    | h :: t ->
+        if idx >= n1 && idx <= n2 then rmb t n1 n2 (idx + 1)
+        else h :: rmb t n1 n2 (idx + 1)
+    | [] -> []
+  in
+  rmb lst i1 i2 0
+
+let keep_between i1 i2 lst =
+  let rec kbt ls n1 n2 idx =
+    match ls with
+    | h :: t ->
+        if idx >= n1 && idx <= n2 then h :: kbt t n1 n2 (idx + 1)
+        else kbt t n1 n2 (idx + 1)
+    | [] -> []
+  in
+  kbt lst i1 i2 0
+
+let check_full_house (hnd : t) : t option =
+  match hnd |> check_three with
+  | Some (i1, h1) -> (
+      match remove_between i1 (i1 + 2) h1 |> check_two with
+      | Some (i2, h2) -> (
+          let higher_pair = remove_between i2 (i2 + 1) h2 |> check_two in
+          match higher_pair with
+          | Some (_, h3) -> Some (h1 @ h3)
+          | None -> Some (h1 @ h2))
+      | None -> None)
+  | None -> None
+
+(** returns the last 5 elements of lst*)
+let last5 lst =
+  let rec l5 ls i =
+    match ls with
+    | h :: t -> if i > 5 then l5 t (i - 1) else h :: l5 t i
+    | [] -> []
+  in
+  l5 lst (List.length lst)
+
+let check_flush (hnd : t) : t option =
+  let flushed = hnd |> filt_for_flush in
+  if List.length flushed < 5 then None
+  else
+    let sorted = flushed |> sort_by_rank in
+    Some (last5 sorted)
+
+let check_straight (hnd : t) : t option =
+  let straightened = hnd |> filt_for_straight in
+  match straightened with
+  | Some h -> Some h
+  | None -> None
+
+let get_high_card (hnd : t) : Card.t =
+  let rec ghc (cds : t) (c : Card.t option) =
+    match cds with
+    | h :: t -> (
+        Card.(
+          match h with
+          | { suit = _; rank = rh } -> (
+              match c with
+              | Some crd -> (
+                  match crd with
+                  | { suit = _; rank = rc } ->
+                      if int_of_rank rh > int_of_rank rc then ghc t (Some h)
+                      else ghc t (Some crd))
+              | None -> ghc t (Some h))))
+    | [] -> c
+  in
+  match ghc hnd None with
+  | Some card -> card
+  | None -> failwith "No high card??"
+
+let check_three_of_a_kind (hnd : t) : t option =
+  let three = check_three hnd in
+  match three with
+  | Some (i, h) -> (
+      let rest = remove_between i (i + 2) h in
+      match rest |> sort_by_rank with
+      | h1 :: t -> (
+          match t with
+          | h2 :: _ -> Some (keep_between i (i + 2) h @ [ h1; h2 ])
+          | [] -> failwith "check_three_of_a_kind")
+      | [] -> failwith "check_three_of_a_kind")
+  | None -> None
+
+let check_two_pair (hnd : t) : t option =
+  let two1 = check_two hnd in
+  match two1 with
+  | Some (i1, h1) -> (
+      let rest1 = remove_between i1 (i1 + 1) h1 in
+      let two2 = check_two rest1 in
+      match two2 with
+      | Some (i2, h2) ->
+          let rest2 = remove_between i2 (i2 + 1) h2 in
+          let hc = get_high_card rest2 in
+          Some
+            (keep_between i1 (i1 + 1) h1 @ keep_between i2 (i2 + 1) h2 @ [ hc ])
+      | None -> None)
+  | None -> None
+
+let check_one_pair (hnd : t) : t option =
+  let two = check_two hnd in
+  match two with
+  | Some (i, h) ->
+      let rest1 = remove_between i (i + 1) h in
+      let hc1 = get_high_card rest1 in
+      let rest2 = remove_between 0 1 (rest1 |> sort_by_rank) in
+      let hc2 = get_high_card rest2 in
+      let rest3 = remove_between 0 1 (rest2 |> sort_by_rank) in
+      let hc3 = get_high_card rest3 in
+      Some (keep_between i (i + 1) h @ [ hc1; hc2; hc3 ])
+  | None -> None
+
+let get_high_card_hand (hnd : t) : t = hnd |> sort_by_rank |> keep_between 0 4
 
 let bestofseven (hnd : t) =
   match hnd with
