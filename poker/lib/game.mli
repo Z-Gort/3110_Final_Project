@@ -12,7 +12,9 @@ type t = {
 (** Represents a game with (6) players with a list of integers corresponding to
     the number of the player in the order that they will be dealt cards (game
     begins with player 1 being dealt a card first), a deck, the flop (cards
-    shared among players), and the pot*)
+    shared among players), and the pot. Additionally, the current minimum bet
+    (current_bet), the last player to raise (last_raise), the round chips, and
+    the total bet on the round are stored. *)
 
 val newgame : t
 (** [newgame] is a brand new game with two cards dealt to every player*)
@@ -28,14 +30,13 @@ val print_game : t -> unit
 (** prnts the current [players] and [pot] *)
 
 val deal_flop : t -> t
-(**modifies game to have 3 random cards flopped, modifies deck accordingly, resets betting fields*)
+(** modifies game to have 3 random cards flopped, modifies deck accordingly,
+    resets betting fields*)
 
 val deal_turn : t -> t
-(**adds a turn card to our game, modifies deck accordingly, resets betting fields*)
+(** adds a turn card to our game, modifies deck accordingly, resets betting
+    fields*)
 
 val deal_river : t -> t
-(**adds a river card to our game, modifies deck accordingly, resets betting fields*)
-
-
-
-(* val bet_round : t -> int list -> t *)
+(** adds a river card to our game, modifies deck accordingly, resets betting
+    fields*)

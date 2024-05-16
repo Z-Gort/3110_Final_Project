@@ -90,112 +90,124 @@ let new_cards d =
   let i5 = Random.int (decksize - 4) in
   let i6 = Random.int (decksize - 5) in
   let c1 = List.nth d i1 in
-  let c2 = List.nth d i2 in
-  let c3 = List.nth d i3 in
-  let c4 = List.nth d i4 in
-  let c5 = List.nth d i5 in
-  let c6 = List.nth d i6 in
   let nextd1 = rem_card i1 d in
+  let c2 = List.nth nextd1 i2 in
   let nextd2 = rem_card i2 nextd1 in
+  let c3 = List.nth nextd2 i3 in
   let nextd3 = rem_card i3 nextd2 in
+  let c4 = List.nth nextd3 i4 in
   let nextd4 = rem_card i4 nextd3 in
+  let c5 = List.nth nextd4 i5 in
   let nextd5 = rem_card i5 nextd4 in
+  let c6 = List.nth nextd5 i6 in
   let nextdeck = rem_card i6 nextd5 in
+  (* let nextd1 = rem_card i1 d in let nextd2 = rem_card i2 nextd1 in let nextd3
+     = rem_card i3 nextd2 in let nextd4 = rem_card i4 nextd3 in let nextd5 =
+     rem_card i5 nextd4 in let nextdeck = rem_card i6 nextd5 in *)
   (c1, c2, c3, c4, c5, c6, nextdeck)
 
-let flop d = let decksize = List.length d in
-let i1 = Random.int decksize in
-let i2 = Random.int (decksize - 1) in
-let i3 = Random.int (decksize - 2) in
-let c1 = List.nth d i1 in
-let c2 = List.nth d i2 in
-let c3 = List.nth d i3 in
-let nextd1 = rem_card i1 d in
-let nextd2 = rem_card i2 nextd1 in
-let nextdeck = rem_card i3 nextd2 in
-(c1, c2, c3, nextdeck)
+let flop d =
+  let decksize = List.length d in
+  let i1 = Random.int decksize in
+  let i2 = Random.int (decksize - 1) in
+  let i3 = Random.int (decksize - 2) in
+  let c1 = List.nth d i1 in
+  let nextd1 = rem_card i1 d in
+  let c2 = List.nth nextd1 i2 in
+  let nextd2 = rem_card i2 nextd1 in
+  let c3 = List.nth nextd2 i3 in
+  let nextdeck = rem_card i3 nextd2 in
+  (c1, c2, c3, nextdeck)
 
-let turn_and_river d = let decksize = List.length d in
-let i1 = Random.int decksize in
-let c1 = List.nth d i1 in
-let nextdeck = rem_card i1 d in
-(c1, nextdeck)
+let turn_and_river d =
+  let decksize = List.length d in
+  let i1 = Random.int decksize in
+  let c1 = List.nth d i1 in
+  let nextdeck = rem_card i1 d in
+  (c1, nextdeck)
 
 (**printing made with help of ChatGPT 5/16*)
 let deal_turn g =
   match turn_and_river g.deck with
   | c1, d ->
-    print_endline "\n*******SECOND ROUND OF BETTING DONE*******";
+      print_endline "\n*******SECOND ROUND OF BETTING DONE*******";
 
-    (* Create a string representation of all cards on the board (flop + turn) *)
-    let cards_string = 
-      String.concat ", " (List.map Card.string_of_card g.flop_turn_river @ [Card.string_of_card c1]) in
-    print_endline ("The flop + turn is: " ^ cards_string);
-  
-    if List.length g.players = 0 then (
-      print_endline "You all folded—no one wins in this version of poker :(";
-      exit 0  
-    );
+      (* Create a string representation of all cards on the board (flop +
+         turn) *)
+      let cards_string =
+        String.concat ", "
+          (List.map Card.string_of_card g.flop_turn_river
+          @ [ Card.string_of_card c1 ])
+      in
+      print_endline ("The flop + turn is: " ^ cards_string);
 
-    let round_chips = (List.nth g.players 0).chips in  
-    { 
-      g with 
-      flop_turn_river = c1 :: g.flop_turn_river;
-      current_bet = 0; 
-      last_raise = Player.none_player; 
-      round_chips = round_chips;
-      total_bet = 0;
-      deck = d;
-    }
+      if List.length g.players = 0 then (
+        print_endline "You all folded—no one wins in this version of poker :(";
+        exit 0);
 
-    (**printing made with help of ChatGPT 5/16*)
-    let deal_river g =
-      match turn_and_river g.deck with
-      | c1, d ->
-        print_endline "\n*******THIRD ROUND OF BETTING DONE*******";
-    
-        (* Create a string representation of all cards on the board (flop + turn) *)
-        let cards_string = 
-          String.concat ", " (List.map Card.string_of_card g.flop_turn_river @ [Card.string_of_card c1]) in
-        print_endline ("The flop + turn + river is: " ^ cards_string);
-      
-        if List.length g.players = 0 then (
-          print_endline "You all folded—no one wins in this version of poker :(";
-          exit 0  
-        );
-    
-        let round_chips = (List.nth g.players 0).chips in  
-        { 
-          g with 
-          flop_turn_river = c1 :: g.flop_turn_river;
-          current_bet = 0; 
-          last_raise = Player.none_player; 
-          round_chips = round_chips;
-          total_bet = 0;
-          deck = d;
-        }
+      let round_chips = (List.nth g.players 0).chips in
+      {
+        g with
+        flop_turn_river = c1 :: g.flop_turn_river;
+        current_bet = 0;
+        last_raise = Player.none_player;
+        round_chips;
+        total_bet = 0;
+        deck = d;
+      }
+
+(**printing made with help of ChatGPT 5/16*)
+let deal_river g =
+  match turn_and_river g.deck with
+  | c1, d ->
+      print_endline "\n*******THIRD ROUND OF BETTING DONE*******";
+
+      (* Create a string representation of all cards on the board (flop +
+         turn) *)
+      let cards_string =
+        String.concat ", "
+          (List.map Card.string_of_card g.flop_turn_river
+          @ [ Card.string_of_card c1 ])
+      in
+      print_endline ("The flop + turn + river is: " ^ cards_string);
+
+      if List.length g.players = 0 then (
+        print_endline "You all folded—no one wins in this version of poker :(";
+        exit 0);
+
+      let round_chips = (List.nth g.players 0).chips in
+      {
+        g with
+        flop_turn_river = c1 :: g.flop_turn_river;
+        current_bet = 0;
+        last_raise = Player.none_player;
+        round_chips;
+        total_bet = 0;
+        deck = d;
+      }
 
 let deal_flop g =
   match flop g.deck with
   | c1, c2, c3, d ->
-    print_endline "\n*******FIRST ROUND OF BETTING DONE*******";
-    print_endline ("The flop is: " ^ Card.string_of_card c1 ^ ", " ^ Card.string_of_card c2 ^ ", " ^ Card.string_of_card c3 ^ "\n");
-  
-    if List.length g.players = 0 then (
-      print_endline "You all folded—no one wins in this version of poker :(";
-      exit 0  
-    );
+      print_endline "\n*******FIRST ROUND OF BETTING DONE*******";
+      print_endline
+        ("The flop is: " ^ Card.string_of_card c1 ^ ", "
+       ^ Card.string_of_card c2 ^ ", " ^ Card.string_of_card c3 ^ "\n");
 
-    let round_chips = (List.nth g.players 0).chips in  
-    { 
-      g with 
-      flop_turn_river = [c1; c2; c3]; 
-      deck = d; 
-      current_bet = 0; 
-      last_raise = Player.none_player; 
-      round_chips = round_chips;
-      total_bet = 0
-    }
+      if List.length g.players = 0 then (
+        print_endline "You all folded—no one wins in this version of poker :(";
+        exit 0);
+
+      let round_chips = (List.nth g.players 0).chips in
+      {
+        g with
+        flop_turn_river = [ c1; c2; c3 ];
+        deck = d;
+        current_bet = 0;
+        last_raise = Player.none_player;
+        round_chips;
+        total_bet = 0;
+      }
 
 (** [deal_cards g] pulls 6 cards out of [g.deck] and adds them to the hands of
     the players represented by [g.players] *)
@@ -256,7 +268,7 @@ let player_bet (g : t) (p : Player.t) (b : int) =
             pot = g.pot + b;
             current_bet = b;
             last_raise = bettor;
-            total_bet = b + (g.round_chips - p.chips)
+            total_bet = b + (g.round_chips - p.chips);
           }
         else
           {
@@ -264,7 +276,7 @@ let player_bet (g : t) (p : Player.t) (b : int) =
             players = [ Player.subtract_chips p b; p2; p3; p4; p5; p6 ];
             pot = g.pot + b;
             current_bet = b;
-            total_bet = b + (g.round_chips - p.chips)
+            total_bet = b + (g.round_chips - p.chips);
           }
       else if p2 = p then
         if b > g.current_bet then
@@ -275,7 +287,7 @@ let player_bet (g : t) (p : Player.t) (b : int) =
             pot = g.pot + b;
             current_bet = b;
             last_raise = bettor;
-            total_bet = b + (g.round_chips - p.chips)
+            total_bet = b + (g.round_chips - p.chips);
           }
         else
           {
@@ -283,7 +295,7 @@ let player_bet (g : t) (p : Player.t) (b : int) =
             players = [ p1; Player.subtract_chips p b; p3; p4; p5; p6 ];
             pot = g.pot + b;
             current_bet = b;
-            total_bet = b + (g.round_chips - p.chips)
+            total_bet = b + (g.round_chips - p.chips);
           }
       else if p3 = p then
         if b > g.current_bet then
@@ -294,7 +306,7 @@ let player_bet (g : t) (p : Player.t) (b : int) =
             pot = g.pot + b;
             current_bet = b;
             last_raise = bettor;
-            total_bet = b + (g.round_chips - p.chips)
+            total_bet = b + (g.round_chips - p.chips);
           }
         else
           {
@@ -302,7 +314,7 @@ let player_bet (g : t) (p : Player.t) (b : int) =
             players = [ p1; p2; Player.subtract_chips p b; p4; p5; p6 ];
             pot = g.pot + b;
             current_bet = b;
-            total_bet = b + (g.round_chips - p.chips)
+            total_bet = b + (g.round_chips - p.chips);
           }
       else if p4 = p then
         if b > g.current_bet then
@@ -313,7 +325,7 @@ let player_bet (g : t) (p : Player.t) (b : int) =
             pot = g.pot + b;
             current_bet = b;
             last_raise = bettor;
-            total_bet = b + (g.round_chips - p.chips)
+            total_bet = b + (g.round_chips - p.chips);
           }
         else
           {
@@ -321,7 +333,7 @@ let player_bet (g : t) (p : Player.t) (b : int) =
             players = [ p1; p2; p3; Player.subtract_chips p b; p5; p6 ];
             pot = g.pot + b;
             current_bet = b;
-            total_bet = b + (g.round_chips - p.chips)
+            total_bet = b + (g.round_chips - p.chips);
           }
       else if p5 = p then
         if b > g.current_bet then
@@ -332,7 +344,7 @@ let player_bet (g : t) (p : Player.t) (b : int) =
             pot = g.pot + b;
             current_bet = b;
             last_raise = bettor;
-            total_bet = b + (g.round_chips - p.chips)
+            total_bet = b + (g.round_chips - p.chips);
           }
         else
           {
@@ -340,7 +352,7 @@ let player_bet (g : t) (p : Player.t) (b : int) =
             players = [ p1; p2; p3; p4; Player.subtract_chips p b; p6 ];
             pot = g.pot + b;
             current_bet = b;
-            total_bet = b + (g.round_chips - p.chips)
+            total_bet = b + (g.round_chips - p.chips);
           }
       else if p6 = p then
         if b > g.current_bet then
@@ -351,7 +363,7 @@ let player_bet (g : t) (p : Player.t) (b : int) =
             pot = g.pot + b;
             current_bet = b;
             last_raise = bettor;
-            total_bet = b + (g.round_chips - p.chips)
+            total_bet = b + (g.round_chips - p.chips);
           }
         else
           {
@@ -359,7 +371,7 @@ let player_bet (g : t) (p : Player.t) (b : int) =
             players = [ p1; p2; p3; p4; p5; Player.subtract_chips p b ];
             pot = g.pot + b;
             current_bet = b;
-            total_bet = b + (g.round_chips - p.chips)
+            total_bet = b + (g.round_chips - p.chips);
           }
       else
         let _ = print_endline "this is not supposed to happen in player_bet" in
@@ -368,17 +380,11 @@ let player_bet (g : t) (p : Player.t) (b : int) =
       let _ = print_endline "this is not supposed to happen in player_bet" in
       g
 
-(* let rec bet_round game ordered_bets = match (game.players, ordered_bets) with
-   | [], _ -> game | _, [] -> game | h_players :: t_players, h_bets :: t_bets ->
-   if h_bets = -1 then bet_round { game with players = t_players } t_bets else {
-   game with players = Player.subtract_chips h_players h_bets :: (bet_round {
-   game with players = t_players } t_bets).players; } *)
-
 let fold_player gm plyr =
   match gm.players with
   | [ p1; p2; p3; p4; p5; p6 ] ->
       if p1 = plyr then
-        { gm with players = [ Player.fold p1; p2; p3; p4; p5; p6 ]  }
+        { gm with players = [ Player.fold p1; p2; p3; p4; p5; p6 ] }
       else if p2 = plyr then
         { gm with players = [ p1; Player.fold p2; p3; p4; p5; p6 ] }
       else if p3 = plyr then
@@ -396,7 +402,9 @@ let fold_player gm plyr =
 
 let rec plist_to_string plist =
   match plist with
-  | h :: t -> if not h.Player.folded then (Player.p_to_string h ^ "|" ^ plist_to_string t) else plist_to_string t
+  | h :: t ->
+      if not h.Player.folded then Player.p_to_string h ^ "|" ^ plist_to_string t
+      else plist_to_string t
   | [] -> ""
 
 let print_game gm =
