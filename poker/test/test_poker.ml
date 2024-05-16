@@ -429,18 +429,18 @@ let test_eval_hand _ =
                (Hand.add
                   { Card.suit = Diamonds; Card.rank = Four }
                   (Hand.add
-                     { Card.suit = Clubs; Card.rank = Five }
+                     { Card.suit = Hearts; Card.rank = Five }
                      (Hand.add
                         { Card.suit = Diamonds; Card.rank = Two }
                         Hand.empty))))))
   in
   let hand3 =
     Hand.add
-      { Card.suit = Diamonds; Card.rank = Eight }
+      { Card.suit = Diamonds; Card.rank = Nine }
       (Hand.add
          { Card.suit = Diamonds; Card.rank = Seven }
          (Hand.add
-            { Card.suit = Diamonds; Card.rank = Six }
+            { Card.suit = Diamonds; Card.rank = King }
             (Hand.add
                { Card.suit = Diamonds; Card.rank = Five }
                (Hand.add
@@ -448,7 +448,7 @@ let test_eval_hand _ =
                   (Hand.add
                      { Card.suit = Diamonds; Card.rank = Three }
                      (Hand.add
-                        { Card.suit = Diamonds; Card.rank = Two }
+                        { Card.suit = Diamonds; Card.rank = Ace }
                         Hand.empty))))))
   in
   let hand4 =
@@ -487,19 +487,19 @@ let test_eval_hand _ =
   in
   let hand6 =
     Hand.add
-      { Card.suit = Diamonds; Card.rank = Eight }
+      { Card.suit = Diamonds; Card.rank = Three }
       (Hand.add
-         { Card.suit = Diamonds; Card.rank = Seven }
+         { Card.suit = Hearts; Card.rank = Seven }
          (Hand.add
-            { Card.suit = Diamonds; Card.rank = Six }
+            { Card.suit = Clubs; Card.rank = Three }
             (Hand.add
-               { Card.suit = Diamonds; Card.rank = Five }
+               { Card.suit = Spades; Card.rank = Five }
                (Hand.add
                   { Card.suit = Diamonds; Card.rank = Four }
                   (Hand.add
-                     { Card.suit = Diamonds; Card.rank = Three }
+                     { Card.suit = Diamonds; Card.rank = Seven }
                      (Hand.add
-                        { Card.suit = Diamonds; Card.rank = Two }
+                        { Card.suit = Spades; Card.rank = Two }
                         Hand.empty))))))
   in
   let hand7 =

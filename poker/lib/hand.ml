@@ -272,7 +272,9 @@ let check_four_of_a_kind (hnd : t) : t option =
   ] -> (
       let ranks = List.map Card.int_of_rank [ r1; r2; r3; r4; r5; r6; r7 ] in
       let counts = List.map ((fun lst x -> count lst x) ranks) ranks in
-      let idx = List.find_opt (fun x -> if x = 4 then true else false) counts in
+      let idx =
+        List.find_index (fun x -> if x = 4 then true else false) counts
+      in
       match idx with
       | Some i -> (
           match i with
@@ -334,7 +336,9 @@ let check_two (hnd : t) : (int * t) option =
   ] -> (
       let ranks = List.map Card.int_of_rank [ r1; r2; r3; r4; r5; r6; r7 ] in
       let counts = List.map ((fun lst x -> count lst x) ranks) ranks in
-      let idx = List.find_opt (fun x -> if x = 2 then true else false) counts in
+      let idx =
+        List.find_index (fun x -> if x = 2 then true else false) counts
+      in
       match idx with
       | Some i -> (
           match i with
@@ -361,7 +365,9 @@ let check_two (hnd : t) : (int * t) option =
   ] -> (
       let ranks = List.map Card.int_of_rank [ r1; r2; r3; r4; r5 ] in
       let counts = List.map ((fun lst x -> count lst x) ranks) ranks in
-      let idx = List.find_opt (fun x -> if x = 2 then true else false) counts in
+      let idx =
+        List.find_index (fun x -> if x = 2 then true else false) counts
+      in
       match idx with
       | Some i -> (
           match i with
@@ -385,7 +391,9 @@ let check_two (hnd : t) : (int * t) option =
   ] -> (
       let ranks = List.map Card.int_of_rank [ r1; r2; r3; r4 ] in
       let counts = List.map ((fun lst x -> count lst x) ranks) ranks in
-      let idx = List.find_opt (fun x -> if x = 2 then true else false) counts in
+      let idx =
+        List.find_index (fun x -> if x = 2 then true else false) counts
+      in
       match idx with
       | Some i -> (
           match i with
@@ -418,7 +426,9 @@ let check_three (hnd : t) : (int * t) option =
   ] -> (
       let ranks = List.map Card.int_of_rank [ r1; r2; r3; r4; r5; r6; r7 ] in
       let counts = List.map ((fun lst x -> count lst x) ranks) ranks in
-      let idx = List.find_opt (fun x -> if x = 3 then true else false) counts in
+      let idx =
+        List.find_index (fun x -> if x = 3 then true else false) counts
+      in
       match idx with
       | Some i -> (
           match i with
@@ -462,6 +472,8 @@ let keep_between i1 i2 lst =
 let check_full_house (hnd : t) : t option =
   match hnd |> check_three with
   | Some (i1, h1) -> (
+      (* print_newline (); print_endline (string_of_int i1); print_endline
+         (string_of_hand h1); *)
       match remove_between i1 (i1 + 2) h1 |> check_two with
       | Some (i2, h2) -> (
           let higher_pair = remove_between i2 (i2 + 1) h2 |> check_two in
