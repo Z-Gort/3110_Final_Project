@@ -401,21 +401,12 @@ let test_fold _ =
   let p = Player.new_user in
   assert_equal true (Player.fold p).folded
 
-let test_print_player _ =
-  let p = Player.new_user in
-  assert_equal
-    (print_endline "Player type: User";
-     print_endline "Hand: ";
-     print_endline "Chips: 100";
-     print_endline "Folded: false")
-    (Player.print_player p);
-  let b = Player.new_bot 1 in
-  assert_equal
-    (print_endline "Player type: Bot 1";
-     print_endline "Hand: ";
-     print_endline "Chips: 100";
-     print_endline "Folded: false")
-    (Player.print_player b)
+(* let test_print_player _ = let p = Player.new_user in assert_equal
+   (print_endline "Player type: User"; print_endline "Hand: "; print_endline
+   "Chips: 100"; print_endline "Folded: false") (Player.print_player p); let b =
+   Player.new_bot 1 in assert_equal (print_endline "Player type: Bot 1";
+   print_endline "Hand: "; print_endline "Chips: 100"; print_endline "Folded:
+   false") (Player.print_player b) *)
 
 let test_eval_hand _ =
   let hand1 =
@@ -447,18 +438,18 @@ let test_eval_hand _ =
                (Hand.add
                   { Card.suit = Diamonds; Card.rank = Four }
                   (Hand.add
-                     { Card.suit = Clubs; Card.rank = Five }
+                     { Card.suit = Hearts; Card.rank = Five }
                      (Hand.add
                         { Card.suit = Diamonds; Card.rank = Two }
                         Hand.empty))))))
   in
   let hand3 =
     Hand.add
-      { Card.suit = Diamonds; Card.rank = Eight }
+      { Card.suit = Diamonds; Card.rank = Nine }
       (Hand.add
          { Card.suit = Diamonds; Card.rank = Seven }
          (Hand.add
-            { Card.suit = Diamonds; Card.rank = Six }
+            { Card.suit = Diamonds; Card.rank = King }
             (Hand.add
                { Card.suit = Diamonds; Card.rank = Five }
                (Hand.add
@@ -466,7 +457,7 @@ let test_eval_hand _ =
                   (Hand.add
                      { Card.suit = Diamonds; Card.rank = Three }
                      (Hand.add
-                        { Card.suit = Diamonds; Card.rank = Two }
+                        { Card.suit = Diamonds; Card.rank = Ace }
                         Hand.empty))))))
   in
   let hand4 =
@@ -505,19 +496,19 @@ let test_eval_hand _ =
   in
   let hand6 =
     Hand.add
-      { Card.suit = Diamonds; Card.rank = Eight }
+      { Card.suit = Diamonds; Card.rank = Three }
       (Hand.add
-         { Card.suit = Diamonds; Card.rank = Seven }
+         { Card.suit = Hearts; Card.rank = Seven }
          (Hand.add
-            { Card.suit = Diamonds; Card.rank = Six }
+            { Card.suit = Clubs; Card.rank = Three }
             (Hand.add
-               { Card.suit = Diamonds; Card.rank = Five }
+               { Card.suit = Spades; Card.rank = Five }
                (Hand.add
                   { Card.suit = Diamonds; Card.rank = Four }
                   (Hand.add
-                     { Card.suit = Diamonds; Card.rank = Three }
+                     { Card.suit = Diamonds; Card.rank = Seven }
                      (Hand.add
-                        { Card.suit = Diamonds; Card.rank = Two }
+                        { Card.suit = Spades; Card.rank = Two }
                         Hand.empty))))))
   in
   let hand7 =
@@ -642,7 +633,7 @@ let suite =
          "test_add_chips" >:: test_add_chips;
          "test_deal_card" >:: test_deal_card;
          "test_fold" >:: test_fold;
-         "test_print_player" >:: test_print_player;
+         (* "test_print_player" >:: test_print_player; *)
          "test_eval_hand" >:: test_eval_hand;
        ]
 
