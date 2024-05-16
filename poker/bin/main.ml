@@ -510,7 +510,7 @@ and play_game (gm : Game.t) =
 
   Game.print_game second_round;
 
-  let second_rnd = check_finished (bet second_round) in
+  let second_rnd = check_finished second_round in
 
   let turn = Game.deal_turn second_rnd in
 
@@ -518,7 +518,7 @@ and play_game (gm : Game.t) =
 
   Game.print_game third_round;
 
-  let third_rnd = check_finished (bet third_round) in
+  let third_rnd = check_finished third_round in
 
   let river = Game.deal_river third_rnd in
 
