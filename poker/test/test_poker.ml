@@ -536,7 +536,7 @@ let test_eval_hand _ =
                         { Card.suit = Spades; Card.rank = Jack }
                         Hand.empty))))))
   in
-  assert_equal "four of a kind" (fst (Hand.eval_hand hand1));
+  assert_equal "straight flush" (fst (Hand.eval_hand hand1));
   assert_equal "full house" (fst (Hand.eval_hand hand2));
   assert_equal "flush" (fst (Hand.eval_hand hand3));
   assert_equal "straight" (fst (Hand.eval_hand hand4));
