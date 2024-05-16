@@ -463,6 +463,15 @@ let rec bet (gm : Game.t) =
 
 (** plays a game of poker *)
 and play_game (gm : Game.t) =
+  let check_finished (gm : Game.t) =
+    let active_players =
+      List.filter
+        (fun (p : Player.t) -> if p.folded = true then false else true)
+        gm.players
+    in
+    if List.length active_players = 1 then play_game (Game.pick_round_winner gm)
+    else gm
+  in
   if (List.nth gm.players 0).chips = 0 then begin
     ANSITerminal.print_string
       [ ANSITerminal.black; ANSITerminal.on_red ]
@@ -489,25 +498,25 @@ and play_game (gm : Game.t) =
     | _ -> ()
   in
   let _ = print_newline () in
-  let first_round = bet start in
+  let first_round = check_finished (bet start) in
 
   Game.print_game first_round;
 
   let flop_deck = Game.deal_flop first_round in
 
-  let second_round = bet flop_deck in
+  let second_round = check_finished (bet flop_deck) in
 
   Game.print_game second_round;
 
   let turn = Game.deal_turn second_round in
 
-  let third_round = bet turn in
+  let third_round = check_finished (bet turn) in
 
   Game.print_game third_round;
 
   let river = Game.deal_river turn in
 
-  let fourth_round = bet river in
+  let fourth_round = check_finished (bet river) in
 
   Game.print_game fourth_round;
 

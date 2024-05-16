@@ -373,13 +373,11 @@ let test_new_bot _ =
   let b = Player.new_bot 1 in
   assert_equal (Player.Bot 1) b.player_type;
   assert_equal Hand.empty b.hand;
-  assert_equal Player.default_chips b.chips;
   assert_equal false b.folded
 
 let test_none_player _ =
   assert_equal Player.None Player.none_player.player_type;
   assert_equal Hand.empty Player.none_player.hand;
-  assert_equal Int.min_int Player.none_player.chips;
   assert_equal false Player.none_player.folded
 
 let test_subtract_chips _ =

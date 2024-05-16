@@ -20,29 +20,6 @@ val check_straight_flush : t -> t option
     containing a straight flush made up of cards in [hnd] or [None] if no such
     hand can be made from [hnd]. *)
 
-(* val check_four_of_a_kind : t -> t option (** [check_four_of_a_kind hnd] is
-   either [Some h] where [h] is a 5 card hand containing 4 of a kind from [hnd]
-   or [None] if no such hand can be made from [hnd]. *)
-
-   val check_full_house : t -> t option (** [check_full_house hnd] is either
-   [Some h] where [h] is a 5 card hand containing a full house or [None] if no
-   such hand can be made from [hnd]. *)
-
-   val check_flush : t -> t option (** [check_flush hnd] is either [Some h]
-   where [h] is a 5 card hand containing a flush or [None] if no such hand can
-   be made from [hnd]*)
-
-   val check_straight : t -> t option (** [check_straight hnd] is either [Some
-   h] where [h] is a 5 card hand containing a straigh or [None] if no such hand
-   can be made from [hnd]*)
-
-   val check_three_of_a_kind : t -> t option (** [check_three hnd] is either
-   [Some h] where [h] is a 5 card hand containing 3 of a kind from [hnd] or
-   [None] if no such hand can be made from [hnd]. *)
-
-   val check_two_pair : t -> t option val check_one_pair : t -> t option val
-   get_high_card_hand : t -> t val get_high_card : t -> Card.t *)
-
 val eval_hand : t -> string * t
 (** [eval_hand hnd] is a tuple whose first element is a string representing the
     best 5 card hand of the input 7 card hand and whose second element is that
