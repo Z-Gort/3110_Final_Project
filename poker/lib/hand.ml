@@ -456,7 +456,7 @@ let check_three (hnd : t) : (int * t) option =
   | _ -> None
 
 (** removes elements from a list in the range of indices [i1, i2] *)
-let remove_between lst i1 i2 =
+let remove_between i1 i2 lst =
   let rec rmb ls n1 n2 idx =
     match ls with
     | h :: t ->
@@ -466,12 +466,22 @@ let remove_between lst i1 i2 =
   in
   rmb lst i1 i2 0
 
+let keep_between i1 i2 lst =
+  let rec kbt ls n1 n2 idx =
+    match ls with
+    | h :: t ->
+        if idx >= n1 && idx <= n2 then h :: kbt t n1 n2 (idx + 1)
+        else kbt t n1 n2 (idx + 1)
+    | [] -> []
+  in
+  kbt lst i1 i2 0
+
 let check_full_house (hnd : t) : t option =
   match hnd |> check_three with
   | Some (i1, h1) -> (
-      match remove_between h1 i1 (i1 + 2) |> check_two with
+      match remove_between i1 (i1 + 2) h1 |> check_two with
       | Some (i2, h2) -> (
-          let higher_pair = remove_between h2 i2 (i2 + 1) |> check_two in
+          let higher_pair = remove_between i2 (i2 + 1) h2 |> check_two in
           match higher_pair with
           | Some (_, h3) -> Some (h1 @ h3)
           | None -> Some (h1 @ h2))
@@ -523,8 +533,45 @@ let get_high_card (hnd : t) : Card.t =
 let check_three_of_a_kind (hnd : t) : t option =
   let three = check_three hnd in
   match three with
-  | Some (_, h) -> Some h
+  | Some (i, h) -> (
+      let rest = remove_between i (i + 2) h in
+      match rest |> sort_by_rank with
+      | h1 :: t -> (
+          match t with
+          | h2 :: _ -> Some (keep_between i (i + 2) h @ [ h1; h2 ])
+          | [] -> failwith "check_three_of_a_kind")
+      | [] -> failwith "check_three_of_a_kind")
   | None -> None
+
+let check_two_pair (hnd : t) : t option =
+  let two1 = check_two hnd in
+  match two1 with
+  | Some (i1, h1) -> (
+      let rest1 = remove_between i1 (i1 + 1) h1 in
+      let two2 = check_two rest1 in
+      match two2 with
+      | Some (i2, h2) ->
+          let rest2 = remove_between i2 (i2 + 1) h2 in
+          let hc = get_high_card rest2 in
+          Some
+            (keep_between i1 (i1 + 1) h1 @ keep_between i2 (i2 + 1) h2 @ [ hc ])
+      | None -> None)
+  | None -> None
+
+let check_one_pair (hnd : t) : t option =
+  let two = check_two hnd in
+  match two with
+  | Some (i, h) ->
+      let rest1 = remove_between i (i + 1) h in
+      let hc1 = get_high_card rest1 in
+      let rest2 = remove_between 0 1 (rest1 |> sort_by_rank) in
+      let hc2 = get_high_card rest2 in
+      let rest3 = remove_between 0 1 (rest2 |> sort_by_rank) in
+      let hc3 = get_high_card rest3 in
+      Some (keep_between i (i + 1) h @ [ hc1; hc2; hc3 ])
+  | None -> None
+
+let get_high_card_hand (hnd : t) : t = hnd |> sort_by_rank |> keep_between 0 4
 
 let bestofseven (hnd : t) =
   match hnd with
