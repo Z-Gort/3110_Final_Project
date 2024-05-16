@@ -40,3 +40,5 @@ val deal_turn : t -> t
 val deal_river : t -> t
 (** adds a river card to our game, modifies deck accordingly, resets betting
     fields*)
+
+val pick_round_winner : t -> t

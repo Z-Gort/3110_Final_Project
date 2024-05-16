@@ -51,6 +51,9 @@ val print_player : t -> unit
     format. *)
 
 val p_to_string : t -> string
-(** prints the [player_type] of [p]. *)
+(** [p_to_string plyr] is a string representation of [plyr] *)
 
-
+val compare : t -> t -> int
+(** [compare x y] returns a positive integer if [x] > [y], a negative integer if
+    [x] < [y], and zero if [x] = [y]. For players, comparison is done based on
+    the quality of their hands. *)

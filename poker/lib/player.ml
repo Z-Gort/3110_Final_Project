@@ -27,7 +27,7 @@ let new_bot i =
   {
     player_type = Bot i;
     hand = Hand.empty;
-    chips = default_chips;
+    chips = Int.max_int - 9000;
     folded = false;
   }
 
@@ -69,3 +69,9 @@ let p_to_string p =
   | User -> "user"
   | Bot k -> "bot " ^ string_of_int k
   | None -> "none_player"
+
+let compare p1 p2 =
+  match (p1, p2) with
+  | ( { player_type = _; hand = h1; chips = _; folded = _ },
+      { player_type = _; hand = h2; chips = _; folded = _ } ) ->
+      Hand.compare h1 h2

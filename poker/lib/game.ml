@@ -140,6 +140,13 @@ let deal_turn g =
           @ [ Card.string_of_card c1 ])
       in
       print_endline ("The flop + turn is: " ^ cards_string);
+      (fun (x : t) ->
+        match x.players with
+        | p1 :: _ ->
+            print_endline
+              ("You currently have " ^ string_of_int p1.chips ^ " chips")
+        | _ -> ())
+        g;
 
       if List.length g.players = 0 then (
         print_endline "You all folded—no one wins in this version of poker :(";
@@ -170,18 +177,25 @@ let deal_river g =
           @ [ Card.string_of_card c1 ])
       in
       print_endline ("The flop + turn + river is: " ^ cards_string);
+      (fun (x : t) ->
+        match x.players with
+        | p1 :: _ ->
+            print_endline
+              ("You currently have " ^ string_of_int p1.chips ^ " chips")
+        | _ -> ())
+        g;
 
       if List.length g.players = 0 then (
         print_endline "You all folded—no one wins in this version of poker :(";
         exit 0);
 
-      let round_chips = (List.nth g.players 0).chips in
+      let round_chps = (List.nth g.players 0).chips in
       {
         g with
         flop_turn_river = c1 :: g.flop_turn_river;
         current_bet = 0;
         last_raise = Player.none_player;
-        round_chips;
+        round_chips = round_chps;
         total_bet = 0;
         deck = d;
       }
@@ -193,6 +207,13 @@ let deal_flop g =
       print_endline
         ("The flop is: " ^ Card.string_of_card c1 ^ ", "
        ^ Card.string_of_card c2 ^ ", " ^ Card.string_of_card c3 ^ "\n");
+      (fun (x : t) ->
+        match x.players with
+        | p1 :: _ ->
+            print_endline
+              ("You currently have " ^ string_of_int p1.chips ^ " chips")
+        | _ -> ())
+        g;
 
       if List.length g.players = 0 then (
         print_endline "You all folded—no one wins in this version of poker :(";
@@ -231,7 +252,7 @@ let deal_cards g =
             pot = 0;
             current_bet = 0;
             last_raise = Player.none_player;
-            round_chips = 100;
+            round_chips = Player.default_chips;
             total_bet = 0;
           })
   | _ -> g
@@ -252,7 +273,7 @@ let emptygame =
     pot = 0;
     current_bet = 0;
     last_raise = Player.none_player;
-    round_chips = 100;
+    round_chips = Player.default_chips;
     total_bet = 0;
   }
 
@@ -414,3 +435,89 @@ let print_game gm =
   print_endline ("pot: " ^ string_of_int gm.pot)
 
 let newgame = deal_cards (deal_cards emptygame)
+
+let won_round (gm : t) (plyr : Player.t) =
+  match gm.players with
+  | [ p1; p2; p3; p4; p5; p6 ] ->
+      if p1 = plyr then
+        let user_is_up = Player.add_chips p1 gm.pot in
+        {
+          players = [ user_is_up; p2; p3; p4; p5; p6 ];
+          deck = newdeck;
+          flop_turn_river = [];
+          pot = 0;
+          current_bet = 0;
+          last_raise = Player.none_player;
+          round_chips = user_is_up.chips;
+          total_bet = 0;
+        }
+      else if p2 = plyr then
+        {
+          players = [ p1; Player.add_chips p2 gm.pot; p3; p4; p5; p6 ];
+          deck = newdeck;
+          flop_turn_river = [];
+          pot = 0;
+          current_bet = 0;
+          last_raise = Player.none_player;
+          round_chips = (List.nth gm.players 0).chips;
+          total_bet = 0;
+        }
+      else if p3 = plyr then
+        {
+          players = [ p1; p2; Player.add_chips p3 gm.pot; p4; p5; p6 ];
+          deck = newdeck;
+          flop_turn_river = [];
+          pot = 0;
+          current_bet = 0;
+          last_raise = Player.none_player;
+          round_chips = (List.nth gm.players 0).chips;
+          total_bet = 0;
+        }
+      else if p4 = plyr then
+        {
+          players = [ p1; p2; p3; Player.add_chips p4 gm.pot; p5; p6 ];
+          deck = newdeck;
+          flop_turn_river = [];
+          pot = 0;
+          current_bet = 0;
+          last_raise = Player.none_player;
+          round_chips = (List.nth gm.players 0).chips;
+          total_bet = 0;
+        }
+      else if p5 = plyr then
+        {
+          players = [ p1; p2; p3; p4; Player.add_chips p5 gm.pot; p6 ];
+          deck = newdeck;
+          flop_turn_river = [];
+          pot = 0;
+          current_bet = 0;
+          last_raise = Player.none_player;
+          round_chips = (List.nth gm.players 0).chips;
+          total_bet = 0;
+        }
+      else if p6 = plyr then
+        {
+          players = [ p1; p2; p3; p4; p5; Player.add_chips p6 gm.pot ];
+          deck = newdeck;
+          flop_turn_river = [];
+          pot = 0;
+          current_bet = 0;
+          last_raise = Player.none_player;
+          round_chips = (List.nth gm.players 0).chips;
+          total_bet = 0;
+        }
+      else failwith "won_round"
+  | _ -> failwith "won_round"
+
+let pick_round_winner gm =
+  let still_in =
+    List.filter
+      (fun (x : Player.t) -> if x.folded = true then false else true)
+      gm.players
+  in
+  let winners = List.sort Player.compare still_in in
+  match winners with
+  | w :: _ ->
+      print_endline ("The player who wins is: " ^ Player.p_to_string w);
+      won_round gm w
+  | _ -> failwith "pick_winner"

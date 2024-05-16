@@ -16,7 +16,7 @@ let rec get_user_bet min max =
       let _ =
         print_endline
           ("You must bet at least " ^ string_of_int min
-         ^ " chips! Enter a new bet: ")
+         ^ " chiphs! Enter a new bet: ")
       in
       get_user_bet min max
     else bt
@@ -50,6 +50,7 @@ let rec user_action (gm : Game.t) (pl : Player.t) =
   else
     let _ = print_endline "What would you like to do? < Check | Bet | Fold >" in
     let input = BatString.trim (read_line ()) in
+    print_newline ();
     match input with
     | "Check" | "check" ->
         if gm.current_bet > 0 then
@@ -81,37 +82,37 @@ let bot_bet (gm : Game.t) (pl : Player.t) =
       (*A balanced player, a little insecure and annoying*)
       match rand with
       | 0 ->
-          print_endline "Bot 1 says: 'I call your bet (could be a check.)";
+          print_endline "Bot 1 says: 'I call your bet (could be a check).";
           print_endline "You can't hang with a bot like me!'";
           print_endline "";
           Game.player_bet gm pl gm.current_bet
       | 1 ->
-          print_endline "Bot 1 says: 'I call your bet (could be a check.)";
+          print_endline "Bot 1 says: 'I call your bet (could be a check).";
           print_endline "Guys, please be nice!'";
           print_endline "";
           Game.player_bet gm pl gm.current_bet
       | 2 ->
-          print_endline "Bot 1 says: 'I call your bet (could be a check.)";
+          print_endline "Bot 1 says: 'I call your bet (could be a check).";
           print_endline "I'm reading you like a book.'";
           print_endline "";
           Game.player_bet gm pl gm.current_bet
       | 3 ->
-          print_endline "Bot 1 says: 'I call your bet (could be a check.)";
+          print_endline "Bot 1 says: 'I call your bet (could be a check).";
           print_endline "Pleassssee let me hit my hand for once...'";
           print_endline "";
           Game.player_bet gm pl gm.current_bet
       | 4 ->
-          print_endline "Bot 1 says: 'I call your bet (could be a check.)";
+          print_endline "Bot 1 says: 'I call your bet (could be a check).";
           print_endline "My cards say call.'";
           print_endline "";
           Game.player_bet gm pl gm.current_bet
       | 5 ->
-          print_endline "Bot 1 says: 'I call your bet (could be a check.)";
+          print_endline "Bot 1 says: 'I call your bet (could be a check).";
           print_endline "You're bleeding me dry user!'";
           print_endline "";
           Game.player_bet gm pl gm.current_bet
       | 6 ->
-          print_endline "Bot 1 says: 'I call your bet (could be a check.)";
+          print_endline "Bot 1 says: 'I call your bet (could be a check).";
           print_endline "Do you guys even like me or do you want my money?'";
           print_endline "";
           Game.player_bet gm pl gm.current_bet
@@ -126,10 +127,10 @@ let bot_bet (gm : Game.t) (pl : Player.t) =
           print_endline "";
           Game.fold_player gm pl
       | 9 ->
-          print_endline "Bot 1 says: 'I'm all in!'";
+          print_endline "Bot 1 says: 'I'm goin' ham! I'll raise 80.";
           print_endline "It's do or die baby!'";
           print_endline "";
-          Game.player_bet gm pl pl.chips
+          Game.player_bet gm pl (gm.current_bet + 80)
       | _ ->
           print_endline "This is not supposed to happen in bot 1 betting";
           gm
@@ -179,13 +180,13 @@ let bot_bet (gm : Game.t) (pl : Player.t) =
           print_endline "";
           Game.fold_player gm pl
       | 8 ->
-          print_endline "Bot 2 says: 'I call your bet (could be a check.)";
+          print_endline "Bot 2 says: 'I call your bet (could be a check).";
           print_endline "I think I'll give these cards a shot'";
           print_endline "";
           Game.player_bet gm pl gm.current_bet
       | 9 ->
           if gm.current_bet >= pl.chips - 20 then begin
-            print_endline "Bot 2 says: 'I call your bet (could be a check.)";
+            print_endline "Bot 2 says: 'I call your bet (could be a check).";
             print_endline "I think I'll see this one out.'";
             print_endline "";
             Game.player_bet gm pl gm.current_bet
@@ -204,37 +205,37 @@ let bot_bet (gm : Game.t) (pl : Player.t) =
       (*More agressive player, doesn't like bot 1*)
       match rand with
       | 0 ->
-          print_endline "Bot 3 says: 'I call your bet (could be a check.)";
+          print_endline "Bot 3 says: 'I call your bet (could be a check).";
           print_endline "Can't fold these cards.'";
           print_endline "";
           Game.player_bet gm pl gm.current_bet
       | 1 ->
-          print_endline "Bot 3 says: 'I call your bet (could be a check.)";
+          print_endline "Bot 3 says: 'I call your bet (could be a check).";
           print_endline "You know bot 1 got held back twice in 1st grade?'";
           print_endline "";
           Game.player_bet gm pl gm.current_bet
       | 2 ->
-          print_endline "Bot 3 says: 'I call your bet (could be a check.)";
+          print_endline "Bot 3 says: 'I call your bet (could be a check).";
           print_endline "Oh yes we call with this, yes we do.'";
           print_endline "";
           Game.player_bet gm pl gm.current_bet
       | 3 ->
-          print_endline "Bot 3 says: 'I call your bet (could be a check.)";
+          print_endline "Bot 3 says: 'I call your bet (could be a check).";
           print_endline "Easy call.'";
           print_endline "";
           Game.player_bet gm pl gm.current_bet
       | 4 ->
-          print_endline "Bot 3 says: 'I call your bet (could be a check.)";
+          print_endline "Bot 3 says: 'I call your bet (could be a check).";
           print_endline "I'm riding this one to the end.'";
           print_endline "";
           Game.player_bet gm pl gm.current_bet
       | 5 ->
-          print_endline "Bot 3 says: 'I call your bet (could be a check.)";
+          print_endline "Bot 3 says: 'I call your bet (could be a check).";
           print_endline "Bot 1, when's the last time you won a pot, huh?.'";
           print_endline "";
           Game.player_bet gm pl gm.current_bet
       | 6 ->
-          print_endline "Bot 3 says: 'I call your bet (could be a check.)";
+          print_endline "Bot 3 says: 'I call your bet (could be a check).";
           print_endline "I got this.'";
           print_endline "";
           Game.player_bet gm pl gm.current_bet
@@ -245,7 +246,7 @@ let bot_bet (gm : Game.t) (pl : Player.t) =
           Game.fold_player gm pl
       | 8 ->
           if gm.current_bet >= pl.chips - 30 then begin
-            print_endline "Bot 3 says: 'I call your bet (could be a check.)";
+            print_endline "Bot 3 says: 'I call your bet (could be a check).";
             print_endline "I am the best poker player in the worlddd!!'";
             print_endline "";
             Game.player_bet gm pl gm.current_bet
@@ -257,10 +258,10 @@ let bot_bet (gm : Game.t) (pl : Player.t) =
             Game.player_bet gm pl (gm.current_bet + 30)
           end
       | 9 ->
-          print_endline "Bot 3 says: 'I'm all in!'";
+          print_endline "Bot 3 says: 'I'll raise you 75!";
           print_endline "Alright, time to gun it.'";
           print_endline "";
-          Game.player_bet gm pl pl.chips
+          Game.player_bet gm pl (gm.current_bet + 75)
       | _ ->
           print_endline "This is not supposed to happen in bot 3 betting";
           gm
@@ -269,33 +270,33 @@ let bot_bet (gm : Game.t) (pl : Player.t) =
       (*Calls and folds, never raises, susinct*)
       match rand with
       | 0 ->
-          print_endline "Bot 4 says: 'I call your bet (could be a check.)";
+          print_endline "Bot 4 says: 'I call your bet (could be a check).";
           print_endline "Yup call.'";
           print_endline "";
           print_endline "";
           Game.player_bet gm pl gm.current_bet
       | 1 ->
-          print_endline "Bot 4 says: 'I call your bet (could be a check.)";
+          print_endline "Bot 4 says: 'I call your bet (could be a check).";
           print_endline "I'll call this thanks.'";
           print_endline "";
           Game.player_bet gm pl gm.current_bet
       | 2 ->
-          print_endline "Bot 4 says: 'I call your bet (could be a check.)";
+          print_endline "Bot 4 says: 'I call your bet (could be a check).";
           print_endline "Call this every time.'";
           print_endline "";
           Game.player_bet gm pl gm.current_bet
       | 3 ->
-          print_endline "Bot 4 says: 'I call your bet (could be a check.)";
+          print_endline "Bot 4 says: 'I call your bet (could be a check).";
           print_endline "Uh oh, kinda nervous about this.'";
           print_endline "";
           Game.player_bet gm pl gm.current_bet
       | 4 ->
-          print_endline "Bot 4 says: 'I call your bet (could be a check.)";
+          print_endline "Bot 4 says: 'I call your bet (could be a check).";
           print_endline "Bot 1, please stop.'";
           print_endline "";
           Game.player_bet gm pl gm.current_bet
       | 5 ->
-          print_endline "Bot 4 says: 'I call your bet (could be a check.)";
+          print_endline "Bot 4 says: 'I call your bet (could be a check).";
           print_endline "Bot 1, when's the last time you won a pot, huh?.'";
           print_endline "";
           Game.player_bet gm pl gm.current_bet
@@ -353,23 +354,23 @@ let bot_bet (gm : Game.t) (pl : Player.t) =
           Game.fold_player gm pl
       | 5 ->
           print_endline
-            "Bot 5 says: 'I call your bet (if you bet it bet the same, or \
-             checks if you checked.)";
+            "Bot 5 says: 'I call your bet (if you bet I bet the same, or check \
+             if you checked).";
           print_endline "Bot 1 has serious issuess...'";
           print_endline "";
           Game.player_bet gm pl gm.current_bet
       | 6 ->
           print_endline
-            "Bot 5 says: 'I call your bet (if you bet it bet the same, or \
-             checks if you checked.)";
+            "Bot 5 says: 'I call your bet (if you bet I bet the same, or check \
+             if you checked).";
           print_endline "Hmmmmmmm......ths one is tight.'";
           print_endline "";
           Game.player_bet gm pl gm.current_bet
       | 7 ->
           if gm.current_bet >= pl.chips - 40 then begin
             print_endline
-              "Bot 5 says: 'I call your bet (if you bet it bet the same, or \
-               checks if you checked.)";
+              "Bot 5 says: 'I call your bet (if you bet I bet the same, or \
+               check if you checked).";
             print_endline "I don't bluff. Just win.'";
             print_endline "";
             Game.player_bet gm pl gm.current_bet
@@ -383,8 +384,8 @@ let bot_bet (gm : Game.t) (pl : Player.t) =
       | 8 ->
           if gm.current_bet >= pl.chips - 10 then begin
             print_endline
-              "Bot 5 says: 'I call your bet (if you bet it bet the same, or \
-               checks if you checked.)";
+              "Bot 5 says: 'I call your bet (if you bet I bet the same, or \
+               check if you checked).";
             print_endline "Show me the moneyyy!'";
             print_endline "";
             Game.player_bet gm pl gm.current_bet
@@ -398,8 +399,8 @@ let bot_bet (gm : Game.t) (pl : Player.t) =
       | 9 ->
           if gm.current_bet >= pl.chips - 25 then begin
             print_endline
-              "Bot 5 says: 'I call your bet (if you bet it bet the same, or \
-               checks if you checked.)";
+              "Bot 5 says: 'I call your bet (if you bet I bet the same, or \
+               check if you checked).";
             print_endline "Stop playing bad!'";
             print_endline "";
             Game.player_bet gm pl gm.current_bet
@@ -451,36 +452,48 @@ let bet (gm : Game.t) =
 
 (** starts a game of poker *)
 let start_game () =
-  let _ = print_endline "You are playing Poker!\n" in
-  let start = Game.newgame in
-  let _ = print_endline "These are your cards to start the game:" in
-  let _ =
-    match start.players with
-    | p1 :: _ -> print_endline (Hand.string_of_hand p1.hand)
-    | _ -> ()
+  let rec play_game (start : Game.t) =
+    let _ =
+      match start.players with
+      | p1 :: _ ->
+          print_endline ("You have " ^ string_of_int p1.chips ^ " chips!")
+      | _ -> ()
+    in
+    let _ = print_newline () in
+    let _ = print_endline "These are your cards to start the round:" in
+    let _ =
+      match start.players with
+      | p1 :: _ -> print_endline (Hand.string_of_hand p1.hand)
+      | _ -> ()
+    in
+    let _ = print_newline () in
+    let first_round = bet start in
+
+    Game.print_game first_round;
+
+    let flop_deck = Game.deal_flop first_round in
+
+    let second_round = bet flop_deck in
+
+    Game.print_game second_round;
+
+    let turn = Game.deal_turn second_round in
+
+    let third_round = bet turn in
+
+    Game.print_game third_round;
+
+    let river = Game.deal_river turn in
+
+    let fourth_round = bet river in
+
+    Game.print_game fourth_round;
+
+    play_game fourth_round
   in
-  let _ = print_newline () in
-  let first_round = bet start in
-
-  Game.print_game first_round;
-
-  let flop_deck = Game.deal_flop first_round in
-
-  let second_round = bet flop_deck in
-
-  Game.print_game second_round;
-
-  let turn = Game.deal_turn second_round in
-
-  let third_round = bet turn in
-
-  Game.print_game third_round;
-
-  let river = Game.deal_river turn in
-
-  let fourth_round = bet river in
-
-  Game.print_game fourth_round
+  let _ = print_endline "You are playing Poker!\n" in
+  let ng = Game.newgame in
+  play_game ng
 
 (*only print players left in hand*)
 (* let flop () = *)
