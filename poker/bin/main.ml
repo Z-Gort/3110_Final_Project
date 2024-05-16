@@ -38,7 +38,9 @@ let user_bet (gm : Game.t) (pl : Player.t) : Game.t =
      ^ string_of_int pl.chips ^ " chips and you must bet at least "
       ^ string_of_int
           ((*gm.total_bet*) gm.current_bet - (gm.round_chips - pl.chips))
-      ^ " chips. curr bet, rc, chips " ^ string_of_int gm.current_bet ^ " " ^ string_of_int gm.round_chips ^ " " ^ " " ^ string_of_int pl.chips)
+        (* ^ " chips. curr bet, rc, chips " ^ string_of_int gm.current_bet ^ " "
+           ^ string_of_int gm.round_chips ^ " " ^ " " ^ string_of_int pl.chips*)
+      )
   in
   let bet_size =
     get_user_bet
@@ -496,25 +498,31 @@ and play_game (gm : Game.t) =
     | _ -> ()
   in
   let _ = print_newline () in
-  let first_round = check_finished (bet start) in
+  let first_round = bet start in
 
   Game.print_game first_round;
 
-  let flop_deck = Game.deal_flop first_round in
+  let first_rnd = check_finished first_round in
 
-  let second_round = check_finished (bet flop_deck) in
+  let flop_deck = Game.deal_flop first_rnd in
+
+  let second_round = bet flop_deck in
 
   Game.print_game second_round;
 
-  let turn = Game.deal_turn second_round in
+  let second_rnd = check_finished (bet second_round) in
 
-  let third_round = check_finished (bet turn) in
+  let turn = Game.deal_turn second_rnd in
+
+  let third_round = bet turn in
 
   Game.print_game third_round;
 
-  let river = Game.deal_river turn in
+  let third_rnd = check_finished (bet third_round) in
 
-  let fourth_round = check_finished (bet river) in
+  let river = Game.deal_river third_rnd in
+
+  let fourth_round = bet river in
 
   Game.print_game fourth_round;
 
