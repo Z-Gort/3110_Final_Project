@@ -172,15 +172,84 @@ let test_string_of_card _ =
 (* Test cases for Game *)
 
 (* Test cases for Hand *)
+let test_hand_add _ =
+  let card1 = { Card.suit = Diamonds; Card.rank = Ace } in
+  let card2 = { Card.suit = Clubs; Card.rank = Two } in
+  let card3 = { Card.suit = Spades; Card.rank = Jack } in
+  let hand1 = Hand.add card1 Hand.empty in
+  let hand2 = Hand.add card2 hand1 in
+  let hand3 = Hand.add card3 hand2 in
+  assert_equal [] Hand.empty;
+  assert_equal [ card1 ] hand1;
+  assert_equal [ card1; card2 ] hand2;
+  assert_equal [ card1; card2; card3 ] hand3
 
-let test_hand _ = assert_equal [] Hand.empty
+let test_string_of_hand _ =
+  let card1 = { Card.suit = Diamonds; Card.rank = Ace } in
+  let card2 = { Card.suit = Clubs; Card.rank = Two } in
+  let card3 = { Card.suit = Hearts; Card.rank = Queen } in
+
+  (* Test an empty hand *)
+  let hand_empty = Hand.empty in
+  assert_equal "" (Hand.string_of_hand hand_empty);
+
+  (* Test a hand with a single card *)
+  let hand_single_card = Hand.add card1 Hand.empty in
+  assert_equal "Ace of Diamonds, " (Hand.string_of_hand hand_single_card);
+
+  (* Test a hand with multiple cards *)
+  let hand_multiple_cards = Hand.add card1 Hand.empty in
+  let hand_multiple_cards = Hand.add card2 hand_multiple_cards in
+  let hand_multiple_cards = Hand.add card3 hand_multiple_cards in
+  assert_equal "Ace of Diamonds, Two of Clubs, Queen of Hearts"
+    (Hand.string_of_hand hand_multiple_cards);
+
+  (* Test a hand with duplicate cards *)
+  let hand_duplicate_cards = Hand.add card1 Hand.empty in
+  let hand_duplicate_cards = Hand.add card1 hand_duplicate_cards in
+  assert_equal "Ace of Diamonds, Ace of Diamonds"
+    (Hand.string_of_hand hand_duplicate_cards)
+
+(* let test_filt_for_straight _ = let hand1 = [ { Card.rank = Ace; Card.suit =
+   Diamonds }; { Card.rank = Two; Card.suit = Clubs }; { Card.rank = Three;
+   Card.suit = Hearts }; { Card.rank = Four; Card.suit = Spades }; { Card.rank =
+   Five; Card.suit = Diamonds }; { Card.rank = Six; Card.suit = Hearts }; {
+   Card.rank = Six; Card.suit = Hearts }; ] in let hand2 = [ { Card.rank = Two;
+   Card.suit = Clubs }; { Card.rank = Three; Card.suit = Hearts }; { Card.rank =
+   Four; Card.suit = Spades }; { Card.rank = Five; Card.suit = Diamonds }; {
+   Card.rank = Six; Card.suit = Hearts }; { Card.rank = Jack; Card.suit =
+   Diamonds }; { Card.rank = Queen; Card.suit = Clubs }; ] in let hand3 = [ {
+   Card.rank = Five; Card.suit = Clubs }; { Card.rank = Six; Card.suit = Hearts
+   }; { Card.rank = Six; Card.suit = Hearts }; { Card.rank = Eight; Card.suit =
+   Spades }; { Card.rank = Nine; Card.suit = Clubs }; { Card.rank = Jack;
+   Card.suit = Diamonds }; { Card.rank = Queen; Card.suit = Clubs }; ] in let
+   hand4 = [ { Card.rank = Five; Card.suit = Clubs }; { Card.rank = Six;
+   Card.suit = Hearts }; { Card.rank = Seven; Card.suit = Diamonds }; {
+   Card.rank = Eight; Card.suit = Spades }; { Card.rank = Nine; Card.suit =
+   Clubs }; { Card.rank = Jack; Card.suit = Diamonds }; { Card.rank = Queen;
+   Card.suit = Clubs }; ] in let hand5 = [ { Card.rank = Six; Card.suit = Hearts
+   }; { Card.rank = King; Card.suit = Hearts }; { Card.rank = Ace; Card.suit =
+   Spades }; { Card.rank = Two; Card.suit = Diamonds }; { Card.rank = Jack;
+   Card.suit = Diamonds }; { Card.rank = Queen; Card.suit = Clubs }; { Card.rank
+   = King; Card.suit = Hearts }; ] in let hand6 = [ { Card.rank = Jack;
+   Card.suit = Diamonds }; { Card.rank = Queen; Card.suit = Clubs }; { Card.rank
+   = King; Card.suit = Hearts }; { Card.rank = Ace; Card.suit = Spades }; ] in
+   assert_equal (failwith "filt_for_straight should only be applied to 7 card
+   hands") (Hand.filt_for_straight hand6); assert_equal (failwith
+   "filt_for_straight") (Hand.filt_for_straight hand1); assert_equal (failwith
+   "filt_for_straight") (Hand.filt_for_straight hand2); assert_equal (failwith
+   "filt_for_straight") (Hand.filt_for_straight hand3); assert_equal (failwith
+   "filt_for_straight") (Hand.filt_for_straight hand4); assert_equal (failwith
+   "filt_for_straight") (Hand.filt_for_straight hand5) *)
 
 let suite =
   "Card Test Suite"
   >::: [
          "test_compare" >:: test_compare;
          "test_string_of_card" >:: test_string_of_card;
-         "test_hand" >:: test_hand;
+         "test_hand_add" >:: test_hand_add;
+         "test_string_of_hand" >:: test_string_of_hand;
+         (* "test_filt_for_straight" >:: test_filt_for_straight; *)
        ]
 
 let _ = run_test_tt_main suite
