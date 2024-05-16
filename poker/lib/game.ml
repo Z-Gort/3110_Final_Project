@@ -126,7 +126,6 @@ let turn_and_river d =
   let nextdeck = rem_card i1 d in
   (c1, nextdeck)
 
-(**printing made with help of ChatGPT 5/13*)
 let deal_turn g =
   match turn_and_river g.deck with
   | c1, d ->
@@ -169,7 +168,6 @@ let deal_turn g =
         deck = d;
       }
 
-(**printing made with help of ChatGPT 5/13*)
 let deal_river g =
   match turn_and_river g.deck with
   | c1, d ->
@@ -257,10 +255,11 @@ let deal_cards g =
   | [ p1; p2; p3; p4; p5; p6 ] -> (
       match new_cards g.deck with
       | c1, c2, c3, c4, c5, c6, d ->
+          let user = Player.deal_card p1 c1 in
           {
             players =
               [
-                Player.deal_card p1 c1;
+                user;
                 Player.deal_card p2 c2;
                 Player.deal_card p3 c3;
                 Player.deal_card p4 c4;
@@ -272,7 +271,7 @@ let deal_cards g =
             pot = 0;
             current_bet = 0;
             last_raise = Player.none_player;
-            round_chips = Player.default_chips;
+            round_chips = user.chips;
             total_bet = 0;
           })
   | _ -> g
@@ -293,7 +292,7 @@ let emptygame =
     pot = 0;
     current_bet = 0;
     last_raise = Player.none_player;
-    round_chips = Player.default_chips;
+    round_chips = Player.new_user.chips;
     total_bet = 0;
   }
 
