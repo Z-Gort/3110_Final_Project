@@ -417,6 +417,152 @@ let test_print_player _ =
      print_endline "Folded: false")
     (Player.print_player b)
 
+let test_eval_hand _ =
+  let hand1 =
+    Hand.add
+      { Card.suit = Diamonds; Card.rank = Eight }
+      (Hand.add
+         { Card.suit = Diamonds; Card.rank = Seven }
+         (Hand.add
+            { Card.suit = Diamonds; Card.rank = Six }
+            (Hand.add
+               { Card.suit = Diamonds; Card.rank = Five }
+               (Hand.add
+                  { Card.suit = Diamonds; Card.rank = Four }
+                  (Hand.add
+                     { Card.suit = Diamonds; Card.rank = Three }
+                     (Hand.add
+                        { Card.suit = Diamonds; Card.rank = Two }
+                        Hand.empty))))))
+  in
+  let hand2 =
+    Hand.add
+      { Card.suit = Diamonds; Card.rank = Eight }
+      (Hand.add
+         { Card.suit = Hearts; Card.rank = Eight }
+         (Hand.add
+            { Card.suit = Spades; Card.rank = Eight }
+            (Hand.add
+               { Card.suit = Clubs; Card.rank = Five }
+               (Hand.add
+                  { Card.suit = Diamonds; Card.rank = Four }
+                  (Hand.add
+                     { Card.suit = Clubs; Card.rank = Five }
+                     (Hand.add
+                        { Card.suit = Diamonds; Card.rank = Two }
+                        Hand.empty))))))
+  in
+  let hand3 =
+    Hand.add
+      { Card.suit = Diamonds; Card.rank = Eight }
+      (Hand.add
+         { Card.suit = Diamonds; Card.rank = Seven }
+         (Hand.add
+            { Card.suit = Diamonds; Card.rank = Six }
+            (Hand.add
+               { Card.suit = Diamonds; Card.rank = Five }
+               (Hand.add
+                  { Card.suit = Diamonds; Card.rank = Four }
+                  (Hand.add
+                     { Card.suit = Diamonds; Card.rank = Three }
+                     (Hand.add
+                        { Card.suit = Diamonds; Card.rank = Two }
+                        Hand.empty))))))
+  in
+  let hand4 =
+    Hand.add
+      { Card.suit = Diamonds; Card.rank = Eight }
+      (Hand.add
+         { Card.suit = Hearts; Card.rank = Eight }
+         (Hand.add
+            { Card.suit = Clubs; Card.rank = Six }
+            (Hand.add
+               { Card.suit = Diamonds; Card.rank = Five }
+               (Hand.add
+                  { Card.suit = Clubs; Card.rank = Four }
+                  (Hand.add
+                     { Card.suit = Diamonds; Card.rank = Three }
+                     (Hand.add
+                        { Card.suit = Spades; Card.rank = Two }
+                        Hand.empty))))))
+  in
+  let hand5 =
+    Hand.add
+      { Card.suit = Diamonds; Card.rank = Eight }
+      (Hand.add
+         { Card.suit = Hearts; Card.rank = Eight }
+         (Hand.add
+            { Card.suit = Clubs; Card.rank = Eight }
+            (Hand.add
+               { Card.suit = Diamonds; Card.rank = Five }
+               (Hand.add
+                  { Card.suit = Clubs; Card.rank = Four }
+                  (Hand.add
+                     { Card.suit = Diamonds; Card.rank = Three }
+                     (Hand.add
+                        { Card.suit = Spades; Card.rank = Two }
+                        Hand.empty))))))
+  in
+  let hand6 =
+    Hand.add
+      { Card.suit = Diamonds; Card.rank = Eight }
+      (Hand.add
+         { Card.suit = Diamonds; Card.rank = Seven }
+         (Hand.add
+            { Card.suit = Diamonds; Card.rank = Six }
+            (Hand.add
+               { Card.suit = Diamonds; Card.rank = Five }
+               (Hand.add
+                  { Card.suit = Diamonds; Card.rank = Four }
+                  (Hand.add
+                     { Card.suit = Diamonds; Card.rank = Three }
+                     (Hand.add
+                        { Card.suit = Diamonds; Card.rank = Two }
+                        Hand.empty))))))
+  in
+  let hand7 =
+    Hand.add
+      { Card.suit = Diamonds; Card.rank = Eight }
+      (Hand.add
+         { Card.suit = Hearts; Card.rank = Eight }
+         (Hand.add
+            { Card.suit = Clubs; Card.rank = Six }
+            (Hand.add
+               { Card.suit = Diamonds; Card.rank = Five }
+               (Hand.add
+                  { Card.suit = Clubs; Card.rank = Four }
+                  (Hand.add
+                     { Card.suit = Diamonds; Card.rank = Queen }
+                     (Hand.add
+                        { Card.suit = Spades; Card.rank = King }
+                        Hand.empty))))))
+  in
+  let hand8 =
+    Hand.add
+      { Card.suit = Diamonds; Card.rank = Queen }
+      (Hand.add
+         { Card.suit = Hearts; Card.rank = Eight }
+         (Hand.add
+            { Card.suit = Clubs; Card.rank = Six }
+            (Hand.add
+               { Card.suit = Diamonds; Card.rank = Five }
+               (Hand.add
+                  { Card.suit = Clubs; Card.rank = King }
+                  (Hand.add
+                     { Card.suit = Diamonds; Card.rank = Three }
+                     (Hand.add
+                        { Card.suit = Spades; Card.rank = Jack }
+                        Hand.empty))))))
+  in
+  assert_equal "straight flush" (fst (Hand.eval_hand hand1));
+  assert_equal "full house" (fst (Hand.eval_hand hand2));
+  assert_equal "flush" (fst (Hand.eval_hand hand3));
+  assert_equal "straight" (fst (Hand.eval_hand hand4));
+  assert_equal "three of a kind" (fst (Hand.eval_hand hand5));
+  assert_equal "two pair" (fst (Hand.eval_hand hand6));
+  assert_equal "one pair" (fst (Hand.eval_hand hand7));
+  assert_equal "high card" (fst (Hand.eval_hand hand8))
+
 let suite =
   "Test Suite"
   >::: [
@@ -497,6 +643,7 @@ let suite =
          "test_deal_card" >:: test_deal_card;
          "test_fold" >:: test_fold;
          "test_print_player" >:: test_print_player;
+         "test_eval_hand" >:: test_eval_hand;
        ]
 
 let _ = run_test_tt_main suite
