@@ -13,8 +13,9 @@ type t = {
     the number of the player in the order that they will be dealt cards (game
     begins with player 1 being dealt a card first), a deck, the flop (cards
     shared among players), and the pot. Additionally, the current minimum bet
-    (current_bet), the last player to raise (last_raise), the round chips, and
-    the total bet on the round are stored. *)
+    (current_bet), the last player to raise (last_raise), the chips the player
+    had at the start of the round (round_chips), and the total bet on the round
+    are stored. *)
 
 val newgame : t
 (** [newgame] is a brand new game*)

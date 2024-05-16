@@ -16,8 +16,11 @@ let rec get_user_bet min max =
       let _ =
         print_endline
           ("You must bet at least " ^ string_of_int min
-         ^ " chiphs! Enter a new bet: ")
+         ^ " chips! Enter a new bet: ")
       in
+      get_user_bet min max
+    else if bt = 0 then
+      let _ = print_endline "You must bet more than zero!" in
       get_user_bet min max
     else bt
   with exn -> (
