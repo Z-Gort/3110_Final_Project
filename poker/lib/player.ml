@@ -10,7 +10,7 @@ type t = {
   folded : bool;
 }
 
-let default_chips = 100
+let default_chips = 1000
 
 let new_user =
   {

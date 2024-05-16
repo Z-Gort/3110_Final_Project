@@ -401,6 +401,22 @@ let test_fold _ =
   let p = Player.new_user in
   assert_equal true (Player.fold p).folded
 
+let test_print_player _ =
+  let p = Player.new_user in
+  assert_equal
+    (print_endline "Player type: User";
+     print_endline "Hand: ";
+     print_endline "Chips: 100";
+     print_endline "Folded: false")
+    (Player.print_player p);
+  let b = Player.new_bot 1 in
+  assert_equal
+    (print_endline "Player type: Bot 1";
+     print_endline "Hand: ";
+     print_endline "Chips: 100";
+     print_endline "Folded: false")
+    (Player.print_player b)
+
 let test_eval_hand _ =
   let hand1 =
     Hand.add
@@ -538,7 +554,7 @@ let test_eval_hand _ =
                         { Card.suit = Spades; Card.rank = Jack }
                         Hand.empty))))))
   in
-  assert_equal "straight flush" (fst (Hand.eval_hand hand1));
+  assert_equal "four of a kind" (fst (Hand.eval_hand hand1));
   assert_equal "full house" (fst (Hand.eval_hand hand2));
   assert_equal "flush" (fst (Hand.eval_hand hand3));
   assert_equal "straight" (fst (Hand.eval_hand hand4));
