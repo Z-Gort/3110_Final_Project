@@ -100,7 +100,7 @@ let filt_for_flush (hnd : t) : t =
         in
         flush_hand)
   | [] -> []
-  | _ -> failwith "filt_for_suit should only be applied to 5 or 7 card hands"
+  | _ -> failwith "filt_for_flush should only be applied to 5 or 7 card hands"
 
 (* sorts the cards in a hand by rank *)
 let sort_by_rank (hnd : t) : t = List.sort Card.compare hnd
@@ -253,9 +253,11 @@ let filt_for_straight (hnd : t) : t option =
                   ]
             | None -> None)
         | _ -> failwith "filt_for_straight"))
-  | _ -> failwith "filt_for_straight should only be applied to 7 card hands"
+  | _ ->
+      failwith "filt_for_straight should only be applied to 5 or 7 card hands"
 
 let check_straight_flush (hnd : t) : t option =
+  (* print_endline (string_of_hand hnd); print_newline (); *)
   let flushed = hnd |> filt_for_flush in
   if List.length flushed >= 5 then filt_for_straight flushed else None
 

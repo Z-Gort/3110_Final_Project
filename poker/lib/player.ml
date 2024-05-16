@@ -21,7 +21,7 @@ let new_user =
   }
 
 let none_player =
-  { player_type = None; hand = Hand.empty; chips = Int.min_int; folded = false }
+  { player_type = None; hand = Hand.empty; chips = 0; folded = false }
 
 let new_bot i =
   {
@@ -49,6 +49,8 @@ let deal_card p crd =
       { player_type = pt; hand = Hand.add crd h; chips = c; folded = f }
 
 let fold pl = { pl with folded = true }
+let unfold pl = { pl with folded = false }
+let reset_hand pl = { pl with hand = [] }
 
 let print_player pl =
   match pl with

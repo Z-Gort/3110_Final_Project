@@ -33,7 +33,8 @@ let user_bet (gm : Game.t) (pl : Player.t) : Game.t =
     print_endline
       ("How much would you like to bet? You currently have "
      ^ string_of_int pl.chips ^ " chips and you must bet at least "
-      ^ string_of_int (gm.total_bet - (gm.round_chips - pl.chips))
+      ^ string_of_int
+          ((*gm.total_bet*) gm.current_bet - (gm.round_chips - pl.chips))
       ^ " chips.")
   in
   let bet_size =
@@ -273,7 +274,6 @@ let bot_bet (gm : Game.t) (pl : Player.t) =
           print_endline "Bot 4 says: 'I call your bet (could be a check).";
           print_endline "Yup call.'";
           print_endline "";
-          print_endline "";
           Game.player_bet gm pl gm.current_bet
       | 1 ->
           print_endline "Bot 4 says: 'I call your bet (could be a check).";
@@ -419,17 +419,14 @@ let bot_bet (gm : Game.t) (pl : Player.t) =
 
 (** [bet g] is the game [g] after one further round of betting to completion,
     filtering made with help of GPT 5/15 *)
-let bet (gm : Game.t) =
+let rec bet (gm : Game.t) =
   let playerlist = gm.players in
   let rec betfun (g : Game.t) ilst =
     let active_players =
       List.filter (fun p -> not p.Player.folded) gm.players
     in
     if List.length active_players = 1 then begin
-      print_endline
-        (Player.p_to_string (List.hd active_players)
-        ^ " wins a pot of " ^ string_of_int g.pot ^ "!!");
-      exit 1
+      play_game (Game.pick_round_winner g)
     end
     else
       match ilst with
@@ -450,47 +447,51 @@ let bet (gm : Game.t) =
   in
   betfun gm playerlist
 
+(** plays a game of poker *)
+and play_game (gm : Game.t) =
+  print_endline "============START NEW ROUND============";
+  let start = Game.(gm |> deal_cards |> deal_cards) in
+  let _ =
+    match start.players with
+    | p1 :: _ -> print_endline ("You have " ^ string_of_int p1.chips ^ " chips!")
+    | _ -> ()
+  in
+  let _ = print_newline () in
+  let _ = print_endline "These are your cards to start the round:" in
+  let _ =
+    match start.players with
+    | p1 :: _ -> print_endline (Hand.string_of_hand p1.hand)
+    | _ -> ()
+  in
+  let _ = print_newline () in
+  let first_round = bet start in
+
+  Game.print_game first_round;
+
+  let flop_deck = Game.deal_flop first_round in
+
+  let second_round = bet flop_deck in
+
+  Game.print_game second_round;
+
+  let turn = Game.deal_turn second_round in
+
+  let third_round = bet turn in
+
+  Game.print_game third_round;
+
+  let river = Game.deal_river turn in
+
+  let fourth_round = bet river in
+
+  Game.print_game fourth_round;
+
+  let new_round = Game.pick_round_winner fourth_round in
+
+  play_game new_round
+
 (** starts a game of poker *)
 let start_game () =
-  let rec play_game (start : Game.t) =
-    let _ =
-      match start.players with
-      | p1 :: _ ->
-          print_endline ("You have " ^ string_of_int p1.chips ^ " chips!")
-      | _ -> ()
-    in
-    let _ = print_newline () in
-    let _ = print_endline "These are your cards to start the round:" in
-    let _ =
-      match start.players with
-      | p1 :: _ -> print_endline (Hand.string_of_hand p1.hand)
-      | _ -> ()
-    in
-    let _ = print_newline () in
-    let first_round = bet start in
-
-    Game.print_game first_round;
-
-    let flop_deck = Game.deal_flop first_round in
-
-    let second_round = bet flop_deck in
-
-    Game.print_game second_round;
-
-    let turn = Game.deal_turn second_round in
-
-    let third_round = bet turn in
-
-    Game.print_game third_round;
-
-    let river = Game.deal_river turn in
-
-    let fourth_round = bet river in
-
-    Game.print_game fourth_round;
-
-    play_game fourth_round
-  in
   let _ = print_endline "You are playing Poker!\n" in
   let ng = Game.newgame in
   play_game ng

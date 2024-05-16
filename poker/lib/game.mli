@@ -17,7 +17,11 @@ type t = {
     the total bet on the round are stored. *)
 
 val newgame : t
-(** [newgame] is a brand new game with two cards dealt to every player*)
+(** [newgame] is a brand new game*)
+
+val deal_cards : t -> t
+(** [deal_cards g] is to be used at the beginning of rounds, it deals a new card
+    to the hand of each player in [g.players]*)
 
 val player_bet : t -> Player.t -> int -> t
 (** [player_bet gm p n] is the the same as the game [gm] but with with player

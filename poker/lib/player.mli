@@ -46,6 +46,12 @@ val deal_card : t -> Card.t -> t
 val fold : t -> t
 (** [fold p] is the player p with [p.folded] set to [true]. *)
 
+val unfold : t -> t
+(** [unfold p] is the player p with [p.folded] set to [false]. *)
+
+val reset_hand : t -> t
+(** [reset_hand p] returns player [p]'s hand to the empty hand *)
+
 val print_player : t -> unit
 (** [print_player p] prints out player [p] to the terminal in an easily readable
     format. *)

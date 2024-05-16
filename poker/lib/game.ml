@@ -130,7 +130,7 @@ let turn_and_river d =
 let deal_turn g =
   match turn_and_river g.deck with
   | c1, d ->
-      print_endline "\n*******SECOND ROUND OF BETTING DONE*******";
+      print_endline "\n*******SECOND ROUND OF BETTING DONE*******\n";
 
       (* Create a string representation of all cards on the board (flop +
          turn) *)
@@ -140,6 +140,7 @@ let deal_turn g =
           @ [ Card.string_of_card c1 ])
       in
       print_endline ("The flop + turn is: " ^ cards_string);
+      print_newline ();
       (fun (x : t) ->
         match x.players with
         | p1 :: _ ->
@@ -153,8 +154,13 @@ let deal_turn g =
         exit 0);
 
       let round_chps = (List.nth g.players 0).chips in
+      let playurs =
+        g.players
+        |> List.map (fun (p : Player.t) -> { p with hand = Hand.add c1 p.hand })
+      in
       {
         g with
+        players = playurs;
         flop_turn_river = c1 :: g.flop_turn_river;
         current_bet = 0;
         last_raise = Player.none_player;
@@ -167,7 +173,7 @@ let deal_turn g =
 let deal_river g =
   match turn_and_river g.deck with
   | c1, d ->
-      print_endline "\n*******THIRD ROUND OF BETTING DONE*******";
+      print_endline "\n*******THIRD ROUND OF BETTING DONE*******\n";
 
       (* Create a string representation of all cards on the board (flop +
          turn) *)
@@ -177,6 +183,7 @@ let deal_river g =
           @ [ Card.string_of_card c1 ])
       in
       print_endline ("The flop + turn + river is: " ^ cards_string);
+      print_newline ();
       (fun (x : t) ->
         match x.players with
         | p1 :: _ ->
@@ -190,8 +197,13 @@ let deal_river g =
         exit 0);
 
       let round_chps = (List.nth g.players 0).chips in
+      let playurs =
+        g.players
+        |> List.map (fun (p : Player.t) -> { p with hand = Hand.add c1 p.hand })
+      in
       {
         g with
+        players = playurs;
         flop_turn_river = c1 :: g.flop_turn_river;
         current_bet = 0;
         last_raise = Player.none_player;
@@ -203,7 +215,7 @@ let deal_river g =
 let deal_flop g =
   match flop g.deck with
   | c1, c2, c3, d ->
-      print_endline "\n*******FIRST ROUND OF BETTING DONE*******";
+      print_endline "\n*******FIRST ROUND OF BETTING DONE*******\n";
       print_endline
         ("The flop is: " ^ Card.string_of_card c1 ^ ", "
        ^ Card.string_of_card c2 ^ ", " ^ Card.string_of_card c3 ^ "\n");
@@ -220,8 +232,16 @@ let deal_flop g =
         exit 0);
 
       let round_chps = (List.nth g.players 0).chips in
+      let playurs =
+        g.players
+        |> List.map (fun (p : Player.t) -> { p with hand = Hand.add c1 p.hand })
+        |> List.map (fun (p : Player.t) -> { p with hand = Hand.add c2 p.hand })
+        |> List.map (fun (p : Player.t) -> { p with hand = Hand.add c3 p.hand })
+      in
+
       {
         g with
+        players = playurs;
         flop_turn_river = [ c1; c2; c3 ];
         deck = d;
         current_bet = 0;
@@ -434,7 +454,7 @@ let print_game gm =
   print_endline ("players: " ^ plist_to_string gm.players);
   print_endline ("pot: " ^ string_of_int gm.pot)
 
-let newgame = deal_cards (deal_cards emptygame)
+let newgame = emptygame
 
 let won_round (gm : t) (plyr : Player.t) =
   match gm.players with
@@ -442,7 +462,10 @@ let won_round (gm : t) (plyr : Player.t) =
       if p1 = plyr then
         let user_is_up = Player.add_chips p1 gm.pot in
         {
-          players = [ user_is_up; p2; p3; p4; p5; p6 ];
+          players =
+            List.map
+              (fun x -> x |> Player.unfold |> Player.reset_hand)
+              [ user_is_up; p2; p3; p4; p5; p6 ];
           deck = newdeck;
           flop_turn_river = [];
           pot = 0;
@@ -453,7 +476,10 @@ let won_round (gm : t) (plyr : Player.t) =
         }
       else if p2 = plyr then
         {
-          players = [ p1; Player.add_chips p2 gm.pot; p3; p4; p5; p6 ];
+          players =
+            List.map
+              (fun x -> x |> Player.unfold |> Player.reset_hand)
+              [ p1; Player.add_chips p2 gm.pot; p3; p4; p5; p6 ];
           deck = newdeck;
           flop_turn_river = [];
           pot = 0;
@@ -464,7 +490,10 @@ let won_round (gm : t) (plyr : Player.t) =
         }
       else if p3 = plyr then
         {
-          players = [ p1; p2; Player.add_chips p3 gm.pot; p4; p5; p6 ];
+          players =
+            List.map
+              (fun x -> x |> Player.unfold |> Player.reset_hand)
+              [ p1; p2; Player.add_chips p3 gm.pot; p4; p5; p6 ];
           deck = newdeck;
           flop_turn_river = [];
           pot = 0;
@@ -475,7 +504,10 @@ let won_round (gm : t) (plyr : Player.t) =
         }
       else if p4 = plyr then
         {
-          players = [ p1; p2; p3; Player.add_chips p4 gm.pot; p5; p6 ];
+          players =
+            List.map
+              (fun x -> x |> Player.unfold |> Player.reset_hand)
+              [ p1; p2; p3; Player.add_chips p4 gm.pot; p5; p6 ];
           deck = newdeck;
           flop_turn_river = [];
           pot = 0;
@@ -486,7 +518,10 @@ let won_round (gm : t) (plyr : Player.t) =
         }
       else if p5 = plyr then
         {
-          players = [ p1; p2; p3; p4; Player.add_chips p5 gm.pot; p6 ];
+          players =
+            List.map
+              (fun x -> x |> Player.unfold |> Player.reset_hand)
+              [ p1; p2; p3; p4; Player.add_chips p5 gm.pot; p6 ];
           deck = newdeck;
           flop_turn_river = [];
           pot = 0;
@@ -497,7 +532,10 @@ let won_round (gm : t) (plyr : Player.t) =
         }
       else if p6 = plyr then
         {
-          players = [ p1; p2; p3; p4; p5; Player.add_chips p6 gm.pot ];
+          players =
+            List.map
+              (fun x -> x |> Player.unfold |> Player.reset_hand)
+              [ p1; p2; p3; p4; p5; Player.add_chips p6 gm.pot ];
           deck = newdeck;
           flop_turn_river = [];
           pot = 0;
@@ -515,9 +553,14 @@ let pick_round_winner gm =
       (fun (x : Player.t) -> if x.folded = true then false else true)
       gm.players
   in
-  let winners = List.sort Player.compare still_in in
-  match winners with
-  | w :: _ ->
-      print_endline ("The player who wins is: " ^ Player.p_to_string w);
-      won_round gm w
-  | _ -> failwith "pick_winner"
+  if List.length still_in = 1 then (
+    let w = List.nth still_in 0 in
+    print_endline ("The player who wins is: " ^ Player.p_to_string w);
+    won_round gm w)
+  else
+    let winners = List.sort Player.compare still_in in
+    match winners with
+    | w :: _ ->
+        print_endline ("The player who wins is: " ^ Player.p_to_string w);
+        won_round gm w
+    | _ -> failwith "pick_winner"
