@@ -28,29 +28,17 @@ let string_of_hand hnd =
 let count lst elem =
   List.fold_left (fun acc x -> if x = elem then acc + 1 else acc) 0 lst
 
-(** Only to be applied to 5 card hands *)
-let high_card (hnd : t) : Card.t =
-  match hnd with
-  | [
-   { suit = s1; rank = r1 };
-   { suit = s2; rank = r2 };
-   { suit = s3; rank = r3 };
-   { suit = s4; rank = r4 };
-   { suit = s5; rank = r5 };
-  ] ->
-      let rnks = [ r1; r2; r3; r4; r5 ] in
-      let intranks = List.map Card.int_of_rank rnks in
-      let max_rank =
-        Card.rank_of_int
-          (List.fold_left (fun acc x -> if x > acc then x else acc) 0 intranks)
-      in
-      if max_rank = r1 then { suit = s1; rank = r1 }
-      else if max_rank = r2 then { suit = s2; rank = r2 }
-      else if max_rank = r3 then { suit = s3; rank = r3 }
-      else if max_rank = r4 then { suit = s4; rank = r4 }
-      else if max_rank = r5 then { suit = s5; rank = r5 }
-      else failwith "this should not happen in high_card"
-  | _ -> failwith "high_card should only be applied to 5 card hands"
+(*(** Only to be applied to 5 card hands *) let high_card (hnd : t) : Card.t =
+  match hnd with | [ { suit = s1; rank = r1 }; { suit = s2; rank = r2 }; { suit
+  = s3; rank = r3 }; { suit = s4; rank = r4 }; { suit = s5; rank = r5 }; ] ->
+  let rnks = [ r1; r2; r3; r4; r5 ] in let intranks = List.map Card.int_of_rank
+  rnks in let max_rank = Card.rank_of_int (List.fold_left (fun acc x -> if x >
+  acc then x else acc) 0 intranks) in if max_rank = r1 then { suit = s1; rank =
+  r1 } else if max_rank = r2 then { suit = s2; rank = r2 } else if max_rank = r3
+  then { suit = s3; rank = r3 } else if max_rank = r4 then { suit = s4; rank =
+  r4 } else if max_rank = r5 then { suit = s5; rank = r5 } else failwith "this
+  should not happen in high_card" | _ -> failwith "high_card should only be
+  applied to 5 card hands"*)
 
 (** filters a 7 or 5 card hand such that only cards of the most common suit
     remain *)
@@ -573,9 +561,29 @@ let check_one_pair (hnd : t) : t option =
 
 let get_high_card_hand (hnd : t) : t = hnd |> sort_by_rank |> keep_between 0 4
 
-let bestofseven (hnd : t) =
-  match hnd with
-  | _ -> () (* unimplemented *)
-
-let _ = bestofseven
-let _ = high_card
+let eval_hand (hnd : t) : string * t =
+  match hnd |> check_straight_flush with
+  | Some h -> ("straight flush", h)
+  | None -> (
+      match hnd |> check_four_of_a_kind with
+      | Some h -> ("four of a kind", h)
+      | None -> (
+          match hnd |> check_full_house with
+          | Some h -> ("full house", h)
+          | None -> (
+              match hnd |> check_flush with
+              | Some h -> ("flush", h)
+              | None -> (
+                  match hnd |> check_straight with
+                  | Some h -> ("straight", h)
+                  | None -> (
+                      match hnd |> check_three_of_a_kind with
+                      | Some h -> ("three of a kind", h)
+                      | None -> (
+                          match hnd |> check_two_pair with
+                          | Some h -> ("two pair", h)
+                          | None -> (
+                              match hnd |> check_one_pair with
+                              | Some h -> ("one pair", h)
+                              | None -> ("high card", get_high_card_hand hnd))))
+                  ))))
