@@ -335,37 +335,34 @@ let test_string_of_hand _ =
   assert_equal "Ace of Diamonds, Ace of Diamonds"
     (Hand.string_of_hand hand_duplicate_cards)
 
-(* let test_filt_for_straight _ = let hand1 = [ { Card.rank = Ace; Card.suit =
-   Diamonds }; { Card.rank = Two; Card.suit = Clubs }; { Card.rank = Three;
-   Card.suit = Hearts }; { Card.rank = Four; Card.suit = Spades }; { Card.rank =
-   Five; Card.suit = Diamonds }; { Card.rank = Six; Card.suit = Hearts }; {
-   Card.rank = Six; Card.suit = Hearts }; ] in let hand2 = [ { Card.rank = Two;
-   Card.suit = Clubs }; { Card.rank = Three; Card.suit = Hearts }; { Card.rank =
-   Four; Card.suit = Spades }; { Card.rank = Five; Card.suit = Diamonds }; {
-   Card.rank = Six; Card.suit = Hearts }; { Card.rank = Jack; Card.suit =
-   Diamonds }; { Card.rank = Queen; Card.suit = Clubs }; ] in let hand3 = [ {
-   Card.rank = Five; Card.suit = Clubs }; { Card.rank = Six; Card.suit = Hearts
-   }; { Card.rank = Six; Card.suit = Hearts }; { Card.rank = Eight; Card.suit =
-   Spades }; { Card.rank = Nine; Card.suit = Clubs }; { Card.rank = Jack;
-   Card.suit = Diamonds }; { Card.rank = Queen; Card.suit = Clubs }; ] in let
-   hand4 = [ { Card.rank = Five; Card.suit = Clubs }; { Card.rank = Six;
-   Card.suit = Hearts }; { Card.rank = Seven; Card.suit = Diamonds }; {
-   Card.rank = Eight; Card.suit = Spades }; { Card.rank = Nine; Card.suit =
-   Clubs }; { Card.rank = Jack; Card.suit = Diamonds }; { Card.rank = Queen;
-   Card.suit = Clubs }; ] in let hand5 = [ { Card.rank = Six; Card.suit = Hearts
-   }; { Card.rank = King; Card.suit = Hearts }; { Card.rank = Ace; Card.suit =
-   Spades }; { Card.rank = Two; Card.suit = Diamonds }; { Card.rank = Jack;
-   Card.suit = Diamonds }; { Card.rank = Queen; Card.suit = Clubs }; { Card.rank
-   = King; Card.suit = Hearts }; ] in let hand6 = [ { Card.rank = Jack;
-   Card.suit = Diamonds }; { Card.rank = Queen; Card.suit = Clubs }; { Card.rank
-   = King; Card.suit = Hearts }; { Card.rank = Ace; Card.suit = Spades }; ] in
-   assert_equal (failwith "filt_for_straight should only be applied to 7 card
-   hands") (Hand.filt_for_straight hand6); assert_equal (failwith
-   "filt_for_straight") (Hand.filt_for_straight hand1); assert_equal (failwith
-   "filt_for_straight") (Hand.filt_for_straight hand2); assert_equal (failwith
-   "filt_for_straight") (Hand.filt_for_straight hand3); assert_equal (failwith
-   "filt_for_straight") (Hand.filt_for_straight hand4); assert_equal (failwith
-   "filt_for_straight") (Hand.filt_for_straight hand5) *)
+let test_check_straight_flush _ =
+  let seven_cards =
+    Hand.add
+      { Card.suit = Diamonds; Card.rank = Eight }
+      (Hand.add
+         { Card.suit = Diamonds; Card.rank = Seven }
+         (Hand.add
+            { Card.suit = Diamonds; Card.rank = Six }
+            (Hand.add
+               { Card.suit = Diamonds; Card.rank = Five }
+               (Hand.add
+                  { Card.suit = Diamonds; Card.rank = Four }
+                  (Hand.add
+                     { Card.suit = Diamonds; Card.rank = Three }
+                     (Hand.add
+                        { Card.suit = Diamonds; Card.rank = Two }
+                        Hand.empty))))))
+  in
+  assert_equal
+    (Some
+       [
+         { Card.suit = Diamonds; Card.rank = Four };
+         { Card.suit = Diamonds; Card.rank = Five };
+         { Card.suit = Diamonds; Card.rank = Six };
+         { Card.suit = Diamonds; Card.rank = Seven };
+         { Card.suit = Diamonds; Card.rank = Eight };
+       ])
+    (Hand.check_straight_flush seven_cards)
 
 (* Test cases for Player *)
 let test_new_user _ =
@@ -373,6 +370,13 @@ let test_new_user _ =
   assert_equal Hand.empty Player.new_user.hand;
   assert_equal Player.default_chips Player.new_user.chips;
   assert_equal false Player.new_user.folded
+
+let test_new_bot _ =
+  let b = Player.new_bot 1 in
+  assert_equal (Player.Bot 1) b.player_type;
+  assert_equal Hand.empty b.hand;
+  assert_equal Player.default_chips b.chips;
+  assert_equal false b.folded
 
 let test_none_player _ =
   assert_equal Player.None Player.none_player.player_type;
@@ -384,52 +388,34 @@ let test_subtract_chips _ =
   let p = Player.new_user in
   assert_equal (p.chips - 10) (Player.subtract_chips p 10).chips
 
-  let contents = function
-  | None -> Hand.empty
-  | Some c -> c
-let check_straight_flush _ =
-  let seven_cards = Hand.add {Card.suit = Diamonds ; Card.rank = Eight} (Hand.add {Card.suit = Diamonds ; Card.rank = Seven} (Hand.add {Card.suit = Diamonds ; Card.rank = Six}
-    (Hand.add {Card.suit = Diamonds ; Card.rank = Five} (Hand.add {Card.suit = Diamonds ; Card.rank = Four} (Hand.add {Card.suit = Diamonds ; Card.rank = Four}
-  (Hand.add {Card.suit = Diamonds ; Card.rank = Three} (Hand.add {Card.suit = Diamonds ; Card.rank = Two} Hand.empty))))))) in
-  assert_equal (Some [{Card.suit = Diamonds ; Card.rank = Four}; {Card.suit = Diamonds ; Card.rank = Five}; {Card.suit = Diamonds ; Card.rank = Six}; {Card.suit = Diamonds ; Card.rank = Seven}; {Card.suit = Diamonds ; Card.rank = Eight}]) (Hand.check_straight_flush seven_cards);
-  assert_equal Hand.empty Player.none_player.hand;
-  assert_equal Int.min_int Player.none_player.chips;
-  assert_equal false Player.none_player.folded
+let test_add_chips _ =
+  let p = Player.new_user in
+  assert_equal (p.chips + 10) (Player.add_chips p 10).chips
 
-let test_eval_hand _ = 
-  let hand1 = Hand.add {Card.suit = Diamonds ; Card.rank = Four} (Hand.add {Card.suit = Hearts ; Card.rank = Four} (Hand.add {Card.suit = Diamonds ; Card.rank = Six}
-  (Hand.add {Card.suit = Spades ; Card.rank = Four} (Hand.add {Card.suit = Diamonds ; Card.rank = Four} (Hand.add {Card.suit = Clubs ; Card.rank = Nine}
-(Hand.add {Card.suit = Diamonds ; Card.rank = Three} (Hand.add {Card.suit = Diamonds ; Card.rank = Two} Hand.empty))))))) in
-let hand2 = Hand.add {Card.suit = Hearts ; Card.rank = Eight} (Hand.add {Card.suit = Diamonds ; Card.rank = Seven} (Hand.add {Card.suit = Diamonds ; Card.rank = Eight}
-(Hand.add {Card.suit = Diamonds ; Card.rank = Seven} (Hand.add {Card.suit = Spades ; Card.rank = Four} (Hand.add {Card.suit = Diamonds ; Card.rank = Seven}
-(Hand.add {Card.suit = Clubs ; Card.rank = Three} (Hand.add {Card.suit = Diamonds ; Card.rank = Two} Hand.empty))))))) in
-let hand3 = Hand.add {Card.suit = Diamonds ; Card.rank = Eight} (Hand.add {Card.suit = Hearts ; Card.rank = Eight} (Hand.add {Card.suit = Diamonds ; Card.rank = Six}
-(Hand.add {Card.suit = Diamonds ; Card.rank = Five} (Hand.add {Card.suit = Diamonds ; Card.rank = Four} (Hand.add {Card.suit = Hearts ; Card.rank = Four}
-(Hand.add {Card.suit = Diamonds ; Card.rank = Three} (Hand.add {Card.suit = Diamonds ; Card.rank = Two} Hand.empty))))))) in
-let hand4 = Hand.add {Card.suit = Diamonds ; Card.rank = Eight} (Hand.add {Card.suit = Hearts ; Card.rank = Seven} (Hand.add {Card.suit = Clubs ; Card.rank = Six}
-(Hand.add {Card.suit = Diamonds ; Card.rank = Five} (Hand.add {Card.suit = Diamonds ; Card.rank = Four} (Hand.add {Card.suit = Diamonds ; Card.rank = Four}
-(Hand.add {Card.suit = Diamonds ; Card.rank = Three} (Hand.add {Card.suit = Diamonds ; Card.rank = Two} Hand.empty))))))) in
-let hand5 = Hand.add {Card.suit = Diamonds ; Card.rank = Eight} (Hand.add {Card.suit = Hearts ; Card.rank = Eight} (Hand.add {Card.suit = Diamonds ; Card.rank = Six}
-(Hand.add {Card.suit = Diamonds ; Card.rank = Five} (Hand.add {Card.suit = Diamonds ; Card.rank = Four} (Hand.add {Card.suit = Hearts ; Card.rank = Four}
-(Hand.add {Card.suit = Diamonds ; Card.rank = Three} (Hand.add {Card.suit = Diamonds ; Card.rank = Two} Hand.empty))))))) in 
-let hand6 = Hand.add {Card.suit = Diamonds ; Card.rank = Eight} (Hand.add {Card.suit = Diamonds ; Card.rank = Seven} (Hand.add {Card.suit = Diamonds ; Card.rank = Six}
-(Hand.add {Card.suit = Diamonds ; Card.rank = Five} (Hand.add {Card.suit = Diamonds ; Card.rank = Four} (Hand.add {Card.suit = Diamonds ; Card.rank = Four}
-(Hand.add {Card.suit = Diamonds ; Card.rank = Three} (Hand.add {Card.suit = Diamonds ; Card.rank = Two} Hand.empty))))))) in
-let hand7 = Hand.add {Card.suit = Diamonds ; Card.rank = Eight} (Hand.add {Card.suit = Diamonds ; Card.rank = Seven} (Hand.add {Card.suit = Diamonds ; Card.rank = Six}
-(Hand.add {Card.suit = Diamonds ; Card.rank = Five} (Hand.add {Card.suit = Diamonds ; Card.rank = Four} (Hand.add {Card.suit = Diamonds ; Card.rank = Four}
-(Hand.add {Card.suit = Diamonds ; Card.rank = Three} (Hand.add {Card.suit = Diamonds ; Card.rank = Two} Hand.empty))))))) in
-let hand8 = Hand.add {Card.suit = Diamonds ; Card.rank = Eight} (Hand.add {Card.suit = Diamonds ; Card.rank = Seven} (Hand.add {Card.suit = Diamonds ; Card.rank = Six}
-(Hand.add {Card.suit = Diamonds ; Card.rank = Five} (Hand.add {Card.suit = Diamonds ; Card.rank = Four} (Hand.add {Card.suit = Diamonds ; Card.rank = Four}
-(Hand.add {Card.suit = Diamonds ; Card.rank = Three} (Hand.add {Card.suit = Diamonds ; Card.rank = Two} Hand.empty))))))) in
-assert_equal ("four of a kind") (fst (eval_hand hand1));
-assert_equal ("full house") (fst (eval_hand hand2));
-assert_equal ("flush") (fst (eval_hand hand3));
-assert_equal ("straight") (fst (eval_hand hand4));
+let test_deal_card _ =
+  let p = Player.new_user in
+  let card = { Card.suit = Spades; Card.rank = Two } in
+  assert_equal 1 (List.length (Player.deal_card p card).hand)
 
-assert_equal ("three of a kind") (fst (eval_hand hand5));
-assert_equal ("two pair") (fst (eval_hand hand6));
-assert_equal ("one pair") (fst (eval_hand hand7));
-assert_equal ("high card") (fst (eval_hand hand8));
+let test_fold _ =
+  let p = Player.new_user in
+  assert_equal true (Player.fold p).folded
+
+let test_print_player _ =
+  let p = Player.new_user in
+  assert_equal
+    (print_endline "Player type: User";
+     print_endline "Hand: ";
+     print_endline "Chips: 100";
+     print_endline "Folded: false")
+    (Player.print_player p);
+  let b = Player.new_bot 1 in
+  assert_equal
+    (print_endline "Player type: Bot 1";
+     print_endline "Hand: ";
+     print_endline "Chips: 100";
+     print_endline "Folded: false")
+    (Player.print_player b)
 
 let suite =
   "Test Suite"
@@ -502,10 +488,15 @@ let suite =
          "test_string_of_card52" >:: test_string_of_card52;
          "test_hand_add" >:: test_hand_add;
          "test_string_of_hand" >:: test_string_of_hand;
-         (* "test_filt_for_straight" >:: test_filt_for_straight; *)
+         "test_check_straight_flush" >:: test_check_straight_flush;
          "test_new_user" >:: test_new_user;
+         "test_new_bot" >:: test_new_bot;
          "test_none_player" >:: test_none_player;
          "test_subtract_chips" >:: test_subtract_chips;
+         "test_add_chips" >:: test_add_chips;
+         "test_deal_card" >:: test_deal_card;
+         "test_fold" >:: test_fold;
+         "test_print_player" >:: test_print_player;
        ]
 
 let _ = run_test_tt_main suite
