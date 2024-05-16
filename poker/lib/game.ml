@@ -126,7 +126,7 @@ let turn_and_river d =
   let nextdeck = rem_card i1 d in
   (c1, nextdeck)
 
-(**printing made with help of ChatGPT 5/16*)
+(**printing made with help of ChatGPT 5/13*)
 let deal_turn g =
   match turn_and_river g.deck with
   | c1, d ->
@@ -145,18 +145,18 @@ let deal_turn g =
         print_endline "You all folded—no one wins in this version of poker :(";
         exit 0);
 
-      let round_chips = (List.nth g.players 0).chips in
+      let round_chps = (List.nth g.players 0).chips in
       {
         g with
         flop_turn_river = c1 :: g.flop_turn_river;
         current_bet = 0;
         last_raise = Player.none_player;
-        round_chips;
+        round_chips = round_chps;
         total_bet = 0;
         deck = d;
       }
 
-(**printing made with help of ChatGPT 5/16*)
+(**printing made with help of ChatGPT 5/13*)
 let deal_river g =
   match turn_and_river g.deck with
   | c1, d ->
@@ -198,14 +198,14 @@ let deal_flop g =
         print_endline "You all folded—no one wins in this version of poker :(";
         exit 0);
 
-      let round_chips = (List.nth g.players 0).chips in
+      let round_chps = (List.nth g.players 0).chips in
       {
         g with
         flop_turn_river = [ c1; c2; c3 ];
         deck = d;
         current_bet = 0;
         last_raise = Player.none_player;
-        round_chips;
+        round_chips = round_chps;
         total_bet = 0;
       }
 
@@ -400,6 +400,7 @@ let fold_player gm plyr =
         gm
   | _ -> gm
 
+(* doesn't count players who have folded *)
 let rec plist_to_string plist =
   match plist with
   | h :: t ->
