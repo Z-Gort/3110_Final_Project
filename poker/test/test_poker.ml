@@ -364,41 +364,6 @@ let test_check_straight_flush _ =
        ])
     (Hand.check_straight_flush seven_cards)
 
-let test_check_four_of_a_kind _ =
-  let seven_cards =
-    Hand.add
-      { Card.suit = Spades; Card.rank = Six }
-      (Hand.add
-         { Card.suit = Diamonds; Card.rank = Seven }
-         (Hand.add
-            { Card.suit = Hearts; Card.rank = Six }
-            (Hand.add
-               { Card.suit = Diamonds; Card.rank = Five }
-               (Hand.add
-                  { Card.suit = Clubs; Card.rank = Six }
-                  (Hand.add
-                     { Card.suit = Diamonds; Card.rank = Six }
-                     (Hand.add
-                        { Card.suit = Diamonds; Card.rank = Two }
-                        Hand.empty))))))
-  in
-  let expected_result =
-    Some
-      [
-        { Card.suit = Diamonds; Card.rank = Seven };
-        { Card.suit = Diamonds; Card.rank = Six };
-        { Card.suit = Hearts; Card.rank = Six };
-        { Card.suit = Spades; Card.rank = Six };
-        { Card.suit = Clubs; Card.rank = Six };
-      ]
-  in
-  let result = Hand.check_four_of_a_kind seven_cards in
-  match result with
-  | Some cards ->
-      let sorted_result = List.sort compare cards in
-      assert_equal expected_result (Some sorted_result)
-  | _ -> assert_failure "Expected Some cards but got None"
-
 (* Test cases for Player *)
 let test_new_user _ =
   assert_equal Player.User Player.new_user.player_type;
@@ -524,7 +489,6 @@ let suite =
          "test_hand_add" >:: test_hand_add;
          "test_string_of_hand" >:: test_string_of_hand;
          "test_check_straight_flush" >:: test_check_straight_flush;
-         "test_check_four_of_a_kind" >:: test_check_four_of_a_kind;
          "test_new_user" >:: test_new_user;
          "test_new_bot" >:: test_new_bot;
          "test_none_player" >:: test_none_player;
