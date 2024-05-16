@@ -10,11 +10,6 @@ let add c lst =
   | [] -> c :: []
   | v -> v @ [ c ]
 
-let compare h1 h2 =
-  match (h1, h2) with
-  | _ -> 0
-(* currently treats all hands as equal, needs to be fully implemented *)
-
 let string_of_hand hnd =
   let rec build str lst =
     match lst with
@@ -587,3 +582,31 @@ let eval_hand (hnd : t) : string * t =
                               | Some h -> ("one pair", h)
                               | None -> ("high card", get_high_card_hand hnd))))
                   ))))
+
+let hand_rank = function
+  | "straight flush" -> 9
+  | "four of a kind" -> 8
+  | "full house" -> 7
+  | "flush" -> 6
+  | "straight" -> 5
+  | "three of a kind" -> 4
+  | "two pair" -> 3
+  | "one pair" -> 2
+  | "high card" -> 1
+  | _ -> failwith "hand_rank"
+
+let compare h1 h2 =
+  let evals = List.map eval_hand [ h1; h2 ] in
+  match evals with
+  | [ (s1, h1); (s2, h2) ] -> (
+      let hranks = List.map hand_rank [ s1; s2 ] in
+      match hranks with
+      | [ r1; r2 ] ->
+          let comparison = Int.compare r1 r2 in
+          if comparison <> 0 then comparison
+          else
+            Int.compare
+              (Card.int_of_rank (get_high_card h1).rank)
+              (Card.int_of_rank (get_high_card h2).rank)
+      | _ -> failwith "Hand.compare")
+  | _ -> failwith "Hand.compare"
