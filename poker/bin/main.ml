@@ -69,8 +69,14 @@ let rec user_action (gm : Game.t) (pl : Player.t) =
           user_action gm pl
         else gm
     | "Bet" | "bet" ->
-        let newgm = user_bet gm pl in
-        newgm
+        if pl.chips = 0 || pl.chips < gm.current_bet then
+          let _ =
+            print_endline "You don't have enough chips, you must fold :("
+          in
+          user_action gm pl
+        else
+          let newgm = user_bet gm pl in
+          newgm
     | "Fold" | "fold" ->
         let newgm = Game.fold_player gm pl in
         (* let _ = List.map Player.print_player gmeee.players in *)
@@ -273,7 +279,7 @@ let bot_bet (gm : Game.t) (pl : Player.t) =
           gm
     end
   | Bot 4 -> begin
-      (*Calls and folds, never raises, susinct*)
+      (*Calls and folds, never raises, succinct*)
       match rand with
       | 0 ->
           print_endline "Bot 4 says: 'I call your bet (could be a check).";
@@ -422,8 +428,7 @@ let bot_bet (gm : Game.t) (pl : Player.t) =
     end
   | _ -> gm
 
-(** [bet g] is the game [g] after one further round of betting to completion,
-    filtering made with help of GPT 5/15 *)
+(** [bet g] is the game [g] after one further round of betting to completion *)
 let rec bet (gm : Game.t) =
   let playerlist = gm.players in
   let rec betfun (g : Game.t) ilst =
@@ -454,7 +459,14 @@ let rec bet (gm : Game.t) =
 
 (** plays a game of poker *)
 and play_game (gm : Game.t) =
-  print_endline "============START NEW ROUND============";
+  if (List.nth gm.players 0).chips = 0 then begin
+    ANSITerminal.print_string
+      [ ANSITerminal.black; ANSITerminal.on_red ]
+      "You ran out of chips, you lose...";
+    print_newline ();
+    exit 0
+  end
+  else print_endline "\n\n============START NEW ROUND============\n\n";
   let start = Game.(gm |> deal_cards |> deal_cards) in
   let _ =
     match start.players with
@@ -465,7 +477,11 @@ and play_game (gm : Game.t) =
   let _ = print_endline "These are your cards to start the round:" in
   let _ =
     match start.players with
-    | p1 :: _ -> print_endline (Hand.string_of_hand p1.hand)
+    | p1 :: _ ->
+        ANSITerminal.print_string
+          [ ANSITerminal.black; ANSITerminal.on_green ]
+          (Hand.string_of_hand p1.hand);
+        print_newline ()
     | _ -> ()
   in
   let _ = print_newline () in

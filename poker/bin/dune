@@ -1,4 +1,4 @@
 (executable
  (public_name poker)
  (name main)
- (libraries poker batteries))
+ (libraries poker batteries ANSITerminal))
