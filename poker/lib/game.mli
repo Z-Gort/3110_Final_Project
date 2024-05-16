@@ -46,4 +46,9 @@ val deal_river : t -> t
 (** adds a river card to our game, modifies deck accordingly, resets betting
     fields*)
 
+val plist_to_string : Player.t list -> string
+(** converts a list of players to a string *)
+
 val pick_round_winner : t -> t
+(** picks the winner of the round and returns a new game after that player has
+    won*)
