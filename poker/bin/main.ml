@@ -38,7 +38,9 @@ let user_bet (gm : Game.t) (pl : Player.t) : Game.t =
       ^ " chips.")
   in
   let bet_size =
-    get_user_bet (gm.total_bet - (gm.round_chips - pl.chips)) pl.chips
+    get_user_bet
+      ((* gm.total_bet *) gm.current_bet - (gm.round_chips - pl.chips))
+      pl.chips
   in
   let newgm = Game.player_bet gm pl bet_size in
   newgm
