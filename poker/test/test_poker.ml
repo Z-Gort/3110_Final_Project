@@ -384,6 +384,35 @@ let test_subtract_chips _ =
   let p = Player.new_user in
   assert_equal (p.chips - 10) (Player.subtract_chips p 10).chips
 
+let test_add_chips _ =
+  let p = Player.new_user in
+  assert_equal (p.chips + 10) (Player.add_chips p 10).chips
+
+let test_deal_card _ =
+  let p = Player.new_user in
+  let card = { Card.suit = Spades; Card.rank = Two } in
+  assert_equal 1 (List.length (Player.deal_card p card).hand)
+
+let test_fold _ =
+  let p = Player.new_user in
+  assert_equal true (Player.fold p).folded
+
+let test_print_player _ =
+  let p = Player.new_user in
+  assert_equal
+    (print_endline "Player type: User";
+     print_endline "Hand: ";
+     print_endline "Chips: 100";
+     print_endline "Folded: false")
+    (Player.print_player p);
+  let b = Player.new_bot 1 in
+  assert_equal
+    (print_endline "Player type: Bot 1";
+     print_endline "Hand: ";
+     print_endline "Chips: 100";
+     print_endline "Folded: false")
+    (Player.print_player b)
+
 let suite =
   "Test Suite"
   >::: [
@@ -459,6 +488,10 @@ let suite =
          "test_new_user" >:: test_new_user;
          "test_none_player" >:: test_none_player;
          "test_subtract_chips" >:: test_subtract_chips;
+         "test_add_chips" >:: test_add_chips;
+         "test_deal_card" >:: test_deal_card;
+         "test_fold" >:: test_fold;
+         "test_print_player" >:: test_print_player;
        ]
 
 let _ = run_test_tt_main suite
