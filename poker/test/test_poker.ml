@@ -367,12 +367,48 @@ let test_string_of_hand _ =
    "filt_for_straight") (Hand.filt_for_straight hand4); assert_equal (failwith
    "filt_for_straight") (Hand.filt_for_straight hand5) *)
 
+let test_check_straight_flush _ =
+  let seven_cards =
+    Hand.add
+      { Card.suit = Diamonds; Card.rank = Eight }
+      (Hand.add
+         { Card.suit = Diamonds; Card.rank = Seven }
+         (Hand.add
+            { Card.suit = Diamonds; Card.rank = Six }
+            (Hand.add
+               { Card.suit = Diamonds; Card.rank = Five }
+               (Hand.add
+                  { Card.suit = Diamonds; Card.rank = Four }
+                  (Hand.add
+                     { Card.suit = Diamonds; Card.rank = Three }
+                     (Hand.add
+                        { Card.suit = Diamonds; Card.rank = Two }
+                        Hand.empty))))))
+  in
+  assert_equal
+    (Some
+       [
+         { Card.suit = Diamonds; Card.rank = Four };
+         { Card.suit = Diamonds; Card.rank = Five };
+         { Card.suit = Diamonds; Card.rank = Six };
+         { Card.suit = Diamonds; Card.rank = Seven };
+         { Card.suit = Diamonds; Card.rank = Eight };
+       ])
+    (Hand.check_straight_flush seven_cards)
+
 (* Test cases for Player *)
 let test_new_user _ =
   assert_equal Player.User Player.new_user.player_type;
   assert_equal Hand.empty Player.new_user.hand;
   assert_equal Player.default_chips Player.new_user.chips;
   assert_equal false Player.new_user.folded
+
+let test_new_bot _ =
+  let b = Player.new_bot 1 in
+  assert_equal (Player.Bot 1) b.player_type;
+  assert_equal Hand.empty b.hand;
+  assert_equal Player.default_chips b.chips;
+  assert_equal false b.folded
 
 let test_none_player _ =
   assert_equal Player.None Player.none_player.player_type;
@@ -485,7 +521,9 @@ let suite =
          "test_hand_add" >:: test_hand_add;
          "test_string_of_hand" >:: test_string_of_hand;
          (* "test_filt_for_straight" >:: test_filt_for_straight; *)
+         "test_straight_flush" >:: test_check_straight_flush;
          "test_new_user" >:: test_new_user;
+         "test_new_bot" >:: test_new_bot;
          "test_none_player" >:: test_none_player;
          "test_subtract_chips" >:: test_subtract_chips;
          "test_add_chips" >:: test_add_chips;
