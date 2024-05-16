@@ -384,6 +384,18 @@ let test_subtract_chips _ =
   let p = Player.new_user in
   assert_equal (p.chips - 10) (Player.subtract_chips p 10).chips
 
+  let contents = function
+  | None -> Hand.empty
+  | Some c -> c
+let check_straight_flush _ =
+  let seven_cards = Hand.add {Card.suit = Diamonds ; Card.rank = Eight} (Hand.add {Card.suit = Diamonds ; Card.rank = Seven} (Hand.add {Card.suit = Diamonds ; Card.rank = Six}
+    (Hand.add {Card.suit = Diamonds ; Card.rank = Five} (Hand.add {Card.suit = Diamonds ; Card.rank = Four} (Hand.add {Card.suit = Diamonds ; Card.rank = Four}
+  (Hand.add {Card.suit = Diamonds ; Card.rank = Three} (Hand.add {Card.suit = Diamonds ; Card.rank = Two} Hand.empty))))))) in
+  assert_equal (Some [{Card.suit = Diamonds ; Card.rank = Four}; {Card.suit = Diamonds ; Card.rank = Five}; {Card.suit = Diamonds ; Card.rank = Six}; {Card.suit = Diamonds ; Card.rank = Seven}; {Card.suit = Diamonds ; Card.rank = Eight}]) (Hand.check_straight_flush seven_cards);
+  assert_equal Hand.empty Player.none_player.hand;
+  assert_equal Int.min_int Player.none_player.chips;
+  assert_equal false Player.none_player.folded
+
 let suite =
   "Test Suite"
   >::: [
