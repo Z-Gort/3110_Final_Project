@@ -544,7 +544,7 @@ let test_eval_hand _ =
   assert_equal ("three of a kind") (fst (Hand.eval_hand hand5));
   assert_equal ("two pair") (fst (Hand.eval_hand hand6));
   assert_equal ("one pair") (fst (Hand.eval_hand hand7));
-  assert_equal ("high card") (fst (Hand.eval_hand hand8));
+  assert_equal ("high card") (fst (Hand.eval_hand hand8))
 
 let suite =
   "Test Suite"
@@ -626,6 +626,7 @@ let suite =
          "test_deal_card" >:: test_deal_card;
          "test_fold" >:: test_fold;
          "test_print_player" >:: test_print_player;
+         "test_eval_hand" >:: test_eval_hand;
        ]
 
 let _ = run_test_tt_main suite
