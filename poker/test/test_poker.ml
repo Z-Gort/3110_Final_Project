@@ -335,38 +335,6 @@ let test_string_of_hand _ =
   assert_equal "Ace of Diamonds, Ace of Diamonds"
     (Hand.string_of_hand hand_duplicate_cards)
 
-(* let test_filt_for_straight _ = let hand1 = [ { Card.rank = Ace; Card.suit =
-   Diamonds }; { Card.rank = Two; Card.suit = Clubs }; { Card.rank = Three;
-   Card.suit = Hearts }; { Card.rank = Four; Card.suit = Spades }; { Card.rank =
-   Five; Card.suit = Diamonds }; { Card.rank = Six; Card.suit = Hearts }; {
-   Card.rank = Six; Card.suit = Hearts }; ] in let hand2 = [ { Card.rank = Two;
-   Card.suit = Clubs }; { Card.rank = Three; Card.suit = Hearts }; { Card.rank =
-   Four; Card.suit = Spades }; { Card.rank = Five; Card.suit = Diamonds }; {
-   Card.rank = Six; Card.suit = Hearts }; { Card.rank = Jack; Card.suit =
-   Diamonds }; { Card.rank = Queen; Card.suit = Clubs }; ] in let hand3 = [ {
-   Card.rank = Five; Card.suit = Clubs }; { Card.rank = Six; Card.suit = Hearts
-   }; { Card.rank = Six; Card.suit = Hearts }; { Card.rank = Eight; Card.suit =
-   Spades }; { Card.rank = Nine; Card.suit = Clubs }; { Card.rank = Jack;
-   Card.suit = Diamonds }; { Card.rank = Queen; Card.suit = Clubs }; ] in let
-   hand4 = [ { Card.rank = Five; Card.suit = Clubs }; { Card.rank = Six;
-   Card.suit = Hearts }; { Card.rank = Seven; Card.suit = Diamonds }; {
-   Card.rank = Eight; Card.suit = Spades }; { Card.rank = Nine; Card.suit =
-   Clubs }; { Card.rank = Jack; Card.suit = Diamonds }; { Card.rank = Queen;
-   Card.suit = Clubs }; ] in let hand5 = [ { Card.rank = Six; Card.suit = Hearts
-   }; { Card.rank = King; Card.suit = Hearts }; { Card.rank = Ace; Card.suit =
-   Spades }; { Card.rank = Two; Card.suit = Diamonds }; { Card.rank = Jack;
-   Card.suit = Diamonds }; { Card.rank = Queen; Card.suit = Clubs }; { Card.rank
-   = King; Card.suit = Hearts }; ] in let hand6 = [ { Card.rank = Jack;
-   Card.suit = Diamonds }; { Card.rank = Queen; Card.suit = Clubs }; { Card.rank
-   = King; Card.suit = Hearts }; { Card.rank = Ace; Card.suit = Spades }; ] in
-   assert_equal (failwith "filt_for_straight should only be applied to 7 card
-   hands") (Hand.filt_for_straight hand6); assert_equal (failwith
-   "filt_for_straight") (Hand.filt_for_straight hand1); assert_equal (failwith
-   "filt_for_straight") (Hand.filt_for_straight hand2); assert_equal (failwith
-   "filt_for_straight") (Hand.filt_for_straight hand3); assert_equal (failwith
-   "filt_for_straight") (Hand.filt_for_straight hand4); assert_equal (failwith
-   "filt_for_straight") (Hand.filt_for_straight hand5) *)
-
 let test_check_straight_flush _ =
   let seven_cards =
     Hand.add
@@ -395,6 +363,41 @@ let test_check_straight_flush _ =
          { Card.suit = Diamonds; Card.rank = Eight };
        ])
     (Hand.check_straight_flush seven_cards)
+
+let test_check_four_of_a_kind _ =
+  let seven_cards =
+    Hand.add
+      { Card.suit = Spades; Card.rank = Six }
+      (Hand.add
+         { Card.suit = Diamonds; Card.rank = Seven }
+         (Hand.add
+            { Card.suit = Hearts; Card.rank = Six }
+            (Hand.add
+               { Card.suit = Diamonds; Card.rank = Five }
+               (Hand.add
+                  { Card.suit = Clubs; Card.rank = Six }
+                  (Hand.add
+                     { Card.suit = Diamonds; Card.rank = Six }
+                     (Hand.add
+                        { Card.suit = Diamonds; Card.rank = Two }
+                        Hand.empty))))))
+  in
+  let expected_result =
+    Some
+      [
+        { Card.suit = Diamonds; Card.rank = Seven };
+        { Card.suit = Diamonds; Card.rank = Six };
+        { Card.suit = Hearts; Card.rank = Six };
+        { Card.suit = Spades; Card.rank = Six };
+        { Card.suit = Clubs; Card.rank = Six };
+      ]
+  in
+  let result = Hand.check_four_of_a_kind seven_cards in
+  match result with
+  | Some cards ->
+      let sorted_result = List.sort compare cards in
+      assert_equal expected_result (Some sorted_result)
+  | _ -> assert_failure "Expected Some cards but got None"
 
 (* Test cases for Player *)
 let test_new_user _ =
@@ -520,8 +523,8 @@ let suite =
          "test_string_of_card52" >:: test_string_of_card52;
          "test_hand_add" >:: test_hand_add;
          "test_string_of_hand" >:: test_string_of_hand;
-         (* "test_filt_for_straight" >:: test_filt_for_straight; *)
-         "test_straight_flush" >:: test_check_straight_flush;
+         "test_check_straight_flush" >:: test_check_straight_flush;
+         "test_check_four_of_a_kind" >:: test_check_four_of_a_kind;
          "test_new_user" >:: test_new_user;
          "test_new_bot" >:: test_new_bot;
          "test_none_player" >:: test_none_player;
