@@ -53,7 +53,7 @@ let high_card (hnd : t) : Card.t =
   | _ -> failwith "high_card should only be applied to 5 card hands"
 
 (** filters a 7 card hand such that only cards of the most common suit remain *)
-let filt_for_suit (hnd : t) =
+let filt_for_flush (hnd : t) : t =
   match hnd with
   | [
    { suit = s1; rank = _ };
@@ -208,7 +208,129 @@ let filt_for_straight (hnd : t) : t option =
                   ]
             | None, None, None -> None)
         | _ -> failwith "filt_for_straight"))
+  | [
+   { suit = s1; rank = r1 };
+   { suit = s2; rank = r2 };
+   { suit = s3; rank = r3 };
+   { suit = s4; rank = r4 };
+   { suit = s5; rank = r5 };
+   { suit = s6; rank = r6 };
+  ] -> (
+      Card.(
+        let intrnks = List.map int_of_rank [ r1; r2; r3; r4; r5; r6 ] in
+        match intrnks with
+        | [ i1; i2; i3; i4; i5; i6 ] -> (
+            let straights =
+              ( find_five_sequential [ i2; i3; i4; i5; i6 ],
+                find_five_sequential [ i1; i2; i3; i4; i5 ] )
+            in
+            match straights with
+            | Some _, _ ->
+                Some
+                  [
+                    { suit = s2; rank = r2 };
+                    { suit = s3; rank = r3 };
+                    { suit = s4; rank = r4 };
+                    { suit = s5; rank = r5 };
+                    { suit = s6; rank = r6 };
+                  ]
+            | None, Some _ ->
+                Some
+                  [
+                    { suit = s1; rank = r1 };
+                    { suit = s2; rank = r2 };
+                    { suit = s3; rank = r3 };
+                    { suit = s4; rank = r4 };
+                    { suit = s5; rank = r5 };
+                  ]
+            | None, None -> None)
+        | _ -> failwith "filt_for_straight"))
+  | [
+   { suit = s1; rank = r1 };
+   { suit = s2; rank = r2 };
+   { suit = s3; rank = r3 };
+   { suit = s4; rank = r4 };
+   { suit = s5; rank = r5 };
+  ] -> (
+      Card.(
+        let intrnks = List.map int_of_rank [ r1; r2; r3; r4; r5 ] in
+        match intrnks with
+        | [ i1; i2; i3; i4; i5 ] -> (
+            let straight = find_five_sequential [ i1; i2; i3; i4; i5 ] in
+            match straight with
+            | Some _ ->
+                Some
+                  [
+                    { suit = s1; rank = r1 };
+                    { suit = s2; rank = r2 };
+                    { suit = s3; rank = r3 };
+                    { suit = s4; rank = r4 };
+                    { suit = s5; rank = r5 };
+                  ]
+            | None -> None)
+        | _ -> failwith "filt_for_straight"))
   | _ -> failwith "filt_for_straight should only be applied to 7 card hands"
+
+let check_straight_flush (hnd : t) : t option =
+  let flushed = hnd |> filt_for_flush in
+  if List.length flushed >= 5 then filt_for_straight flushed else None
+
+let check_four_of_a_kind (hnd : t) : t option =
+  match hnd |> sort_by_rank with
+  | [
+   { suit = s1; rank = r1 };
+   { suit = s2; rank = r2 };
+   { suit = s3; rank = r3 };
+   { suit = s4; rank = r4 };
+   { suit = s5; rank = r5 };
+   { suit = s6; rank = r6 };
+   { suit = s7; rank = r7 };
+  ] -> (
+      let ranks = List.map Card.int_of_rank [ r1; r2; r3; r4; r5; r6; r7 ] in
+      let counts = List.map ((fun lst x -> count lst x) ranks) ranks in
+      let idx = List.find_opt (fun x -> if x = 4 then true else false) counts in
+      match idx with
+      | Some i -> (
+          match i with
+          | 1 ->
+              Some
+                [
+                  { suit = s1; rank = r1 };
+                  { suit = s2; rank = r2 };
+                  { suit = s3; rank = r3 };
+                  { suit = s4; rank = r4 };
+                  { suit = s5; rank = r5 };
+                ]
+          | 2 ->
+              Some
+                [
+                  { suit = s2; rank = r2 };
+                  { suit = s3; rank = r3 };
+                  { suit = s4; rank = r4 };
+                  { suit = s5; rank = r5 };
+                  { suit = s6; rank = r6 };
+                ]
+          | 3 ->
+              Some
+                [
+                  { suit = s3; rank = r3 };
+                  { suit = s4; rank = r4 };
+                  { suit = s5; rank = r5 };
+                  { suit = s6; rank = r6 };
+                  { suit = s7; rank = r7 };
+                ]
+          | 4 ->
+              Some
+                [
+                  { suit = s3; rank = r3 };
+                  { suit = s4; rank = r4 };
+                  { suit = s5; rank = r5 };
+                  { suit = s6; rank = r6 };
+                  { suit = s7; rank = r7 };
+                ]
+          | _ -> failwith "check_four_of_a_kind")
+      | None -> None)
+  | _ -> None
 
 let bestofseven (hnd : t) =
   match hnd with

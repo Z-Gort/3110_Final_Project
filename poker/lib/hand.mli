@@ -15,5 +15,12 @@ val compare : t -> t -> int
 val string_of_hand : t -> string
 (** [string_of_hand h] is an easily readable string representation of hand [h] *)
 
-val filt_for_straight : t -> t option
-val filt_for_suit : t -> t
+val check_straight_flush : t -> t option
+(** [check_straight_flush hnd] is either [Some h] where [h] is a 5 card hand
+    containing a straight flush made up of cards in [hnd] or [None] if no such
+    hand can be made from [hnd]. *)
+
+val check_four_of_a_kind : t -> t option
+(** [check_four_of_a_kind hnd] is either [Some h] where [h] is a 5 card hand
+    containing 4 of a kind from [hnd] or [None] if no such hand can be made from
+    [hnd] *)
