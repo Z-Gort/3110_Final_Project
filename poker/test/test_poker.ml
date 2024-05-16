@@ -432,7 +432,8 @@ let test_eval_hand _ =
                  (Hand.add
                     { Card.suit = Diamonds; Card.rank = Two }
                     Hand.empty)))))) in
-  let hand2 = Hand.add
+  
+let hand2 = Hand.add
   { Card.suit = Diamonds; Card.rank = Eight }
   (Hand.add
      { Card.suit = Hearts; Card.rank = Eight }
@@ -465,7 +466,7 @@ let test_eval_hand _ =
   let hand4 = Hand.add
   { Card.suit = Diamonds; Card.rank = Eight }
   (Hand.add
-     { Card.suit = Hearts; Card.rank = Eight }
+     { Card.suit = Hearts; Card.rank = Seven }
      (Hand.add
         { Card.suit = Clubs; Card.rank = Six }
         (Hand.add
@@ -495,17 +496,17 @@ let test_eval_hand _ =
   let hand6 = Hand.add
   { Card.suit = Diamonds; Card.rank = Eight }
   (Hand.add
-     { Card.suit = Diamonds; Card.rank = Seven }
+     { Card.suit = Diamonds; Card.rank = Eight }
      (Hand.add
-        { Card.suit = Diamonds; Card.rank = Six }
+        { Card.suit = Hearts; Card.rank = Six }
         (Hand.add
            { Card.suit = Diamonds; Card.rank = Five }
            (Hand.add
-              { Card.suit = Diamonds; Card.rank = Four }
+              { Card.suit = Clubs; Card.rank = Two }
               (Hand.add
                  { Card.suit = Diamonds; Card.rank = Three }
                  (Hand.add
-                    { Card.suit = Diamonds; Card.rank = Two }
+                    { Card.suit = Spades; Card.rank = Two }
                     Hand.empty)))))) in
   let hand7 = Hand.add
   { Card.suit = Diamonds; Card.rank = Eight }
@@ -537,7 +538,7 @@ let test_eval_hand _ =
                  (Hand.add
                     { Card.suit = Spades; Card.rank = Jack }
                     Hand.empty)))))) in
-  assert_equal ("four of a kind") (fst (Hand.eval_hand hand1));
+  assert_equal ("straight flush") (fst (Hand.eval_hand hand1));
   assert_equal ("full house") (fst (Hand.eval_hand hand2));
   assert_equal ("flush") (fst (Hand.eval_hand hand3));
   assert_equal ("straight") (fst (Hand.eval_hand hand4));
