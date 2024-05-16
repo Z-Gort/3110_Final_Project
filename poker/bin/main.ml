@@ -38,7 +38,7 @@ let user_bet (gm : Game.t) (pl : Player.t) : Game.t =
      ^ string_of_int pl.chips ^ " chips and you must bet at least "
       ^ string_of_int
           ((*gm.total_bet*) gm.current_bet - (gm.round_chips - pl.chips))
-  )
+      ^ " chips. curr bet, rc, chips " ^ string_of_int gm.current_bet ^ " " ^ string_of_int gm.round_chips ^ " " ^ " " ^ string_of_int pl.chips)
   in
   let bet_size =
     get_user_bet
@@ -433,7 +433,9 @@ let rec bet (gm : Game.t) =
   let playerlist = gm.players in
   let rec betfun (g : Game.t) ilst =
     let active_players =
-      List.filter (fun p -> not p.Player.folded) gm.players
+      List.filter
+        (fun (p : Player.t) -> if p.folded = true then false else true)
+        gm.players
     in
     if List.length active_players = 1 then begin
       play_game (Game.pick_round_winner g)
