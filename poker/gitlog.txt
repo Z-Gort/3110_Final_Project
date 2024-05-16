@@ -1,0 +1,862 @@
+commit ab04287a15e61bc9a90f133bc19ffdacba94ae9f
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Thu May 16 05:32:10 2024 -0400
+
+    Swap test plan pdf
+
+commit f519e14f114b637c49396971bdfe94e0d59b71bc
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Thu May 16 05:18:43 2024 -0400
+
+    Hopefully final commit
+
+commit e0ae4ae15afeda2a68739f3e5a69a63fc5ec8b67
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Thu May 16 05:14:59 2024 -0400
+
+    Fix final bug
+
+commit ee3e0e82aac9b86a44ea6da224a13a14e98cc512
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Thu May 16 04:56:19 2024 -0400
+
+    Fix bug in main, extra bet
+
+commit 48b17d04ab13032200e80397d51f2b8b93e3202d
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Thu May 16 04:50:28 2024 -0400
+
+    Comment debugging out
+
+commit 8bd85bec4a0734f9dafbd3014f77d24b57d088b5
+Merge: a3c7664 b114612
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Thu May 16 04:41:44 2024 -0400
+
+    Merge branch 'main' of github.com:Z-Gort/3110_Final_Project
+
+commit a3c7664f96f94972d20ebbf7c1cf91c3193e3d5b
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Thu May 16 04:41:39 2024 -0400
+
+    Check proactively for game end
+
+commit b114612331002200dfab52ae5ac26b3c1e4b8435
+Merge: 219a354 c653f48
+Author: Michael <mjm734@cornell.edu>
+Date:   Thu May 16 04:30:46 2024 -0400
+
+    Merge branch 'main' of github.com:Z-Gort/3110_Final_Project
+
+commit 219a354d1d8fcd947b46b7a7017670ed6dac2d73
+Author: Michael <mjm734@cornell.edu>
+Date:   Thu May 16 04:28:54 2024 -0400
+
+    Main edit
+    - Got rid of print information that was useless
+
+commit c653f48beee1c7c06566b1e5028baaa151443361
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Thu May 16 04:28:15 2024 -0400
+
+    Minor changes for appearance
+
+commit 07472b8f157196b4197a94244f54464873ab4565
+Merge: 938ef11 905de72
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Thu May 16 04:14:44 2024 -0400
+
+    Merge branch 'main' of github.com:Z-Gort/3110_Final_Project
+
+commit 938ef112722ccd99d3f5ea1ea39476ade01d13db
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Thu May 16 04:14:40 2024 -0400
+
+    End game when user is broke
+
+commit 905de7224c87530cd711cdad597acf87e2e7359b
+Merge: d928da2 9d392bb
+Author: Michael <mjm734@cornell.edu>
+Date:   Thu May 16 03:48:08 2024 -0400
+
+    Merge branch 'main' of github.com:Z-Gort/3110_Final_Project
+
+commit d928da2ac1d6e1b4d0183ff2d762aba2f89fc74d
+Author: Michael <mjm734@cornell.edu>
+Date:   Thu May 16 03:48:02 2024 -0400
+
+    Main edits
+    -Fixed main edits
+
+commit 9d392bb6fceaf79520787a5014a717ef2040802d
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Thu May 16 03:47:22 2024 -0400
+
+    Fix bug in min bet
+
+commit 5e8a82a89bdf21f051a5fe4db9d637f5c0b6854a
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Thu May 16 03:39:29 2024 -0400
+
+    Prevent betting zero
+
+commit 14df18ee811742a5e7fc23255b35cacf05551e9b
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Thu May 16 03:30:53 2024 -0400
+
+    Comment out total_bet
+
+commit 7cca17939dfe8e46be3d4f4070334c888cf3e1b4
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Thu May 16 03:29:50 2024 -0400
+
+    Fix bugs
+
+commit dcde48276ad5d4fc00c0b8a3daab83507894e009
+Merge: 5a55fd6 af4a1f7
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Thu May 16 02:08:39 2024 -0400
+
+    Merge branch 'main' of github.com:Z-Gort/3110_Final_Project
+
+commit 5a55fd6014be0e27abb557b68147a39ed876ee28
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Thu May 16 02:08:34 2024 -0400
+
+    Implement winning round
+
+commit af4a1f755e39d9a8b842743c158de27936ebe0e0
+Merge: 2a24bf4 0be5595
+Author: Oscar Callamari-Abrams <oscarabrams@gmail.com>
+Date:   Thu May 16 01:02:31 2024 -0400
+
+    Merge branch 'main' of github.com:Z-Gort/3110_Final_Project
+
+commit 2a24bf42403ef590e59246f157fa8b43f7f8d1d6
+Author: Oscar Callamari-Abrams <oscarabrams@gmail.com>
+Date:   Thu May 16 01:02:13 2024 -0400
+
+    Test Plan doc addition
+
+commit 0be559519ec4f0b4bfab6bb117dce641b1b2a2ab
+Merge: 43cb716 6a3a11d
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Thu May 16 00:54:10 2024 -0400
+
+    Merge branch 'main' of github.com:Z-Gort/3110_Final_Project
+
+commit 43cb716d321d80c8dd0776d153a278add33f5251
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Thu May 16 00:53:39 2024 -0400
+
+    Fixed it on gronk
+
+commit 6a3a11deef667afff6ca5ba9584062af21f0f3c8
+Author: Oscar Callamari-Abrams <oscarabrams@gmail.com>
+Date:   Thu May 16 00:38:11 2024 -0400
+
+    test edits
+
+commit 63365ea70f81ac164e8ef0089b60ee7d9c0272e4
+Author: Oscar Callamari-Abrams <oscarabrams@gmail.com>
+Date:   Thu May 16 00:25:57 2024 -0400
+
+    test edits
+
+commit 0de848bff67e89b6b6615fcf7760975bab0e9372
+Merge: b30386b 75bfcf6
+Author: Oscar Callamari-Abrams <oscarabrams@gmail.com>
+Date:   Thu May 16 00:22:19 2024 -0400
+
+    Merge branch 'main' of github.com:Z-Gort/3110_Final_Project
+
+commit b30386b91c801f7a3535a050be959079968ec524
+Author: Oscar Callamari-Abrams <oscarabrams@gmail.com>
+Date:   Thu May 16 00:21:44 2024 -0400
+
+    test changes
+
+commit 75bfcf6a4f8ffdad9e4bfa161d2865b003354cd8
+Merge: f3fa56f 9ad7612
+Author: Michael <mjm734@cornell.edu>
+Date:   Thu May 16 00:10:31 2024 -0400
+
+    Merge branch 'main' of github.com:Z-Gort/3110_Final_Project
+
+commit f3fa56f6d401b12e8fac87b1f477e8e3a73a59e5
+Author: Michael <mjm734@cornell.edu>
+Date:   Thu May 16 00:09:29 2024 -0400
+
+    Fixed eval_hand
+    -Fixed hand issues in eval_hand
+    -Proper functionality for now
+
+commit 9ad7612db64adcb30fb7ea04ef6ffdf878e7471d
+Merge: 48b82c7 072b578
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Thu May 16 00:07:23 2024 -0400
+
+    Merge branch 'main' of github.com:Z-Gort/3110_Final_Project
+
+commit 48b82c784223b9097add0ea6b72407784b6c04d9
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Thu May 16 00:07:19 2024 -0400
+
+    Fix small bugs
+
+commit 072b5781c9f8b6c77c8ce1ed6d18ada99a106414
+Author: Oscar Callamari-Abrams <oscarabrams@gmail.com>
+Date:   Thu May 16 00:07:12 2024 -0400
+
+    test changes
+
+commit a5657aed10a5419b178ac3af9c32a139033a223d
+Author: Michael <mjm734@cornell.edu>
+Date:   Thu May 16 00:00:33 2024 -0400
+
+    Edited test_eval_bound
+    -This was to make it compile
+    -Now can test
+
+commit 2e2c8af85155f4b83c18160c420ff12aa1283d67
+Merge: 8e8354f 8a5e4b9
+Author: Michael <mjm734@cornell.edu>
+Date:   Wed May 15 23:58:15 2024 -0400
+
+    Merge branch 'main' of github.com:Z-Gort/3110_Final_Project
+
+commit 8e8354fae04243541e09d580163f9950b06de53d
+Author: Michael <mjm734@cornell.edu>
+Date:   Wed May 15 23:58:08 2024 -0400
+
+    Tested eval_bound
+    -Analyze whether hands are correctly mapped
+
+commit 8a5e4b9ccb1580dc65b6c8d86c86043803d35fff
+Merge: 15554b1 a53f249
+Author: Oscar Callamari-Abrams <oscarabrams@gmail.com>
+Date:   Wed May 15 23:45:06 2024 -0400
+
+    Merge branch 'main' of github.com:Z-Gort/3110_Final_Project
+
+commit 15554b1edfbb3f11ba395bbd62d83bed08fe955a
+Author: Oscar Callamari-Abrams <oscarabrams@gmail.com>
+Date:   Wed May 15 23:43:58 2024 -0400
+
+    edits
+
+commit a53f24986f846843309ead7e68dce9ea65c43c4e
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Wed May 15 23:31:48 2024 -0400
+
+    Fix bug in dealing cards
+
+commit a1e92bb8b4fd14de0c8f732af04dd55cf41887a5
+Merge: cef9cd3 d1aadfa
+Author: Michael <mjm734@cornell.edu>
+Date:   Wed May 15 23:05:17 2024 -0400
+
+    Merge branch 'main' of github.com:Z-Gort/3110_Final_Project
+
+commit cef9cd32799249b3d46a9e07f3acd1a74352abaa
+Author: Michael <mjm734@cornell.edu>
+Date:   Wed May 15 23:00:11 2024 -0400
+
+    Mikes commit
+
+commit d1aadfad3d965deb1fa5a04ac8a41c53156bc344
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Wed May 15 22:59:26 2024 -0400
+
+    Implement Hand.compare
+
+commit d01f74ed946259eea62955630f7183901808f788
+Merge: 034781d 4fae9c4
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Wed May 15 22:41:28 2024 -0400
+
+    Merge branch 'main' of github.com:Z-Gort/3110_Final_Project
+
+commit 034781d16ce5f24bebfca2d06fb581e0ee862ea4
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Wed May 15 22:41:24 2024 -0400
+
+    Document eval_hand
+
+commit 4fae9c480776f6f8ce200fb018c57b6f4dc6df99
+Author: Oscar Callamari-Abrams <oscarabrams@gmail.com>
+Date:   Wed May 15 22:40:22 2024 -0400
+
+    test case edits (oc67)
+
+commit 5262396cac95d175d43b4864776aac414f0e9de9
+Merge: 9dbf421 ab5a942
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Wed May 15 22:37:02 2024 -0400
+
+    Merge branch 'main' of github.com:Z-Gort/3110_Final_Project
+
+commit 9dbf421c73e9eac8cfa1f182326a488753c67194
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Wed May 15 22:36:58 2024 -0400
+
+    Implement eval_hand
+
+commit ab5a9424130a55821b85e51a47ceaeba71c37ef2
+Merge: 2bfc9dd 3b17fcd
+Author: Oscar Callamari-Abrams <oscarabrams@gmail.com>
+Date:   Wed May 15 22:20:01 2024 -0400
+
+    Merge branch 'main' of github.com:Z-Gort/3110_Final_Project
+
+commit 2bfc9ddf1bceeb7830e649c3862ae6636578c46d
+Author: Oscar Callamari-Abrams <oscarabrams@gmail.com>
+Date:   Wed May 15 22:19:48 2024 -0400
+
+    test cases (oc67)
+
+commit 3b17fcd1ee066b7a863a613cef5d93fe412bd6f8
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Wed May 15 22:14:08 2024 -0400
+
+    Add to hand
+
+commit 6fc0a1e73f0d568896940d03ef9dece6c85ada7b
+Merge: e2eddd9 ff595fe
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Wed May 15 21:39:13 2024 -0400
+
+    Merge branch 'main' of github.com:Z-Gort/3110_Final_Project
+
+commit e2eddd992ab95d932754e53fd758230cde3c2dc1
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Wed May 15 21:39:08 2024 -0400
+
+    Add to hand comparison
+
+commit ff595fe25cecf3b92bd9a77a472765245fd529ef
+Author: Oscar Callamari-Abrams <oscarabrams@gmail.com>
+Date:   Wed May 15 21:31:16 2024 -0400
+
+    added test case (mjm734)
+
+commit edb7f6e1f738105b3722e71e21e319da1e052fa4
+Author: Michael <mjm734@cornell.edu>
+Date:   Wed May 15 21:31:03 2024 -0400
+
+    Tested flush
+    - Straight flush was tested
+    - Edited test cases for none_player
+
+commit 370014ce686d32c3896b3f76baee6d7193618291
+Author: Oscar Callamari-Abrams <oscarabrams@gmail.com>
+Date:   Wed May 15 21:17:51 2024 -0400
+
+    More tests (oc67)
+
+commit f14eff273a3defcd64ef348cc5bcc88ca82c793f
+Merge: 867036f b3ded57
+Author: Oscar Callamari-Abrams <oscarabrams@gmail.com>
+Date:   Wed May 15 20:21:26 2024 -0400
+
+    More test cases! (oc67)
+
+commit 867036fef733f17aa349ae31c92be39a02b6e432
+Author: Oscar Callamari-Abrams <oscarabrams@gmail.com>
+Date:   Wed May 15 20:20:52 2024 -0400
+
+    More test cases! (oc67)
+
+commit b3ded5706f0ad603e0f49d3ddf5cbefd9e93f2d7
+Merge: 13c3be0 1470d75
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Wed May 15 20:06:57 2024 -0400
+
+    Merge branch 'main' of github.com:Z-Gort/3110_Final_Project
+
+commit 13c3be0aa2c167c084b4286382f4872a40d6fbde
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Wed May 15 20:06:50 2024 -0400
+
+    Implement more in hand
+    
+    - check_straight_flush
+    - check_four_of_a_kind
+
+commit 1470d75e2cb6c356fcd1646083865e993fcdbafd
+Author: Oscar Callamari-Abrams <oscarabrams@gmail.com>
+Date:   Wed May 15 19:23:10 2024 -0400
+
+    More test cases (oc67)
+
+commit 8ae8535260436eadc5127406437e0da32afb813e
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Wed May 15 18:54:11 2024 -0400
+
+    Fix filt for suit & straight
+
+commit 77824b570382e9db13169fb44cfc26efa3305ef0
+Merge: e23717f e3d6f20
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Wed May 15 17:00:14 2024 -0400
+
+    Merge branch 'main' of github.com:Z-Gort/3110_Final_Project
+
+commit e23717fbc02f05e10cc62fb74f6e4e94c7f65776
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Wed May 15 17:00:10 2024 -0400
+
+    Make hand compile
+    
+     - hand is still very much unfinished
+
+commit e3d6f20964bba2082aaa36c45cceb8a28adf402c
+Merge: e270400 c2258e6
+Author: Zach Gorton <zachgortonnyc@gmail.com>
+Date:   Wed May 15 16:58:48 2024 -0400
+
+    Merge branch 'main' of https://github.com/Z-Gort/3110_Final_Project
+
+commit e270400e3745d2bb4d0a393a02b56e286e86b8de
+Author: Zach Gorton <zachgortonnyc@gmail.com>
+Date:   Wed May 15 16:58:43 2024 -0400
+
+    fix issue with one player left
+
+commit c2258e6339a6deeaa96d71088dca13b5cc52dcbf
+Author: Oscar Callamari-Abrams <oscarabrams@gmail.com>
+Date:   Wed May 15 16:41:09 2024 -0400
+
+    More test cases (oc67)
+
+commit 1a4424de4173ac0d4be0b37207464ffffc219e43
+Merge: 996bba0 5be305d
+Author: Zach Gorton <zachgortonnyc@gmail.com>
+Date:   Wed May 15 16:36:51 2024 -0400
+
+    all betting implemented
+
+commit 996bba07bd95478a8d5ef76d58c7f286b8001cc4
+Author: Zach Gorton <zachgortonnyc@gmail.com>
+Date:   Wed May 15 16:34:42 2024 -0400
+
+    all betting implemented + flop + turn + river
+
+commit 5be305ddf2917e4991d8b1cfeeb1857c4163be6c
+Merge: c17e97c 18bb03a
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Wed May 15 14:54:17 2024 -0400
+
+    Merge branch 'main' of github.com:Z-Gort/3110_Final_Project
+
+commit c17e97cef8f75b8cfd29726d877369e49fce4d6c
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Wed May 15 14:51:04 2024 -0400
+
+    Begin implementing hand comparison
+
+commit 18bb03aa206be69200df3aa5f61f02c08fb4787c
+Author: Zach Gorton <zachgortonnyc@gmail.com>
+Date:   Wed May 15 13:02:22 2024 -0400
+
+    bet rounds functions fixed--should be fully functional
+
+commit 51dc10cab644de2764eb3e3e50e7caf4fcc73cc1
+Merge: 61ccc62 3d2527d
+Author: Oscar Callamari-Abrams <oscarabrams@gmail.com>
+Date:   Tue May 14 23:02:52 2024 -0400
+
+    Merge branch 'main' of github.com:Z-Gort/3110_Final_Project
+
+commit 61ccc62ed87870e36ae6836f462084d801d7c19d
+Author: Oscar Callamari-Abrams <oscarabrams@gmail.com>
+Date:   Tue May 14 23:02:23 2024 -0400
+
+    Preliminary test cases
+
+commit 3d2527d0d6b5971a94f060a27c8ce5f2ebe64c12
+Author: Zach Gorton <zachgortonnyc@gmail.com>
+Date:   Tue May 14 12:30:36 2024 -0400
+
+    implement bot bet
+
+commit e7ac1bc38336b58207dcf6b75fda0b5d44696a68
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun May 12 20:38:12 2024 -0400
+
+    Reformat changes
+
+commit 90bb4fce518af116c318bf35e908e765c549b49e
+Author: Zach Gorton <zachgortonnyc@gmail.com>
+Date:   Sun May 12 20:04:13 2024 -0400
+
+    add game print to keep track of progress
+
+commit 30e69c65fecfbfca16b0112b995b3dd659730a5f
+Author: Zach Gorton <zachgortonnyc@gmail.com>
+Date:   Sun May 12 19:27:34 2024 -0400
+
+    fix last raise issue, betting now ends
+
+commit 62d1b69f09658b05f395132cde28f5c3944adcdb
+Author: Zach Gorton <zachgortonnyc@gmail.com>
+Date:   Sun May 12 18:58:06 2024 -0400
+
+    fix part of the bet bug, new issue is just that we inialize the last_raise to user instead of no one
+
+commit 100d712a30161f681503b6b730162a85e3c58b44
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun May 12 18:11:57 2024 -0400
+
+    Comment out prints in main
+
+commit 00e1ee09ad9ca666a30ffcc0e83853bd6231677b
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun May 12 18:10:59 2024 -0400
+
+    Add prints to main, debugging
+
+commit 06b541ff9c15862851a14908e9313b721ea30e2d
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun May 12 17:27:17 2024 -0400
+
+    change user_bet
+    
+    - not finished debugging
+
+commit d97fc41c6f56f93792b81089d472ed506f8fb3b5
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun May 12 15:56:47 2024 -0400
+
+    Fix bug in betting
+    
+    - still not fully fixed, betting round still never ends
+
+commit b02865fc1625fac8e246f616db75735d7f342be6
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Fri Apr 26 18:16:40 2024 -0400
+
+    Add message abt bug
+
+commit e9d290a58723ff4d5542094e389582f73c0c773c
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Fri Apr 26 18:12:37 2024 -0400
+
+    Allow user to fold or check
+
+commit 2c1746e4386efba2e2b9fb6bc2c7a82286a2dda6
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Fri Apr 26 17:23:09 2024 -0400
+
+    Implement player_bet
+    
+    - modify Game.t to keep track of last player to raise
+
+commit fa39e0a7e3958a05f2c0b2bc3858b0f3a511158f
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Fri Apr 26 16:39:18 2024 -0400
+
+    Changed things in main
+
+commit 8b1a503723a32d8e9dd744bd7631e27aa9e374e3
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Fri Apr 26 16:06:03 2024 -0400
+
+    Modify start_game slightly
+
+commit d2f7092ba2c66a454442d1a803bebb4ebd718ebc
+Author: asz38 <azweckbronner@gmail.com>
+Date:   Fri Apr 26 15:44:06 2024 -0400
+
+    Added Bet Function
+
+commit 7574b19305a626943eb99fbc43195ed6b946e806
+Author: Zach Gorton <zachgortonnyc@gmail.com>
+Date:   Wed Apr 24 22:15:22 2024 -0400
+
+    implement bet function
+
+commit 9ac9311d38ad0800d245eaa89dd430b65a152934
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Mon Apr 22 20:06:12 2024 -0400
+
+    Fix errors in game.ml
+
+commit 9df23ec9ac072dbd7d06b75f4a9613763b489939
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Mon Apr 22 19:54:54 2024 -0400
+
+    Fix errors in prev commit
+
+commit a4fde0f2894e8f936d8243ad1288bdefa73c3011
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Mon Apr 22 19:47:28 2024 -0400
+
+    Modify game.ml, player
+    
+    - finish implementing player comp unit
+
+commit a4864d3b8aa99529648fbe19055f2a682f70edec
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Mon Apr 22 19:22:16 2024 -0400
+
+    Change game rep type
+    
+    - also, implement player.mli
+
+commit 0289a91854a1ee4acea2e2c3b7d01f393ba36500
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Mon Apr 22 19:05:21 2024 -0400
+
+    Add to player.mli
+
+commit ee1ae242eda4c7cad8d073f9ca5048ec98d050d0
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Mon Apr 22 18:53:51 2024 -0400
+
+    Start filling out player.mli
+
+commit 87a38d3d6ed59588c383863b72724eab2a38d903
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Mon Apr 22 18:43:30 2024 -0400
+
+    Moved player comp unit to lib
+
+commit d6bda0bc6a523e5b7168c95ba40a713746538886
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Mon Apr 22 18:42:49 2024 -0400
+
+    Created player comp unit
+
+commit ed8daa827c1cb2e8ab2ffb8dae36252be40e6b34
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Fri Apr 12 16:03:55 2024 -0400
+
+    add comment
+
+commit 2ee954eec36ed672ddad996c056246cae9966cad
+Author: Zach Gorton <zachgortonnyc@gmail.com>
+Date:   Thu Mar 28 22:22:04 2024 -0400
+
+    added git log
+
+commit 5bff8f7878010d3fd3fb3652c2eda0c017b9dce7
+Author: asz38 <asz38@cornell.edu>
+Date:   Thu Mar 28 21:13:18 2024 -0400
+
+    MS2 commit
+
+commit 47b50b883d4d98c8a3764e1100b022161ec12286
+Author: asz38 <asz38@cornell.edu>
+Date:   Thu Mar 28 20:49:27 2024 -0400
+
+    Added Install text file
+
+commit e22c9e9ec6a4e929bcd8289b168a78893c608e9d
+Author: asz38 <asz38@cornell.edu>
+Date:   Thu Mar 28 20:39:05 2024 -0400
+
+    Added YAML file and Install file
+
+commit 666bf8b3e0563c8037c280e6dcc3e9beb7d2ee98
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Mon Mar 25 11:12:41 2024 -0400
+
+    Add comment to game.mli
+
+commit af82178cacbb17488505019504d6bee8032bb568
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Mon Mar 25 01:38:59 2024 -0400
+
+    Implement string conversion
+    
+    - string_of_card and string_of_hand added to interface and implemented
+    - print statements added to main to communicate start of game and users own cards
+
+commit 5379e548e500b19f0ef9df1a56bad6aaa0fdab26
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Mon Mar 25 01:18:08 2024 -0400
+
+    Change game logic
+    
+    - newgame is now a game with 2 cards dealt to every player
+
+commit ba23d4a01217d99ec45a3eb8f7f5261547cd3b88
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Mon Mar 25 01:15:31 2024 -0400
+
+    Make additions to game
+    
+    - functions for dealing the first two cards out to players
+
+commit 0f11125255969da6b013310b90e469a553f9a7c8
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun Mar 24 23:26:35 2024 -0400
+
+    Add to game and hand
+    
+    - created add to hand function and empty hand value
+    - created a deck of cards and a function to initialize a new game
+
+commit 45031899d4d902034216458a76295d0fdef306a5
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun Mar 24 21:17:44 2024 -0400
+
+    Finish documentation of Game.t
+
+commit 70b4e708ec0beb64f4f850eaa24a1ba628f929b3
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun Mar 24 21:16:23 2024 -0400
+
+    Fix module dependency issues
+    
+    - also begin game comp unit
+
+commit e8c73c26bbdffcf10991df4af0a01ddcfd033f28
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun Mar 24 20:53:25 2024 -0400
+
+    Start impl of card and hand
+
+commit 0a1f13254ab3a16c071f40d3d9d462356152fbe5
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun Mar 24 19:22:36 2024 -0400
+
+    Begin hand interface
+
+commit aad1d7f8aecc0231436ea76d631d289f15c446a2
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun Mar 24 18:51:23 2024 -0400
+
+    Begin filling out card interface
+    
+    - defined types suit and rank
+    - defined rep type to be a record with a suit and rank
+    - declared compare function
+
+commit 9821c0a0188a32ac5ed6566bf19bf3e22bc37b29
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun Mar 24 18:37:27 2024 -0400
+
+    Rename cards comp unit to card
+
+commit b9afaf728a21112048d8969cd67f793d16212810
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun Mar 24 17:40:07 2024 -0400
+
+    Add start game message to main
+
+commit 8dd60f5a58a35730cb172b01839fc3aab0f40341
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun Mar 24 17:21:08 2024 -0400
+
+    Add bisect to lib/dune
+
+commit 53c8f02efa1c2102219666a060a7cf5f3825e59f
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun Mar 24 17:16:58 2024 -0400
+
+    Add important files
+    
+    - add .ocamlformat
+    - add batteries to lib/dune
+    - create game, hand, cards compilation units
+
+commit 3ab1cdebec20cf2d4238f5b0531b9f9b755f0a5a
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun Mar 24 16:18:55 2024 -0400
+
+    Add INSTALL.txt file to root
+
+commit 44d22668a2a091ebe112a2c65d5522a0e09974a9
+Merge: f1eb749 1d47ecb
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun Mar 24 14:53:09 2024 -0400
+
+    Merge branch 'main' of github.com:Z-Gort/3110_Final_Project
+
+commit f1eb749d22c956697b7c97445d478640814f3987
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Sun Mar 24 14:51:14 2024 -0400
+
+    Initialize Project
+
+commit 1d47ecb5037b7bf94f1309ae18e874e8f73ad555
+Author: Zach Gorton <zachgortonnyc@gmail.com>
+Date:   Fri Mar 8 17:34:16 2024 -0500
+
+    adding mmy name back
+
+commit cc9ea022b651e06efe5702546bd7359a5e44a1dd
+Author: michaelmicalizzi <m.micalizzi35@gmail.com>
+Date:   Fri Mar 8 17:32:26 2024 -0500
+
+    Added myself to README
+
+commit b95d36c77ebcb37a6a34c505b6e92f897170239b
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Fri Mar 8 17:30:53 2024 -0500
+
+    fuck you mike
+
+commit 436f48ce9de4539d10faf02461f0ee037aa14895
+Author: OscarC-A <147107490+OscarC-A@users.noreply.github.com>
+Date:   Fri Mar 8 17:30:00 2024 -0500
+
+    Update README.md
+
+commit 1fd5afe396b2b37190d5b12f3bcc06586f4048f7
+Author: Oscar Callamari-Abrams <oscarabrams@gmail.com>
+Date:   Fri Mar 8 17:29:22 2024 -0500
+
+    readme name
+
+commit fb47661251504a43594ebe409e65afae00ceecc4
+Merge: 935852c 97c80b1
+Author: Oscar Callamari-Abrams <oscarabrams@gmail.com>
+Date:   Fri Mar 8 17:27:55 2024 -0500
+
+    Merge branch 'main' of github.com:Z-Gort/3110_Final_Project
+
+commit 97c80b13ddb4722023608dee21a61d10dea854a6
+Author: Zach Gorton <zachgortonnyc@gmail.com>
+Date:   Fri Mar 8 17:26:20 2024 -0500
+
+    accidentally removed teammates name
+
+commit 5ef00d34f27a35c84c5e47a020ad5514aef44e7c
+Merge: 97bc613 e053235
+Author: Zach Gorton <zachgortonnyc@gmail.com>
+Date:   Fri Mar 8 17:24:11 2024 -0500
+
+    zkg4 first commit
+
+commit 935852cd955d40cc28bcda99b9a810cb5a593ad2
+Author: Oscar Callamari-Abrams <oscarabrams@gmail.com>
+Date:   Fri Mar 8 17:24:01 2024 -0500
+
+    readme name change
+
+commit 97bc613d07ab12e1e7b53c8c2905f7e86de7de92
+Author: Zach Gorton <zachgortonnyc@gmail.com>
+Date:   Fri Mar 8 17:23:33 2024 -0500
+
+    zkg4 dropping first commit
+
+commit e053235e48d242f583d1457a2a69b208eee17d89
+Author: Andrej Dovciak <ajd286@cornell.edu>
+Date:   Thu Mar 7 20:23:12 2024 -0500
+
+    added to readme
+
+commit 0caaeebd06e62c63f70abed3525f557a0f6e2314
+Author: Anna Zweck-Bronner <azweckbronner@gmail.com>
+Date:   Thu Mar 7 20:00:56 2024 -0500
+
+    Anna Pushed to Repo
+
+commit 6afa0db2a037b87e5d515c268600f3eb2aafa8b5
+Author: Zach Gorton <zachgortonnyc@gmail.com>
+Date:   Thu Mar 7 19:23:36 2024 -0500
+
+    first commit
