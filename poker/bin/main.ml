@@ -38,9 +38,7 @@ let user_bet (gm : Game.t) (pl : Player.t) : Game.t =
      ^ string_of_int pl.chips ^ " chips and you must bet at least "
       ^ string_of_int
           ((*gm.total_bet*) gm.current_bet - (gm.round_chips - pl.chips))
-        (* ^ " chips. curr bet, rc, chips " ^ string_of_int gm.current_bet ^ " "
-           ^ string_of_int gm.round_chips ^ " " ^ " " ^ string_of_int
-           pl.chips *))
+      ^ " chips. curr bet, rc, chips " ^ string_of_int gm.current_bet ^ " " ^ string_of_int gm.round_chips ^ " " ^ " " ^ string_of_int pl.chips)
   in
   let bet_size =
     get_user_bet
