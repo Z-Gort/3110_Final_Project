@@ -144,7 +144,8 @@ let deal_turn g =
         match x.players with
         | p1 :: _ ->
             print_endline
-              ("You currently have " ^ string_of_int p1.chips ^ " chips")
+              ("You currently have " ^ string_of_int p1.chips ^ " chips");
+            print_newline ()
         | _ -> ())
         g;
 
@@ -186,7 +187,8 @@ let deal_river g =
         match x.players with
         | p1 :: _ ->
             print_endline
-              ("You currently have " ^ string_of_int p1.chips ^ " chips")
+              ("You currently have " ^ string_of_int p1.chips ^ " chips");
+            print_newline ()
         | _ -> ())
         g;
 
@@ -216,12 +218,14 @@ let deal_flop g =
       print_endline "\n*******FIRST ROUND OF BETTING DONE*******\n";
       print_endline
         ("The flop is: " ^ Card.string_of_card c1 ^ ", "
-       ^ Card.string_of_card c2 ^ ", " ^ Card.string_of_card c3 ^ "\n");
+       ^ Card.string_of_card c2 ^ ", " ^ Card.string_of_card c3);
+      print_newline ();
       (fun (x : t) ->
         match x.players with
         | p1 :: _ ->
             print_endline
-              ("You currently have " ^ string_of_int p1.chips ^ " chips")
+              ("You currently have " ^ string_of_int p1.chips ^ " chips");
+            print_newline ()
         | _ -> ())
         g;
 

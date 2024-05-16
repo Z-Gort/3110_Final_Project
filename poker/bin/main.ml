@@ -439,7 +439,7 @@ let rec bet (gm : Game.t) =
         (fun (p : Player.t) -> if p.folded = true then false else true)
         g.players
     in
-    let _ = print_endline (Game.plist_to_string active_players) in
+    (* let _ = print_endline (Game.plist_to_string active_players) in *)
     if List.length active_players = 1 then begin
       play_game (Game.pick_round_winner g)
     end
